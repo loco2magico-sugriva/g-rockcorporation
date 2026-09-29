@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Expansion Map</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#05070d;
+}
+
+header{
+padding:12px;
+text-align:center;
+background:#0b0f18;
+color:#4aa3ff;
+border-bottom:1px solid #1f2a3a;
+letter-spacing:2px;
+}
+
+#map{
+height:calc(100vh - 50px);
+width:100%;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+GLOBAL EXPANSION MAP
+</header>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+// MAP INIT (global view)
+const map = L.map('map').setView([20, 0], 2);
+
+// REAL MAP LAYER
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+// CEUTA
+L.marker([35.8894, -5.3213]).addTo(map)
+.bindPopup("Ceuta");
+
+// GIBRALTAR
+L.marker([36.1408, -5.3536]).addTo(map)
+.bindPopup("Gibraltar");
+
+// HAITI
+L.marker([18.9712, -72.2852]).addTo(map)
+.bindPopup("Haiti");
+
+</script>
+
+</body>
+</html>

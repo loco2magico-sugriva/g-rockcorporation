@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>G-ROCK Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04060a;
+  --panel:#0b1020;
+  --line:#22314d;
+  --blue:#4aa3ff;
+  --gold:#d4af37;
+  --gold2:#ffe08a;
+  --text:#e8eef9;
+  --muted:#9cb0d0;
+  --ok:#7cffb2;
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0;
+  min-height:100%;
+  background:radial-gradient(circle at top,#0f1728 0%,#05070d 48%,#03050a 100%);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+#rain{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  opacity:.18;
+  pointer-events:none;
+}
+.scanlines{
+  position:fixed;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0,rgba(0,0,0,0) 2px,rgba(0,0,0,.16) 3px,rgba(0,0,0,0) 4px),radial-gradient(ellipse at center,rgba(0,0,0,0) 0,rgba(0,0,0,.45) 100%);
+  mix-blend-mode:multiply;
+}
+.shell{
+  position:relative;
+  z-index:3;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:18px 22px;
+  border-bottom:1px solid rgba(74,163,255,.14);
+  background:linear-gradient(180deg,rgba(10,14,26,.88),rgba(10,14,26,.42));
+  backdrop-filter:blur(10px);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.brand{
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:4px;
+  font-size:14px;
+  color:#dbe6ff;
+  text-transform:uppercase;
+}
+.brand b{color:var(--gold2)}
+.topbar-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.hub-link{
+  padding:10px 14px;
+  font-size:11px;
+  border-radius:10px;
+  background:rgba(4,6,10,.45);
+  border:1px solid rgba(74,163,255,.25);
+  color:#dbe6ff;
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:.2s ease;
+}
+.hub-link:hover{border-color:var(--gold2);color:var(--gold2)}
+.badge{
+  font-family:'Share Tech Mono',monospace;
+  font-size:11px;
+  letter-spacing:2px;
+  color:#7fa8e0;
+}
+.page{
+  width:min(1400px,100%);
+  margin:0 auto;
+  padding:24px 18px 46px;
+}
+.card{
+  background:linear-gradient(135deg,rgba(17,24,42,.96),rgba(10,14,26,.92));
+  border:1px solid rgba(74,163,255,.16);
+  border-radius:18px;
+  box-shadow:0 22px 70px rgba(0,0,0,.35);
+  overflow:hidden;
+  position:relative;
+}
+.hero{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:18px;
+  align-items:stretch;
+}
+.panel{padding:30px 28px}
+.kicker{
+  font-family:'Orbitron',sans-serif;
+  color:#8da4ff;
+  letter-spacing:6px;
+  text-transform:uppercase;
+  font-size:12px;
+}
+.title{
+  font-family:'Orbitron',sans-serif;
+  font-weight:900;
+  letter-spacing:7px;
+  line-height:1.02;
+  margin:0;
+  color:var(--gold2);
+  font-size:clamp(34px,4.6vw,68px);
+  text-transform:uppercase;
+}
+.subtitle{
+  font-family:'Share Tech Mono',monospace;
+  font-size:15px;
+  letter-spacing:3px;
+  color:#fff;
+  text-transform:uppercase;
+  opacity:.95;
+  margin-top:8px;
+}
+.lead{
+  max-width:68ch;
+  color:#d4dded;
+  line-height:1.7;
+  margin:0;
+  font-size:16.5px;
+}
+.disclaimer-line{
+  max-width:68ch;
+  color:var(--muted);
+  line-height:1.6;
+  margin:12px 0 0;
+  font-size:12.5px;
+  font-style:italic;
+}
+.row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:18px;
+}
+.btn{
+  appearance:none;
+  border:none;
+  border-radius:12px;
+  padding:14px 18px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.25s ease;
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.btn.primary{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#111}
+.btn.ghost{background:rgba(4,6,10,.45);border:1px solid rgba(74,163,255,.25);color:#dbe6ff}
+.btn.outline{background:transparent;border:1px solid rgba(124,255,178,.25);color:#dfffea}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:18px;
+}
+@media (max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.stats{grid-template-columns:1fr}}
+.stat{
+  padding:18px;
+  border-radius:14px;
+  background:rgba(4,6,10,.35);
+  border:1px solid rgba(74,163,255,.12);
+}
+.stat .n{
+  font-family:'Orbitron',sans-serif;
+  font-size:20px;
+  color:var(--gold2);
+  margin-bottom:6px;
+}
+.stat .l{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.5;
+}
+.section{margin-top:18px;padding:22px}
+.section h2{
+  margin:0 0 14px;
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  font-size:16px;
+  color:#dbe6ff;
+}
+.langs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+@media (max-width:560px){.langs{grid-template-columns:repeat(2,1fr)}}
+.lang{
+  padding:16px;
+  border-radius:14px;
+  background:rgba(4,6,10,.35);
+  border:1px solid rgba(74,163,255,.12);
+  cursor:pointer;
+  font:inherit;
+  color:inherit;
+  text-align:left;
+  display:block;
+  width:100%;
+}
+.lang.active{border-color:var(--gold2)}
+.lang .a{font-size:28px;margin-bottom:8px;display:block}
+.lang .b{
+  font-family:'Orbitron',sans-serif;
+  font-size:12px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  display:block;
+}
+.lang .c{font-size:12px;color:var(--muted);margin-top:6px;display:block}
+.payment-box{
+  padding:18px;
+  border-radius:14px;
+  background:rgba(4,6,10,.35);
+  border:1px solid rgba(212,175,55,.20);
+}
+.payment-box .big{
+  font-family:'Orbitron',sans-serif;
+  font-size:16px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--gold2);
+  margin-bottom:8px;
+}
+.payment-box .small{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.6;
+}
+input,select{
+  background:rgba(4,6,10,.38);
+  border:1px solid rgba(74,163,255,.18);
+  border-radius:12px;
+  padding:14px 14px;
+  color:#fff;
+  outline:none;
+  width:100%;
+}
+input:focus,select:focus{border-color:var(--gold2)}
+.searchbar{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+  margin-bottom:14px;
+}
+@media (max-width:640px){.searchbar{grid-template-columns:1fr}}
+.filter-bar{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:14px;
+  margin-bottom:14px;
+}
+@media (max-width:900px){.filter-bar{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.filter-bar{grid-template-columns:repeat(2,1fr)}}
+.filter-btn{
+  padding:12px 10px;
+  border-radius:12px;
+  background:rgba(4,6,10,.35);
+  border:1px solid rgba(74,163,255,.12);
+  color:#dbe6ff;
+  cursor:pointer;
+  font-family:'Orbitron',sans-serif;
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.filter-btn.active{border-color:var(--gold2);color:var(--gold2)}
+.latest-list{display:grid;gap:10px}
+.latest-item{
+  padding:14px 16px;
+  border-radius:12px;
+  background:rgba(4,6,10,.35);
+  border:1px solid rgba(74,163,255,.12);
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.latest-item b{color:#fff}
+.latest-item span{color:var(--muted)}
+.library{margin-top:18px;padding:22px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+@media (max-width:1020px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:680px){.grid{grid-template-columns:1fr}}
+.card-link{display:block}
+.item{
+  height:100%;
+  padding:18px;
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(17,24,42,.96),rgba(9,12,21,.96));
+  border:1px solid rgba(74,163,255,.13);
+  position:relative;
+  overflow:hidden;
+  transition:.2s ease;
+}
+.item:hover{transform:translateY(-4px);border-color:var(--gold2)}
+.item h4{
+  margin:0 0 8px;
+  font-family:'Orbitron',sans-serif;
+  font-size:15px;
+  letter-spacing:2px;
+}
+.meta{
+  display:grid;
+  gap:6px;
+  font-size:13px;
+  color:#ccd7e7;
+  line-height:1.5;
+}
+.tag{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(74,163,255,.12);
+  border:1px solid rgba(74,163,255,.14);
+  font-size:12px;
+  color:#dbe6ff;
+  margin-top:12px;
+  width:max-content;
+}
+.footer{
+  margin-top:18px;
+  padding:18px 22px;
+  border-top:1px solid rgba(74,163,255,.14);
+  color:#9cb0d0;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.footer a{color:#dbe6ff}
+.student-table{
+  width:100%;
+  border-collapse:collapse;
+  overflow:hidden;
+  border-radius:14px;
+}
+.student-table th,.student-table td{
+  padding:14px 16px;
+  text-align:left;
+  border-bottom:1px solid rgba(74,163,255,.12);
+}
+.student-table th{
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  font-size:12px;
+  color:#dbe6ff;
+  background:rgba(4,6,10,.35);
+}
+.student-table td{color:#d4dded}
+.overlay{
+  position:fixed;
+  inset:0;
+  z-index:120;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(3,5,10,.92);
+  backdrop-filter:blur(12px);
+}
+.overlay.active{display:flex}
+.modal{
+  width:min(860px,92vw);
+  border:1px solid rgba(74,163,255,.22);
+  border-radius:20px;
+  background:linear-gradient(180deg,rgba(17,24,42,.98),rgba(8,11,18,.98));
+  padding:26px;
+  box-shadow:0 20px 80px rgba(0,0,0,.5);
+  position:relative;
+}
+.modal-close{
+  position:absolute;
+  top:16px;
+  right:16px;
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  background:rgba(4,6,10,.5);
+  border:1px solid rgba(74,163,255,.25);
+  color:#dbe6ff;
+  font-size:20px;
+  line-height:1;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s ease;
+}
+.modal-close:hover{border-color:var(--gold2);color:var(--gold2)}
+.modal h2{
+  margin:0 0 10px;
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:var(--gold2);
+}
+.modal .id{
+  font-family:'Orbitron',sans-serif;
+  font-size:30px;
+  color:#fff;
+  margin:10px 0 14px;
+}
+.modal .status{color:#d4dded;line-height:1.6}
+.modal input{width:100%;margin-top:16px}
+.intro-screen{
+  position:fixed;
+  inset:0;
+  z-index:130;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  background:radial-gradient(circle at center,#0b1220 0%,#03050a 70%);
+  overflow:hidden;
+  animation:introFade 7s ease forwards;
+}
+.intro-title{
+  position:relative;
+  z-index:2;
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(26px,4vw,56px);
+  font-weight:900;
+  letter-spacing:8px;
+  text-align:center;
+  color:var(--gold2);
+  text-transform:uppercase;
+}
+.intro-sub{
+  position:relative;
+  z-index:2;
+  margin-top:16px;
+  font-family:'Share Tech Mono',monospace;
+  font-size:14px;
+  letter-spacing:6px;
+  color:#dbe6ff;
+  opacity:0;
+  animation:subIn 1s ease 1.2s forwards;
+}
+@keyframes subIn{to{opacity:.95}}
+@keyframes introFade{
+  0%,88%{opacity:1;visibility:visible}
+  100%{opacity:0;visibility:hidden;pointer-events:none}
+}
+.lang-select{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:28px;
+  background:radial-gradient(circle at center,#0a0f1d 0%,#03050a 100%);
+}
+.lang-select.active{display:flex}
+.flag-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  width:min(900px,90vw);
+}
+@media (max-width:720px){.flag-grid{grid-template-columns:repeat(2,1fr)}}
+.flag-card{
+  background:linear-gradient(135deg,#0f1626 0%,#0a0e1a 100%);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:34px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  cursor:pointer;
+  font:inherit;
+  color:inherit;
+  width:100%;
+}
+.flag-card .flag{font-size:56px;line-height:1;display:block}
+.flag-card .label{
+  font-family:'Orbitron',sans-serif;
+  font-size:13px;
+  letter-spacing:3px;
+  color:#dbe6ff;
+  text-transform:uppercase;
+}
+.badge-box{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(124,255,178,.08);
+  border:1px solid rgba(124,255,178,.14);
+  color:var(--ok);
+  font-size:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.admin-panel{
+  display:block;
+  margin-top:18px;
+  padding:22px;
+}
+.admin-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+@media (max-width:800px){.admin-grid{grid-template-columns:1fr}}
+.fatal-error{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:rgba(3,5,10,.96);
+  color:#ffb4b4;
+  font-family:'Share Tech Mono',monospace;
+  font-size:13px;
+  line-height:1.6;
+  text-align:center;
+}
+.copyright-section{
+  position:relative;
+  z-index:3;
+  background:#05070d;
+  border-top:1px solid rgba(74,163,255,.14);
+  padding:40px 22px 60px;
+}
+.copyright-inner{
+  max-width:820px;
+  margin:0 auto;
+}
+.copyright-inner h2{
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  font-size:16px;
+  color:#dbe6ff;
+  margin:0 0 16px;
+}
+.copyright-inner p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+  margin:0 0 14px;
+}
+#footerCopyrightLink{cursor:pointer}
+/* ===== NEW: payment method switcher (Card / PayPal) ===== */
+.pay-methods{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:16px;
+  margin-bottom:16px;
+}
+.pay-method-btn{
+  padding:14px 12px;
+  border-radius:12px;
+  background:rgba(4,6,10,.35);
+  border:1px solid rgba(74,163,255,.18);
+  color:#dbe6ff;
+  cursor:pointer;
+  font-family:'Orbitron',sans-serif;
+  font-size:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:.2s ease;
+}
+.pay-method-btn.active{border-color:var(--gold2);color:var(--gold2);background:rgba(212,175,55,.08)}
+.pay-pane{display:none}
+.pay-pane.active{display:block}
+#card-element{
+  background:rgba(4,6,10,.5);
+  border:1px solid rgba(74,163,255,.22);
+  border-radius:12px;
+  padding:16px 14px;
+}
+#card-element.StripeElement--focus{border-color:var(--gold2)}
+.card-errors{
+  color:#ff9c9c;
+  font-size:13px;
+  margin-top:10px;
+  min-height:18px;
+}
+.pay-note{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  color:var(--muted);
+  margin-top:14px;
+}
+.pay-note svg{width:16px;height:16px;fill:var(--muted)}
+
+.consent-check{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin:14px 0;
+  padding:14px;
+  border-radius:12px;
+  background:rgba(4,6,10,.35);
+  border:1px solid rgba(74,163,255,.14);
+  font-size:13px;
+  color:#d4dded;
+  line-height:1.5;
+  cursor:pointer;
+}
+.consent-check input{width:18px;height:18px;flex:none;margin-top:2px;accent-color:var(--gold2)}
+#consentNoticeCard, #consentNoticePaypal{color:#ffb4b4}
+.pay-pane.consent-ok #consentNoticeCard,
+.pay-pane.consent-ok #consentNoticePaypal{display:none}
+#paypal-button-container{transition:opacity .2s ease}
+.pay-pane:not(.consent-ok) #paypal-button-container{opacity:.35; pointer-events:none;}
+
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+</style>
+</head>
+<body>
+<canvas id="rain"></canvas>
+<div class="scanlines"></div>
+
+<div class="fatal-error" id="fatalError"></div>
+
+<div class="intro-screen" id="introScreen">
+  <div class="intro-title">Welcome all students in Monkeys University of Gibraltar</div>
+  <div class="intro-sub">G-ROCK Archive Access Terminal</div>
+</div>
+
+<div class="lang-select" id="langSelect">
+  <h2>Select Language / Wybierz Język / Elige idioma / Choisir la langue</h2>
+  <div class="flag-grid">
+    <button type="button" class="flag-card" data-lang="en"><span class="flag" aria-hidden="true">🇬🇧</span><span class="label">English</span></button>
+    <button type="button" class="flag-card" data-lang="pl"><span class="flag" aria-hidden="true">🇵🇱</span><span class="label">Polski</span></button>
+    <button type="button" class="flag-card" data-lang="es"><span class="flag" aria-hidden="true">🇪🇸</span><span class="label">Español</span></button>
+    <button type="button" class="flag-card" data-lang="fr"><span class="flag" aria-hidden="true">🇫🇷</span><span class="label">Français</span></button>
+    <button type="button" class="flag-card" data-lang="ru"><span class="flag" aria-hidden="true">🇷🇺</span><span class="label">Русский</span></button>
+    <button type="button" class="flag-card" data-lang="nl"><span class="flag" aria-hidden="true">🇳🇱</span><span class="label">Nederlands</span></button>
+  </div>
+</div>
+
+<div class="overlay" id="welcomeOverlay" role="dialog" aria-modal="true" aria-labelledby="welcomeTitleH2">
+  <div class="modal">
+    <button type="button" class="modal-close" id="closeWelcome" aria-label="Close dialog">×</button>
+    <div class="badge-box" data-i18n="welcomeBadge">G-ROCK Archive Terminal</div>
+    <h2 id="welcomeTitleH2" data-i18n="welcomeTitle">WELCOME ARCHIVE MEMBER</h2>
+    <div class="status" data-i18n="welcomeIdLabel">Your Archive Access ID</div>
+    <div class="id" id="generatedId">—</div>
+    <div class="status" data-i18n="welcomeChoose">Choose your nickname and enter the archive.</div>
+    <input id="nicknameInput" type="text" data-i18n-placeholder="nicknamePlaceholder" placeholder="Choose your nickname">
+    <div class="row">
+      <button type="button" class="btn primary" id="finishAccess" data-i18n="enterArchive">Enter Archive</button>
+    </div>
+  </div>
+</div>
+
+<div class="shell" id="mainShell" style="display:none;">
+  <div class="topbar">
+    <div class="brand">G-ROCK <b>Universe</b></div>
+    <div class="topbar-right">
+      <a class="hub-link" id="returnHub" href="index.html" data-i18n="hub">Return to Hub</a>
+      <div class="badge" id="status">LANGUAGE // READY</div>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="hero">
+      <section class="card panel">
+        <div class="kicker" data-i18n="kicker">Monkeys University of Gibraltar</div>
+        <h1 class="title" data-i18n="title">Welcome to G-ROCK</h1>
+        <div class="subtitle" data-i18n="subtitle">Choose language and continue</div>
+        <p class="lead" data-i18n="lead">Welcome to the world of G-ROCK — an independent creative and documentary archive built around Professor Sugriva and the Monkeys University of Gibraltar. This is an invitation to explore the archive, not an academic institution or accredited programme.</p>
+        <p class="disclaimer-line" data-i18n="disclaimerAffiliation">This is an independent creative and documentary publication. Institutional names are used for documentary and contextual purposes. G-ROCK Archive is not operated by, affiliated with, endorsed by or officially connected to any institution mentioned.</p>
+        <div class="row">
+          <button type="button" class="btn primary" id="openLang" data-i18n="btnLang">Select Language</button>
+          <button type="button" class="btn ghost" id="openPayment" data-i18n="btnPayment">Archive Access</button>
+          <button type="button" class="btn outline" id="openContinue" data-i18n="btnContinue">Continue</button>
+        </div>
+        <div class="stats" id="statsGrid"></div>
+      </section>
+    </div>
+
+    <section class="card section" id="languageSection">
+      <h2 data-i18n="secLanguage">Select Language</h2>
+      <div class="langs" id="langGrid">
+        <button type="button" class="lang active" data-lang="en"><span class="a" aria-hidden="true">🇬🇧</span><span class="b">English</span><span class="c">Interface language</span></button>
+        <button type="button" class="lang" data-lang="pl"><span class="a" aria-hidden="true">🇵🇱</span><span class="b">Polski</span><span class="c">Język interfejsu</span></button>
+        <button type="button" class="lang" data-lang="es"><span class="a" aria-hidden="true">🇪🇸</span><span class="b">Español</span><span class="c">Idioma de interfaz</span></button>
+        <button type="button" class="lang" data-lang="fr"><span class="a" aria-hidden="true">🇫🇷</span><span class="b">Français</span><span class="c">Langue de l'interface</span></button>
+        <button type="button" class="lang" data-lang="ru"><span class="a" aria-hidden="true">🇷🇺</span><span class="b">Русский</span><span class="c">Язык интерфейса</span></button>
+        <button type="button" class="lang" data-lang="nl"><span class="a" aria-hidden="true">🇳🇱</span><span class="b">Nederlands</span><span class="c">Interfacetaal</span></button>
+      </div>
+    </section>
+
+    <section class="card section" id="paymentSection">
+      <h2 data-i18n="secPayment">Archive Access</h2>
+      <div class="payment-box">
+        <div class="big" data-i18n="paymentBig">G-ROCK Archive — One-Time Digital Access — £5</div>
+        <div class="small" data-i18n="paymentSmall">One-time access to the G-ROCK independent digital archive, including the author's future publications, selected documentary materials, documentary timeline and archive features. This purchase does not provide academic credit, accreditation, a qualification, official archive-member status, institutional membership or institutional affiliation.</div>
+        <div class="small disclaimer-line" data-i18n="disclaimerAcademic">Membership provides personal access to the digital archive only. It does not create an academic relationship with any institution.</div>
+        <div class="small disclaimer-line" data-i18n="disclaimerPersonalAccess">Access is personal and non-transferable. Members may not copy, redistribute, republish or commercially exploit archive materials without permission.</div>
+
+        <label class="consent-check">
+          <input type="checkbox" id="purchaseConsent">
+          <span data-i18n="checkboxImmediateAccess">I request immediate access to the digital content and acknowledge that access may affect my cancellation rights once delivery begins.</span>
+        </label>
+
+        <div class="pay-methods" id="payMethods">
+          <button type="button" class="pay-method-btn active" data-method="card" id="payTabCard">💳 <span data-i18n="payCard">Card (Visa/Mastercard)</span></button>
+          <button type="button" class="pay-method-btn" data-method="paypal" id="payTabPaypal">🅿️ <span data-i18n="payPaypal">PayPal</span></button>
+        </div>
+
+        <div class="pay-pane active" id="cardPane">
+          <div id="card-element"></div>
+          <div class="card-errors" id="cardErrors"></div>
+          <div class="row">
+            <button type="button" class="btn primary" id="stripePayBtn" data-i18n="payNowCard" disabled>Pay £5 with Card</button>
+          </div>
+          <div class="pay-note">
+            <span data-i18n="payNoteStripe">Card details are handled directly by Stripe. G-ROCK never sees or stores your card number.</span>
+          </div>
+          <div class="pay-note" id="consentNoticeCard">
+            <span data-i18n="consentRequiredNote">Please confirm the checkbox above before paying.</span>
+          </div>
+        </div>
+
+        <div class="pay-pane" id="paypalPane">
+          <div id="paypal-button-container" style="margin-top:6px;"></div>
+          <div class="pay-note" id="consentNoticePaypal">
+            <span data-i18n="consentRequiredNote">Please confirm the checkbox above before paying.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section" id="valueSection">
+      <h2 data-i18n="secValue">What's Inside the Archive?</h2>
+      <div class="stats" id="valueGrid"></div>
+    </section>
+
+    <section class="card section" id="updatesSection">
+      <h2 data-i18n="secUpdates">Latest Updates</h2>
+      <div class="latest-list" id="latestList"></div>
+    </section>
+
+    <section class="card section">
+      <h2 data-i18n="secSearch">Archive Search & Filters</h2>
+      <div class="searchbar">
+        <input id="searchInput" type="text" data-i18n-placeholder="searchPlaceholder" placeholder="Search archive...">
+        <button type="button" class="btn ghost" id="searchBtn" data-i18n="searchBtn">Search</button>
+      </div>
+      <div class="filter-bar" id="filterBar">
+        <button type="button" class="filter-btn active" data-filter="all" data-i18n="filterAll">All</button>
+        <button type="button" class="filter-btn" data-filter="books" data-i18n="filterBooks">Books</button>
+        <button type="button" class="filter-btn" data-filter="audio" data-i18n="filterAudio">Audiobooks</button>
+        <button type="button" class="filter-btn" data-filter="video" data-i18n="filterVideo">Videos</button>
+        <button type="button" class="filter-btn" data-filter="docs" data-i18n="filterDocs">Documents</button>
+        <button type="button" class="filter-btn" data-filter="images" data-i18n="filterImages">Images</button>
+      </div>
+    </section>
+
+    <section class="card library" id="librarySection">
+      <h2 data-i18n="secLibrary">Archive Sections</h2>
+      <div class="grid">
+        <a class="card-link" href="archive-audiobooks.html"><article class="item" data-type="audio"><h4 data-i18n="tileAudioTitle">Audiobooks</h4><div class="meta"><div data-i18n="tileMetaApi">Content not yet uploaded.</div><div data-i18n="tileMetaEmpty">No files currently available.</div></div><div class="tag" data-i18n="tileAudioTag">Audiobooks</div></article></a>
+        <a class="card-link" href="archive-ebooks.html"><article class="item" data-type="books"><h4 data-i18n="tileBooksTitle">Digital Publications</h4><div class="meta"><div data-i18n="tileMetaApi">Content not yet uploaded.</div><div data-i18n="tileMetaEmpty">No files currently available.</div></div><div class="tag" data-i18n="tileBooksTag">Publications</div></article></a>
+        <a class="card-link" href="archive-video.html"><article class="item" data-type="video"><h4 data-i18n="tileVideoTitle">Video and Photos</h4><div class="meta"><div data-i18n="tileMetaApi">Content not yet uploaded.</div><div data-i18n="tileMetaEmpty">No files currently available.</div></div><div class="tag" data-i18n="tileVideoTag">Videos</div></article></a>
+        <a class="card-link" href="archive-documents.html"><article class="item" data-type="docs"><h4 data-i18n="tileDocsTitle">Documentary Materials</h4><div class="meta"><div data-i18n="tileMetaApi">Content not yet uploaded.</div><div data-i18n="tileMetaEmpty">No files currently available.</div></div><div class="tag" data-i18n="tileDocsTag">Documents</div></article></a>
+        <a class="card-link" href="archive-registry.html"><article class="item" data-type="docs"><h4 data-i18n="tileRegistryTitle">Archive Access Registry</h4><div class="meta"><div data-i18n="tileRegistryMeta1">Archive Access ID and Nick only</div><div data-i18n="tileRegistryMeta2">Read-only view</div></div><div class="tag" data-i18n="tileRegistryTag">Registry</div></article></a>
+        <a class="card-link" href="cooperation.html"><article class="item" data-type="docs"><h4 data-i18n="tileInfoTitle">Info / Cooperation</h4><div class="meta"><div data-i18n="tileInfoMeta1">Contact and partnerships</div><div data-i18n="tileInfoMeta2">Public / Partners</div></div><div class="tag" data-i18n="tileInfoTag">Info</div></article></a>
+      </div>
+    </section>
+
+    <section class="card section">
+      <h2 data-i18n="secRegistry">Archive Access Registry Preview</h2>
+      <div class="payment-box">
+        <table class="student-table">
+          <thead><tr><th data-i18n="thId">Archive Access ID</th><th data-i18n="thNick">Nick</th></tr></thead>
+          <tbody id="studentListBody">
+            <tr><td colspan="2" data-i18n="waitingBackend">Waiting for backend</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card section">
+      <h2 data-i18n="secAdmin">Admin Console</h2>
+      <div class="payment-box">
+        <div class="small" data-i18n="adminProtected">Protected by real authentication. Actions are sent to backend API only.</div>
+      </div>
+      <div class="admin-panel" id="adminPanel" hidden>
+        <h3 style="margin-top:0;font-family:'Orbitron',sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--gold2)" data-i18n="adminAddManual">Add Archive Member Manually</h3>
+        <div class="admin-grid">
+          <input id="adminNick" type="text" data-i18n-placeholder="adminNickPlaceholder" placeholder="Nickname">
+          <select id="adminAccess">
+            <option value="FULL ARCHIVE" data-i18n="adminAccessFull">FULL ARCHIVE</option>
+            <option value="ARCHIVE MEMBER" data-i18n="adminAccessStudent">ARCHIVE MEMBER</option>
+            <option value="EVENT" data-i18n="adminAccessEvent">EVENT</option>
+            <option value="PROMO" data-i18n="adminAccessPromo">PROMO</option>
+          </select>
+          <input id="adminSource" type="text" data-i18n-placeholder="adminSourcePlaceholder" placeholder="Source">
+          <input id="adminExpiry" type="date" placeholder="Expiry date">
+        </div>
+        <div class="row" style="margin-top:14px;">
+          <button type="button" class="btn primary" id="adminAdd" data-i18n="adminGenerate">Generate Archive Access ID</button>
+          <button type="button" class="btn ghost" id="adminExport" data-i18n="adminExport">Export Archive Access List</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div><a href="contact.html" data-i18n="footerContact">Contact</a> · <a href="privacy.html" data-i18n="footerPrivacy">Privacy Policy</a> · <a href="terms.html" data-i18n="footerTerms">Terms of Service</a> · <a href="#copyrightSection" id="footerCopyrightLink" data-i18n="footerCopyrightLink">Copyright & IP</a></div>
+      <div data-i18n="footerCopy">Copyright © G-ROCK Corporation</div>
+    </footer>
+  </div>
+</div>
+
+<section class="copyright-section" id="copyrightSection">
+  <div class="copyright-inner">
+    <h2 data-i18n="copyrightTitle">Copyright & Intellectual Property</h2>
+
+    <p data-i18n="copyrightP1">All original texts, books, documents, research materials, audiovisual materials, graphics, interface designs, fictional characters, names, concepts, logos, branding, archive structures and other original creative materials published as part of G-ROCK are protected by applicable copyright and intellectual-property laws.</p>
+
+    <p data-i18n="copyrightP2">Unless expressly stated otherwise, these materials remain the intellectual property of their respective rights holders and may not be copied, reproduced, redistributed, republished, modified, commercially exploited or used to create derivative works without prior permission.</p>
+
+    <p data-i18n="copyrightP3">Archive Access is a licence to access and privately view the digital materials. Purchasing Archive Access does not transfer copyright, ownership or intellectual-property rights to the purchaser.</p>
+
+    <p data-i18n="copyrightP4">Users may access the materials for personal use within the scope of their Archive Access. They may not share their Archive Access credentials or provide other persons with unauthorised access to protected archive content.</p>
+
+    <p data-i18n="copyrightP5">Where third-party materials are included for documentary, research, historical, educational or contextual purposes, they are clearly distinguished from original G-ROCK materials, and any applicable attribution, licence or rights information is preserved. G-ROCK Archive does not claim ownership of third-party materials where such ownership does not exist.</p>
+  </div>
+</section>
+
+<script>
+window.addEventListener('DOMContentLoaded', ()=>{
+  const link = document.getElementById('footerCopyrightLink');
+  if(link){
+    link.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const target = document.getElementById('copyrightSection');
+      if(target) target.scrollIntoView({behavior:'smooth'});
+    });
+  }
+});
+</script>
+
+<script>
+window.addEventListener('error', function(e){
+  try{
+    var el = document.getElementById('fatalError');
+    if(el){
+      el.style.display = 'flex';
+      el.textContent = 'JS ERROR: ' + (e && e.message ? e.message : 'unknown error');
+    }
+    var intro = document.getElementById('introScreen');
+    if(intro) intro.style.display = 'none';
+    var overlay = document.getElementById('welcomeOverlay');
+    if(overlay) overlay.classList.remove('active');
+    var shell = document.getElementById('mainShell');
+    if(shell) shell.style.display = 'flex';
+  }catch(_e){}
+});
+
+/* Small defensive helper: attach a listener only if the element
+   actually exists. A single missing #id used to make the whole
+   inline script throw and stop executing everything below it
+   (rain animation, i18n, payments...). Using this instead of
+   document.getElementById(id).addEventListener(...) directly means
+   one missing/renamed element degrades gracefully instead of
+   breaking the entire page. */
+function on(id, evt, handler){
+  const el = document.getElementById(id);
+  if(!el){
+    console.warn('G-ROCK: expected element #'+id+' was not found, skipping its '+evt+' handler.');
+    return null;
+  }
+  el.addEventListener(evt, handler);
+  return el;
+}
+
+const translations = {
+  en: {
+    statusLabel:"LANGUAGE", hub:"Return to Hub",
+    kicker:"Monkeys University of Gibraltar",
+    title:"Welcome to G-ROCK", subtitle:"Choose language and continue",
+    lead:"Welcome to the world of G-ROCK — an independent creative and documentary archive built around Professor Sugriva and the Monkeys University of Gibraltar. This is an invitation to explore the archive, not an academic institution or accredited programme.",
+    disclaimerAffiliation:"This is an independent creative and documentary publication. Institutional names are used for documentary and contextual purposes. G-ROCK Archive is not operated by, affiliated with, endorsed by or officially connected to any institution mentioned.",
+    btnLang:"Select Language", btnPayment:"Archive Access", btnContinue:"Continue",
+    statRegistered:"Registered Archive Accounts", statFiles:"Total Archive Files", statUpdates:"Archive Updates", statLangs:"Supported Languages",
+    secLanguage:"Select Language",
+    secPayment:"Archive Access", paymentBig:"G-ROCK Archive — One-Time Digital Access — £5", paymentSmall:"One-time access to the G-ROCK independent digital archive, including the author's future publications, selected documentary materials, documentary timeline and archive features. This purchase does not provide academic credit, accreditation, a qualification, official archive-member status, institutional membership or institutional affiliation.", disclaimerAcademic:"Membership provides personal access to the digital archive only. It does not create an academic relationship with any institution.", disclaimerPersonalAccess:"Access is personal and non-transferable. Members may not copy, redistribute, republish or commercially exploit archive materials without permission.", checkboxImmediateAccess:"I request immediate access to the digital content and acknowledge that access may affect my cancellation rights once delivery begins.", consentRequiredNote:"Please confirm the checkbox above before paying.",
+    payCard:"Card (Visa/Mastercard)", payPaypal:"PayPal", payNowCard:"Pay £5 with Card",
+    payNoteStripe:"Card details are handled directly by Stripe. G-ROCK never sees or stores your card number.",
+    payProcessing:"Processing payment...", payFailed:"Payment failed. Please check your card details and try again.",
+    payCompleted:"Payment completed. Your Archive Access ID is being issued.",
+    secValue:"What's Inside the Archive?",
+    secUpdates:"Latest Updates",
+    secSearch:"Archive Search & Filters", searchPlaceholder:"Search archive...", searchBtn:"Search",
+    filterAll:"All", filterBooks:"Books", filterAudio:"Audiobooks", filterVideo:"Videos", filterDocs:"Documents", filterImages:"Images",
+    secLibrary:"Archive Sections",
+    tileMetaApi:"Content not yet uploaded.", tileMetaEmpty:"No files currently available.",
+    tileAudioTitle:"Audiobooks", tileAudioTag:"Audiobooks",
+    tileBooksTitle:"Digital Publications", tileBooksTag:"Publications",
+    tileVideoTitle:"Video and Photos", tileVideoTag:"Videos",
+    tileDocsTitle:"Documentary Materials", tileDocsTag:"Documents",
+    tileRegistryTitle:"Archive Access Registry", tileRegistryMeta1:"Archive Access ID and Nick only", tileRegistryMeta2:"Read-only view", tileRegistryTag:"Registry",
+    tileInfoTitle:"Info / Cooperation", tileInfoMeta1:"Contact and partnerships", tileInfoMeta2:"Public / Partners", tileInfoTag:"Info",
+    secRegistry:"Archive Access Registry Preview", thId:"Archive Access ID", thNick:"Nick",
+    secAdmin:"Admin Console", adminProtected:"Protected by real authentication. Actions are sent to backend API only.",
+    adminAddManual:"Add Archive Member Manually", adminNickPlaceholder:"Nickname",
+    adminAccessFull:"FULL ARCHIVE", adminAccessStudent:"ARCHIVE MEMBER", adminAccessEvent:"EVENT", adminAccessPromo:"PROMO",
+    adminSourcePlaceholder:"Source", adminGenerate:"Generate Archive Access ID", adminExport:"Export Archive Access List",
+    footerContact:"Contact", footerPrivacy:"Privacy Policy", footerTerms:"Terms of Service", footerCopy:"Copyright © G-ROCK Corporation", footerCopyrightLink:"Copyright & IP", copyrightTitle:"Copyright & Intellectual Property", copyrightP1:"All original texts, books, documents, research materials, audiovisual materials, graphics, interface designs, fictional characters, names, concepts, logos, branding, archive structures and other original creative materials published as part of G-ROCK are protected by applicable copyright and intellectual-property laws.", copyrightP2:"Unless expressly stated otherwise, these materials remain the intellectual property of their respective rights holders and may not be copied, reproduced, redistributed, republished, modified, commercially exploited or used to create derivative works without prior permission.", copyrightP3:"Archive Access is a licence to access and privately view the digital materials. Purchasing Archive Access does not transfer copyright, ownership or intellectual-property rights to the purchaser.", copyrightP4:"Users may access the materials for personal use within the scope of their Archive Access. They may not share their Archive Access credentials or provide other persons with unauthorised access to protected archive content.", copyrightP5:"Where third-party materials are included for documentary, research, historical, educational or contextual purposes, they are clearly distinguished from original G-ROCK materials, and any applicable attribution, licence or rights information is preserved. G-ROCK Archive does not claim ownership of third-party materials where such ownership does not exist.",
+    welcomeBadge:"G-ROCK Archive Terminal", welcomeTitle:"WELCOME ARCHIVE MEMBER", welcomeIdLabel:"Your Archive Access ID",
+    welcomeChoose:"Choose your nickname and enter the archive.", nicknamePlaceholder:"Choose your nickname", enterArchive:"Enter Archive",
+    waitingBackend:"Waiting for backend", noRecords:"No records", noUpdates:"No updates"
+  },
+  pl: {
+    statusLabel:"JĘZYK", hub:"Powrót do Huba",
+    kicker:"Uniwersytet Małp Gibraltaru",
+    title:"Witamy w G-ROCK", subtitle:"Wybierz język i kontynuuj",
+    lead:"Witamy w świecie G-ROCK — niezależnym archiwum kreatywnym i dokumentalnym zbudowanym wokół Profesora Sugrivy i Uniwersytetu Małp Gibraltaru. To zaproszenie do eksploracji archiwum, nie prawdziwa instytucja akademicka ani akredytowany program.",
+    disclaimerAffiliation:"To niezależna publikacja twórcza i dokumentalna. Nazwy instytucji są używane w celach dokumentalnych i kontekstowych. G-ROCK Archive nie jest prowadzone przez, powiązane z, popierane przez ani oficjalnie związane z żadną wymienioną instytucją.",
+    btnLang:"Wybierz Język", btnPayment:"Dostęp do Archiwum", btnContinue:"Kontynuuj",
+    statRegistered:"Zarejestrowane Konta Archiwum", statFiles:"Wszystkie Pliki Archiwum", statUpdates:"Aktualizacje Archiwum", statLangs:"Obsługiwane Języki",
+    secLanguage:"Wybierz Język",
+    secPayment:"Dostęp do Archiwum", paymentBig:"G-ROCK Archive — Jednorazowy Dostęp Cyfrowy — £5", paymentSmall:"Jednorazowy dostęp do niezależnego cyfrowego archiwum G-ROCK, obejmujący przyszłe publikacje autora, wybrane materiały dokumentalne, oś czasu i funkcje archiwum. Ten zakup nie zapewnia punktów akademickich, akredytacji, kwalifikacji, oficjalnego statusu członka archiwum, członkostwa instytucjonalnego ani afiliacji instytucjonalnej.", disclaimerAcademic:"Członkostwo zapewnia wyłącznie osobisty dostęp do cyfrowego archiwum. Nie tworzy relacji akademickiej z żadną instytucją.", disclaimerPersonalAccess:"Dostęp jest osobisty i nieprzenoszalny. Członkowie nie mogą kopiować, redystrybuować, ponownie publikować ani komercyjnie wykorzystywać materiałów archiwum bez zgody.", checkboxImmediateAccess:"Wnioskuję o natychmiastowy dostęp do treści cyfrowych i przyjmuję do wiadomości, że dostęp może wpłynąć na moje prawo do odstąpienia od umowy po rozpoczęciu dostarczania treści.", consentRequiredNote:"Potwierdź powyższy checkbox przed dokonaniem płatności.",
+    payCard:"Karta (Visa/Mastercard)", payPaypal:"PayPal", payNowCard:"Zapłać £5 kartą",
+    payNoteStripe:"Dane karty są obsługiwane bezpośrednio przez Stripe. G-ROCK nigdy nie widzi ani nie przechowuje numeru karty.",
+    payProcessing:"Przetwarzanie płatności...", payFailed:"Płatność nieudana. Sprawdź dane karty i spróbuj ponownie.",
+    payCompleted:"Płatność zakończona. Twój Archive Access ID jest wystawiany.",
+    secValue:"Co Jest W Archiwum?",
+    secUpdates:"Najnowsze Aktualizacje",
+    secSearch:"Wyszukiwanie i Filtry Archiwum", searchPlaceholder:"Szukaj w archiwum...", searchBtn:"Szukaj",
+    filterAll:"Wszystko", filterBooks:"Książki", filterAudio:"Audiobooki", filterVideo:"Wideo", filterDocs:"Dokumenty", filterImages:"Zdjęcia",
+    secLibrary:"Sekcje Archiwum",
+    tileMetaApi:"Treść jeszcze nie została wgrana.", tileMetaEmpty:"Obecnie brak dostępnych plików.",
+    tileAudioTitle:"Audiobooki", tileAudioTag:"Audiobooki",
+    tileBooksTitle:"Publikacje Cyfrowe", tileBooksTag:"Publikacje",
+    tileVideoTitle:"Wideo i Zdjęcia", tileVideoTag:"Wideo",
+    tileDocsTitle:"Osiągnięcia naukowe / Dokumenty", tileDocsTag:"Dokumenty",
+    tileRegistryTitle:"Rejestr Dostępu do Archiwum", tileRegistryMeta1:"Tylko ID dostępu i pseudonim", tileRegistryMeta2:"Widok tylko do odczytu", tileRegistryTag:"Rejestr",
+    tileInfoTitle:"Informacje / Współpraca", tileInfoMeta1:"Kontakt i partnerstwa", tileInfoMeta2:"Publiczne / Partnerzy", tileInfoTag:"Informacje",
+    secRegistry:"Podgląd Rejestru Dostępu do Archiwum", thId:"ID Dostępu", thNick:"Pseudonim",
+    secAdmin:"Panel Administratora", adminProtected:"Chronione prawdziwym uwierzytelnianiem. Akcje są wysyłane wyłącznie do API backendu.",
+    adminAddManual:"Dodaj Członka Archiwum Ręcznie", adminNickPlaceholder:"Pseudonim",
+    adminAccessFull:"PEŁNE ARCHIWUM", adminAccessStudent:"CZŁONEK ARCHIWUM", adminAccessEvent:"WYDARZENIE", adminAccessPromo:"PROMOCJA",
+    adminSourcePlaceholder:"Źródło", adminGenerate:"Wygeneruj ID Dostępu", adminExport:"Eksportuj Listę Archiwum",
+    footerContact:"Kontakt", footerPrivacy:"Polityka Prywatności", footerTerms:"Regulamin", footerCopy:"Copyright © G-ROCK Corporation", footerCopyrightLink:"Prawa Autorskie", copyrightTitle:"Prawa Autorskie i Własność Intelektualna", copyrightP1:"Wszystkie oryginalne teksty, książki, dokumenty, materiały badawcze, materiały audiowizualne, grafiki, projekty interfejsu, fikcyjne postacie, nazwy, koncepcje, logotypy, branding, struktury archiwum oraz inne oryginalne materiały twórcze publikowane w ramach G-ROCK są chronione obowiązującymi przepisami o prawie autorskim i własności intelektualnej.", copyrightP2:"O ile wyraźnie nie zaznaczono inaczej, materiały te pozostają własnością intelektualną odpowiednich posiadaczy praw i nie mogą być kopiowane, powielane, redystrybuowane, ponownie publikowane, modyfikowane, wykorzystywane komercyjnie ani używane do tworzenia dzieł pochodnych bez uprzedniej zgody.", copyrightP3:"Dostęp do Archiwum jest licencją na dostęp i prywatne przeglądanie materiałów cyfrowych. Zakup Dostępu do Archiwum nie przenosi praw autorskich, własności ani praw własności intelektualnej na kupującego.", copyrightP4:"Użytkownicy mogą korzystać z materiałów wyłącznie do użytku osobistego w zakresie swojego Dostępu do Archiwum. Nie mogą udostępniać swoich danych dostępowych ani umożliwiać innym osobom nieautoryzowanego dostępu do chronionych treści archiwum.", copyrightP5:"Tam, gdzie materiały osób trzecich zostały włączone w celach dokumentalnych, badawczych, historycznych, edukacyjnych lub kontekstowych, są one wyraźnie odróżnione od oryginalnych materiałów G-ROCK, a wszelkie mające zastosowanie informacje o atrybucji, licencji lub prawach są zachowane. G-ROCK Archive nie rości sobie praw własności do materiałów osób trzecich, jeśli takie prawo własności nie istnieje.",
+    welcomeBadge:"Terminal Archiwum G-ROCK", welcomeTitle:"WITAJ W ARCHIWUM", welcomeIdLabel:"Twoje ID Dostępu",
+    welcomeChoose:"Wybierz swój pseudonim i wejdź do archiwum.", nicknamePlaceholder:"Wybierz swój pseudonim", enterArchive:"Wejdź do Archiwum",
+    waitingBackend:"Oczekiwanie na backend", noRecords:"Brak rekordów", noUpdates:"Brak aktualizacji"
+  },
+  es: {
+    statusLabel:"IDIOMA", hub:"Volver al Hub",
+    kicker:"Universidad de los Monos de Gibraltar",
+    title:"Bienvenido a G-ROCK", subtitle:"Elige idioma y continúa",
+    lead:"Bienvenido al mundo de G-ROCK — un archivo creativo y documental independiente construido en torno al Profesor Sugriva y la Universidad de los Monos de Gibraltar. Esto es una invitación a explorar el archivo, no una institución académica ni un programa acreditado.",
+    disclaimerAffiliation:"Esta es una publicación creativa y documental independiente. Los nombres institucionales se usan con fines documentales y contextuales. G-ROCK Archive no está operado por, afiliado a, respaldado por ni oficialmente conectado con ninguna institución mencionada.",
+    btnLang:"Elegir Idioma", btnPayment:"Acceso al Archivo", btnContinue:"Continuar",
+    statRegistered:"Cuentas de Archivo Registradas", statFiles:"Archivos Totales", statUpdates:"Actualizaciones del Archivo", statLangs:"Idiomas Disponibles",
+    secLanguage:"Elegir Idioma",
+    secPayment:"Acceso al Archivo", paymentBig:"G-ROCK Archive — Acceso Digital de Pago Único — £5", paymentSmall:"Acceso único al archivo digital independiente de G-ROCK, incluyendo las futuras publicaciones del autor, materiales documentales seleccionados, línea de tiempo documental y funciones del archivo. Esta compra no proporciona crédito académico, acreditación, una cualificación, estatus oficial de miembro del archivo, membresía institucional ni afiliación institucional.", disclaimerAcademic:"La membresía proporciona únicamente acceso personal al archivo digital. No crea una relación académica con ninguna institución.", disclaimerPersonalAccess:"El acceso es personal e intransferible. Los miembros no pueden copiar, redistribuir, republicar ni explotar comercialmente los materiales del archivo sin permiso.", checkboxImmediateAccess:"Solicito acceso inmediato al contenido digital y reconozco que el acceso puede afectar mi derecho de cancelación una vez que comience la entrega.", consentRequiredNote:"Confirma la casilla anterior antes de pagar.",
+    payCard:"Tarjeta (Visa/Mastercard)", payPaypal:"PayPal", payNowCard:"Pagar £5 con Tarjeta",
+    payNoteStripe:"Los datos de la tarjeta los gestiona directamente Stripe. G-ROCK nunca ve ni almacena tu número de tarjeta.",
+    payProcessing:"Procesando pago...", payFailed:"Pago fallido. Comprueba los datos de tu tarjeta e inténtalo de nuevo.",
+    payCompleted:"Pago completado. Tu Archive Access ID se está emitiendo.",
+    secValue:"¿Qué Hay En El Archivo?",
+    secUpdates:"Últimas Actualizaciones",
+    secSearch:"Búsqueda y Filtros del Archivo", searchPlaceholder:"Buscar en el archivo...", searchBtn:"Buscar",
+    filterAll:"Todo", filterBooks:"Libros", filterAudio:"Audiolibros", filterVideo:"Vídeos", filterDocs:"Documentos", filterImages:"Imágenes",
+    secLibrary:"Secciones del Archivo",
+    tileMetaApi:"Contenido aún no subido.", tileMetaEmpty:"No hay archivos disponibles actualmente.",
+    tileAudioTitle:"Audiolibros", tileAudioTag:"Audiolibros",
+    tileBooksTitle:"Publicaciones Digitales", tileBooksTag:"Publicaciones",
+    tileVideoTitle:"Vídeo y Fotos", tileVideoTag:"Vídeos",
+    tileDocsTitle:"Logros Científicos / Documentos", tileDocsTag:"Documentos",
+    tileRegistryTitle:"Registro de Acceso al Archivo", tileRegistryMeta1:"Solo ID de acceso y apodo", tileRegistryMeta2:"Vista de solo lectura", tileRegistryTag:"Registro",
+    tileInfoTitle:"Información / Cooperación", tileInfoMeta1:"Contacto y colaboraciones", tileInfoMeta2:"Público / Socios", tileInfoTag:"Información",
+    secRegistry:"Vista Previa del Registro de Acceso al Archivo", thId:"ID de Acceso", thNick:"Apodo",
+    secAdmin:"Panel de Administración", adminProtected:"Protegido por autenticación real. Las acciones se envían únicamente a la API del backend.",
+    adminAddManual:"Añadir Miembro del Archivo Manualmente", adminNickPlaceholder:"Apodo",
+    adminAccessFull:"ARCHIVO COMPLETO", adminAccessStudent:"MIEMBRO DEL ARCHIVO", adminAccessEvent:"EVENTO", adminAccessPromo:"PROMOCIÓN",
+    adminSourcePlaceholder:"Origen", adminGenerate:"Generar ID de Acceso", adminExport:"Exportar Lista del Archivo",
+    footerContact:"Contacto", footerPrivacy:"Política de Privacidad", footerTerms:"Términos de Servicio", footerCopy:"Copyright © G-ROCK Corporation", footerCopyrightLink:"Derechos de Autor", copyrightTitle:"Derechos de Autor y Propiedad Intelectual", copyrightP1:"Todos los textos originales, libros, documentos, materiales de investigación, materiales audiovisuales, gráficos, diseños de interfaz, personajes ficticios, nombres, conceptos, logotipos, marca, estructuras del archivo y otros materiales creativos originales publicados como parte de G-ROCK están protegidos por las leyes de derechos de autor y propiedad intelectual aplicables.", copyrightP2:"A menos que se indique expresamente lo contrario, estos materiales siguen siendo propiedad intelectual de sus respectivos titulares de derechos y no pueden copiarse, reproducirse, redistribuirse, republicarse, modificarse, explotarse comercialmente ni utilizarse para crear obras derivadas sin permiso previo.", copyrightP3:"El Acceso al Archivo es una licencia para acceder y ver privadamente los materiales digitales. La compra del Acceso al Archivo no transfiere derechos de autor, propiedad ni derechos de propiedad intelectual al comprador.", copyrightP4:"Los usuarios pueden acceder a los materiales para uso personal dentro del alcance de su Acceso al Archivo. No pueden compartir sus credenciales de acceso ni proporcionar a otras personas acceso no autorizado al contenido protegido del archivo.", copyrightP5:"Cuando se incluyen materiales de terceros con fines documentales, de investigación, históricos, educativos o contextuales, se distinguen claramente de los materiales originales de G-ROCK, y se conserva cualquier información de atribución, licencia o derechos aplicable. G-ROCK Archive no reclama la propiedad de materiales de terceros cuando dicha propiedad no existe.",
+    welcomeBadge:"Terminal del Archivo G-ROCK", welcomeTitle:"BIENVENIDO AL ARCHIVO", welcomeIdLabel:"Tu ID de Acceso",
+    welcomeChoose:"Elige tu apodo y entra al archivo.", nicknamePlaceholder:"Elige tu apodo", enterArchive:"Entrar al Archivo",
+    waitingBackend:"Esperando al backend", noRecords:"Sin registros", noUpdates:"Sin actualizaciones"
+  },
+  fr: {
+    statusLabel:"LANGUE", hub:"Retour au Hub",
+    kicker:"Université des Singes de Gibraltar",
+    title:"Bienvenue dans G-ROCK", subtitle:"Choisissez la langue et continuez",
+    lead:"Bienvenue dans l'univers de G-ROCK — une archive créative et documentaire indépendante construite autour du Professeur Sugriva et de l'Université des Singes de Gibraltar. Ceci est une invitation à explorer l'archive, non une institution académique ni un programme accrédité.",
+    disclaimerAffiliation:"Ceci est une publication créative et documentaire indépendante. Les noms institutionnels sont utilisés à des fins documentaires et contextuelles. G-ROCK Archive n'est exploité par, affilié à, approuvé par ni officiellement lié à aucune institution mentionnée.",
+    btnLang:"Choisir la Langue", btnPayment:"Accès à l'Archive", btnContinue:"Continuer",
+    statRegistered:"Comptes d'Archive Enregistrés", statFiles:"Fichiers Totaux", statUpdates:"Mises à Jour de l'Archive", statLangs:"Langues Disponibles",
+    secLanguage:"Choisir la Langue",
+    secPayment:"Accès à l'Archive", paymentBig:"G-ROCK Archive — Accès Numérique à Paiement Unique — £5", paymentSmall:"Accès unique à l'archive numérique indépendante G-ROCK, incluant les futures publications de l'auteur, des matériaux documentaires sélectionnés, la chronologie documentaire et les fonctionnalités de l'archive. Cet achat ne fournit ni crédit académique, ni accréditation, ni qualification, ni statut officiel de membre de l'archive, ni adhésion institutionnelle, ni affiliation institutionnelle.", disclaimerAcademic:"L'adhésion fournit uniquement un accès personnel à l'archive numérique. Elle ne crée aucune relation académique avec une institution.", disclaimerPersonalAccess:"L'accès est personnel et non transférable. Les membres ne peuvent pas copier, redistribuer, republier ni exploiter commercialement les matériaux de l'archive sans autorisation.", checkboxImmediateAccess:"Je demande un accès immédiat au contenu numérique et reconnais que cet accès peut affecter mon droit de rétractation une fois la livraison commencée.", consentRequiredNote:"Veuillez cocher la case ci-dessus avant de payer.",
+    payCard:"Carte (Visa/Mastercard)", payPaypal:"PayPal", payNowCard:"Payer £5 par Carte",
+    payNoteStripe:"Les données de carte sont traitées directement par Stripe. G-ROCK ne voit ni ne stocke jamais votre numéro de carte.",
+    payProcessing:"Traitement du paiement...", payFailed:"Paiement échoué. Vérifiez les informations de votre carte et réessayez.",
+    payCompleted:"Paiement effectué. Votre Archive Access ID est en cours d'émission.",
+    secValue:"Que Contient L'Archive ?",
+    secUpdates:"Dernières Mises à Jour",
+    secSearch:"Recherche et Filtres de l'Archive", searchPlaceholder:"Rechercher dans l'archive...", searchBtn:"Rechercher",
+    filterAll:"Tout", filterBooks:"Livres", filterAudio:"Livres Audio", filterVideo:"Vidéos", filterDocs:"Documents", filterImages:"Images",
+    secLibrary:"Sections de l'Archive",
+    tileMetaApi:"Contenu pas encore téléversé.", tileMetaEmpty:"Aucun fichier disponible actuellement.",
+    tileAudioTitle:"Livres Audio", tileAudioTag:"Livres Audio",
+    tileBooksTitle:"Publications Numériques", tileBooksTag:"Publications",
+    tileVideoTitle:"Vidéo et Photos", tileVideoTag:"Vidéos",
+    tileDocsTitle:"Réalisations Scientifiques / Documents", tileDocsTag:"Documents",
+    tileRegistryTitle:"Registre d'Accès à l'Archive", tileRegistryMeta1:"ID d'accès et pseudo uniquement", tileRegistryMeta2:"Vue en lecture seule", tileRegistryTag:"Registre",
+    tileInfoTitle:"Info / Coopération", tileInfoMeta1:"Contact et partenariats", tileInfoMeta2:"Public / Partenaires", tileInfoTag:"Info",
+    secRegistry:"Aperçu du Registre d'Accès à l'Archive", thId:"ID d'Accès", thNick:"Pseudo",
+    secAdmin:"Console d'Administration", adminProtected:"Protégé par une authentification réelle. Les actions sont envoyées uniquement à l'API backend.",
+    adminAddManual:"Ajouter un Membre de l'Archive Manuellement", adminNickPlaceholder:"Pseudo",
+    adminAccessFull:"ARCHIVE COMPLÈTE", adminAccessStudent:"MEMBRE DE L'ARCHIVE", adminAccessEvent:"ÉVÉNEMENT", adminAccessPromo:"PROMOTION",
+    adminSourcePlaceholder:"Source", adminGenerate:"Générer un ID d'Accès", adminExport:"Exporter la Liste de l'Archive",
+    footerContact:"Contact", footerPrivacy:"Politique de Confidentialité", footerTerms:"Conditions d'Utilisation", footerCopy:"Copyright © G-ROCK Corporation", footerCopyrightLink:"Droits d'Auteur", copyrightTitle:"Droits d'Auteur et Propriété Intellectuelle", copyrightP1:"Tous les textes originaux, livres, documents, matériaux de recherche, matériaux audiovisuels, graphiques, conceptions d'interface, personnages fictifs, noms, concepts, logos, image de marque, structures d'archive et autres matériaux créatifs originaux publiés dans le cadre de G-ROCK sont protégés par les lois applicables en matière de droits d'auteur et de propriété intellectuelle.", copyrightP2:"Sauf indication contraire expresse, ces matériaux restent la propriété intellectuelle de leurs détenteurs de droits respectifs et ne peuvent pas être copiés, reproduits, redistribués, republiés, modifiés, exploités commercialement ou utilisés pour créer des œuvres dérivées sans autorisation préalable.", copyrightP3:"L'Accès à l'Archive est une licence permettant d'accéder aux matériaux numériques et de les consulter à titre privé. L'achat de l'Accès à l'Archive ne transfère pas les droits d'auteur, la propriété ni les droits de propriété intellectuelle à l'acheteur.", copyrightP4:"Les utilisateurs peuvent accéder aux matériaux pour un usage personnel dans le cadre de leur Accès à l'Archive. Ils ne peuvent pas partager leurs identifiants d'accès ni permettre à d'autres personnes d'accéder sans autorisation au contenu protégé de l'archive.", copyrightP5:"Lorsque des matériaux de tiers sont inclus à des fins documentaires, de recherche, historiques, éducatives ou contextuelles, ils sont clairement distingués des matériaux originaux de G-ROCK, et toute information d'attribution, de licence ou de droits applicable est conservée. G-ROCK Archive ne revendique pas la propriété de matériaux de tiers lorsque cette propriété n'existe pas.",
+    welcomeBadge:"Terminal des Archives G-ROCK", welcomeTitle:"BIENVENUE DANS L'ARCHIVE", welcomeIdLabel:"Votre ID d'Accès",
+    welcomeChoose:"Choisissez votre pseudo et entrez dans l'archive.", nicknamePlaceholder:"Choisissez votre pseudo", enterArchive:"Entrer dans l'Archive",
+    waitingBackend:"En attente du backend", noRecords:"Aucun enregistrement", noUpdates:"Aucune mise à jour"
+  },
+  ru: {
+    statusLabel:"ЯЗЫК", hub:"Вернуться в Хаб",
+    kicker:"Университет Обезьян Гибралтара",
+    title:"Добро пожаловать в G-ROCK", subtitle:"Выберите язык и продолжите",
+    lead:"Добро пожаловать в мир G-ROCK — независимый творческий и документальный архив, созданный вокруг профессора Сугривы и Университета Обезьян Гибралтара. Это приглашение исследовать архив, а не настоящее учебное заведение или аккредитованная программа.",
+    disclaimerAffiliation:"Это независимое творческое и документальное издание. Названия учреждений используются в документальных и контекстуальных целях. G-ROCK Archive не управляется, не аффилировано, не одобрено и официально не связано ни с одним упомянутым учреждением.",
+    btnLang:"Выбрать Язык", btnPayment:"Доступ к Архиву", btnContinue:"Продолжить",
+    statRegistered:"Зарегистрированные Аккаунты Архива", statFiles:"Всего Файлов в Архиве", statUpdates:"Обновления Архива", statLangs:"Поддерживаемые Языки",
+    secLanguage:"Выбрать Язык",
+    secPayment:"Доступ к Архиву", paymentBig:"G-ROCK Archive — Единоразовый Цифровой Доступ — £5", paymentSmall:"Единоразовый доступ к независимому цифровому архиву G-ROCK, включая будущие публикации автора, отдельные документальные материалы, документальную хронологию и функции архива. Эта покупка не даёт академических зачётов, аккредитации, квалификации, официального статуса участника архива, институционального членства или институциональной аффилиации.", disclaimerAcademic:"Членство предоставляет только личный доступ к цифровому архиву. Оно не создаёт академических отношений с какой-либо организацией.", disclaimerPersonalAccess:"Доступ является личным и непередаваемым. Участники не могут копировать, распространять, republикировать или использовать материалы архива в коммерческих целях без разрешения.", checkboxImmediateAccess:"Я запрашиваю немедленный доступ к цифровому контенту и понимаю, что доступ может повлиять на моё право на отмену после начала предоставления контента.", consentRequiredNote:"Подтвердите флажок выше перед оплатой.",
+    payCard:"Карта (Visa/Mastercard)", payPaypal:"PayPal", payNowCard:"Оплатить £5 картой",
+    payNoteStripe:"Данные карты обрабатываются напрямую Stripe. G-ROCK никогда не видит и не хранит номер вашей карты.",
+    payProcessing:"Обработка платежа...", payFailed:"Платёж не удался. Проверьте данные карты и попробуйте снова.",
+    payCompleted:"Платёж завершён. Ваш Archive Access ID выдаётся.",
+    secValue:"Что Внутри Архива?",
+    secUpdates:"Последние Обновления",
+    secSearch:"Поиск и Фильтры Архива", searchPlaceholder:"Поиск в архиве...", searchBtn:"Поиск",
+    filterAll:"Все", filterBooks:"Книги", filterAudio:"Аудиокниги", filterVideo:"Видео", filterDocs:"Документы", filterImages:"Изображения",
+    secLibrary:"Разделы Архива",
+    tileMetaApi:"Контент ещё не загружен.", tileMetaEmpty:"В данный момент файлы недоступны.",
+    tileAudioTitle:"Аудиокниги", tileAudioTag:"Аудиокниги",
+    tileBooksTitle:"Цифровые Публикации", tileBooksTag:"Публикации",
+    tileVideoTitle:"Видео и Фото", tileVideoTag:"Видео",
+    tileDocsTitle:"Научные Достижения / Документы", tileDocsTag:"Документы",
+    tileRegistryTitle:"Реестр Доступа к Архиву", tileRegistryMeta1:"Только ID доступа и никнейм", tileRegistryMeta2:"Только для просмотра", tileRegistryTag:"Реестр",
+    tileInfoTitle:"Информация / Сотрудничество", tileInfoMeta1:"Контакты и партнёрство", tileInfoMeta2:"Публично / Партнёры", tileInfoTag:"Информация",
+    secRegistry:"Просмотр Реестра Доступа к Архиву", thId:"ID Доступа", thNick:"Никнейм",
+    secAdmin:"Панель Администратора", adminProtected:"Защищено настоящей аутентификацией. Действия отправляются только на сервер через API.",
+    adminAddManual:"Добавить Участника Архива Вручную", adminNickPlaceholder:"Никнейм",
+    adminAccessFull:"ПОЛНЫЙ АРХИВ", adminAccessStudent:"УЧАСТНИК АРХИВА", adminAccessEvent:"СОБЫТИЕ", adminAccessPromo:"ПРОМО",
+    adminSourcePlaceholder:"Источник", adminGenerate:"Сгенерировать ID Доступа", adminExport:"Экспортировать Список Архива",
+    footerContact:"Контакты", footerPrivacy:"Политика Конфиденциальности", footerTerms:"Условия Использования", footerCopy:"Copyright © G-ROCK Corporation", footerCopyrightLink:"Авторские Права", copyrightTitle:"Авторские Права и Интеллектуальная Собственность", copyrightP1:"Все оригинальные тексты, книги, документы, исследовательские материалы, аудиовизуальные материалы, графика, дизайн интерфейса, вымышленные персонажи, названия, концепции, логотипы, брендинг, структуры архива и другие оригинальные творческие материалы, опубликованные в рамках G-ROCK, защищены применимым законодательством об авторском праве и интеллектуальной собственности.", copyrightP2:"Если прямо не указано иное, эти материалы остаются интеллектуальной собственностью соответствующих правообладателей и не могут копироваться, воспроизводиться, распространяться, republikироваться, изменяться, использоваться в коммерческих целях или для создания производных произведений без предварительного разрешения.", copyrightP3:"Доступ к Архиву — это лицензия на доступ и частный просмотр цифровых материалов. Приобретение Доступа к Архиву не передаёт покупателю авторские права, право собственности или права на интеллектуальную собственность.", copyrightP4:"Пользователи могут получать доступ к материалам для личного использования в рамках своего Доступа к Архиву. Они не могут передавать свои учётные данные доступа или предоставлять другим лицам несанкционированный доступ к защищённому содержимому архива.", copyrightP5:"В случаях, когда материалы третьих сторон включены в документальных, исследовательских, исторических, образовательных или контекстуальных целях, они чётко отделены от оригинальных материалов G-ROCK, а любая применимая информация об атрибуции, лицензии или правах сохраняется. G-ROCK Archive не претендует на право собственности на материалы третьих сторон, если такое право собственности отсутствует.",
+    welcomeBadge:"Терминал Архива G-ROCK", welcomeTitle:"ДОБРО ПОЖАЛОВАТЬ В АРХИВ", welcomeIdLabel:"Ваш ID Доступа",
+    welcomeChoose:"Выберите никнейм и войдите в архив.", nicknamePlaceholder:"Выберите никнейм", enterArchive:"Войти в Архив",
+    waitingBackend:"Ожидание сервера", noRecords:"Нет записей", noUpdates:"Нет обновлений"
+  },
+  nl: {
+    statusLabel:"TAAL", hub:"Terug naar Hub",
+    kicker:"Universiteit van de Apen van Gibraltar",
+    title:"Welkom bij G-ROCK", subtitle:"Kies een taal en ga verder",
+    lead:"Welkom in de wereld van G-ROCK — een onafhankelijk creatief en documentair archief rond professor Sugriva en de Universiteit van de Apen van Gibraltar. Dit is een uitnodiging om het archief te verkennen, geen academische instelling of geaccrediteerd programma.",
+    disclaimerAffiliation:"Dit is een onafhankelijke creatieve en documentaire publicatie. Institutionele namen worden gebruikt voor documentaire en contextuele doeleinden. G-ROCK Archive wordt niet beheerd door, is niet gelieerd aan, wordt niet onderschreven door en is niet officieel verbonden met enige genoemde instelling.",
+    btnLang:"Taal Kiezen", btnPayment:"Archieftoegang", btnContinue:"Doorgaan",
+    statRegistered:"Geregistreerde Archiefaccounts", statFiles:"Totaal Aantal Bestanden", statUpdates:"Archiefupdates", statLangs:"Ondersteunde Talen",
+    secLanguage:"Taal Kiezen",
+    secPayment:"Archieftoegang", paymentBig:"G-ROCK Archive — Eenmalige Digitale Toegang — £5", paymentSmall:"Eenmalige toegang tot het onafhankelijke digitale G-ROCK-archief, inclusief toekomstige publicaties van de auteur, geselecteerd documentair materiaal, documentaire tijdlijn en archieffuncties. Deze aankoop biedt geen academische studiepunten, accreditatie, kwalificatie, officiële archieflid-status, institutioneel lidmaatschap of institutionele affiliatie.", disclaimerAcademic:"Lidmaatschap biedt uitsluitend persoonlijke toegang tot het digitale archief. Het creëert geen academische relatie met enige instelling.", disclaimerPersonalAccess:"Toegang is persoonlijk en niet overdraagbaar. Leden mogen archiefmateriaal niet kopiëren, herdistribueren, herpubliceren of commercieel exploiteren zonder toestemming.", checkboxImmediateAccess:"Ik verzoek om onmiddellijke toegang tot de digitale inhoud en erken dat toegang mijn herroepingsrecht kan beïnvloeden zodra de levering begint.", consentRequiredNote:"Bevestig het bovenstaande vakje voordat u betaalt.",
+    payCard:"Kaart (Visa/Mastercard)", payPaypal:"PayPal", payNowCard:"Betaal £5 met Kaart",
+    payNoteStripe:"Kaartgegevens worden rechtstreeks door Stripe verwerkt. G-ROCK ziet of bewaart nooit je kaartnummer.",
+    payProcessing:"Betaling wordt verwerkt...", payFailed:"Betaling mislukt. Controleer je kaartgegevens en probeer het opnieuw.",
+    payCompleted:"Betaling voltooid. Je Archive Access ID wordt uitgegeven.",
+    secValue:"Wat Zit Er In Het Archief?",
+    secUpdates:"Laatste Updates",
+    secSearch:"Archief Zoeken & Filters", searchPlaceholder:"Zoek in het archief...", searchBtn:"Zoeken",
+    filterAll:"Alles", filterBooks:"Boeken", filterAudio:"Luisterboeken", filterVideo:"Video's", filterDocs:"Documenten", filterImages:"Afbeeldingen",
+    secLibrary:"Archiefsecties",
+    tileMetaApi:"Inhoud nog niet geüpload.", tileMetaEmpty:"Momenteel geen bestanden beschikbaar.",
+    tileAudioTitle:"Luisterboeken", tileAudioTag:"Luisterboeken",
+    tileBooksTitle:"Digitale Publicaties", tileBooksTag:"Publicaties",
+    tileVideoTitle:"Video en Foto's", tileVideoTag:"Video's",
+    tileDocsTitle:"Wetenschappelijke Prestaties / Documenten", tileDocsTag:"Documenten",
+    tileRegistryTitle:"Archieftoegangsregister", tileRegistryMeta1:"Alleen toegangs-ID en bijnaam", tileRegistryMeta2:"Alleen-lezen weergave", tileRegistryTag:"Register",
+    tileInfoTitle:"Info / Samenwerking", tileInfoMeta1:"Contact en partnerschappen", tileInfoMeta2:"Openbaar / Partners", tileInfoTag:"Info",
+    secRegistry:"Voorbeeld Archieftoegangsregister", thId:"Toegangs-ID", thNick:"Bijnaam",
+    secAdmin:"Adminconsole", adminProtected:"Beveiligd met echte authenticatie. Acties worden alleen naar de backend-API gestuurd.",
+    adminAddManual:"Archieflid Handmatig Toevoegen", adminNickPlaceholder:"Bijnaam",
+    adminAccessFull:"VOLLEDIG ARCHIEF", adminAccessStudent:"ARCHIEFLID", adminAccessEvent:"EVENEMENT", adminAccessPromo:"PROMO",
+    adminSourcePlaceholder:"Bron", adminGenerate:"Genereer Toegangs-ID", adminExport:"Exporteer Archieflijst",
+    footerContact:"Contact", footerPrivacy:"Privacybeleid", footerTerms:"Servicevoorwaarden", footerCopy:"Copyright © G-ROCK Corporation", footerCopyrightLink:"Auteursrecht", copyrightTitle:"Auteursrecht en Intellectueel Eigendom", copyrightP1:"Alle originele teksten, boeken, documenten, onderzoeksmateriaal, audiovisueel materiaal, afbeeldingen, interfaceontwerpen, fictieve personages, namen, concepten, logo's, branding, archiefstructuren en ander origineel creatief materiaal dat als onderdeel van G-ROCK wordt gepubliceerd, is beschermd door de toepasselijke auteursrecht- en intellectueel-eigendomswetgeving.", copyrightP2:"Tenzij uitdrukkelijk anders vermeld, blijven deze materialen intellectueel eigendom van de respectievelijke rechthebbenden en mogen ze niet worden gekopieerd, gereproduceerd, herverspreid, herpubliceerd, gewijzigd, commercieel geëxploiteerd of gebruikt om afgeleide werken te maken zonder voorafgaande toestemming.", copyrightP3:"Archieftoegang is een licentie om de digitale materialen te bekijken en privé te raadplegen. Het aanschaffen van Archieftoegang draagt geen auteursrecht, eigendom of intellectuele-eigendomsrechten over aan de koper.", copyrightP4:"Gebruikers mogen de materialen voor persoonlijk gebruik raadplegen binnen de reikwijdte van hun Archieftoegang. Zij mogen hun toegangsgegevens niet delen of anderen ongeautoriseerde toegang geven tot beschermde archiefinhoud.", copyrightP5:"Waar materiaal van derden is opgenomen voor documentaire, onderzoeks-, historische, educatieve of contextuele doeleinden, wordt dit duidelijk onderscheiden van origineel G-ROCK-materiaal, en wordt alle toepasselijke attributie-, licentie- of rechteninformatie behouden. G-ROCK Archive claimt geen eigendom van materiaal van derden waar dergelijk eigendom niet bestaat.",
+    welcomeBadge:"G-ROCK Archief Terminal", welcomeTitle:"WELKOM BIJ HET ARCHIEF", welcomeIdLabel:"Jouw Toegangs-ID",
+    welcomeChoose:"Kies je bijnaam en betreed het archief.", nicknamePlaceholder:"Kies je bijnaam", enterArchive:"Betreed het Archief",
+    waitingBackend:"Wachten op server", noRecords:"Geen records", noUpdates:"Geen updates"
+  }
+};
+function t(key){
+  const tr = translations[state.lang] || translations.en;
+  return tr[key] != null ? tr[key] : (translations.en[key] || key);
+}
+
+/* Guarded so a missing/renamed #rain canvas can never take down the
+   rest of the script. Without this guard, canvas.getContext('2d') on
+   a null canvas would throw synchronously here, at the very top of
+   this <script> block, and everything below it (i18n, payments,
+   admin console) would silently never run. */
+const canvas=document.getElementById('rain');
+const ctx = canvas ? canvas.getContext('2d') : null;
+let w,h,cols,drops;
+const glyphs='ΩΣΦΨΞ01GROCKΑΒΓ'.split('');
+const rare='🐒';
+function resize(){
+  if(!canvas) return;
+  w=canvas.width=innerWidth;
+  h=canvas.height=innerHeight;
+  cols=Math.floor(w/22);
+  drops=new Array(cols).fill(0).map(()=>Math.random()*-100);
+}
+addEventListener('resize',resize);
+resize();
+if(ctx){
+  (function drawRain(){
+    ctx.fillStyle='rgba(4,6,10,0.12)';
+    ctx.fillRect(0,0,w,h);
+    ctx.font='16px monospace';
+    for(let i=0;i<cols;i++){
+      const r=Math.random()<.002;
+      const c=r?rare:glyphs[Math.floor(Math.random()*glyphs.length)];
+      ctx.fillStyle=r?'rgba(212,175,55,0.9)':(Math.random()<.06?'rgba(255,255,255,0.9)':'rgba(74,163,255,0.55)');
+      ctx.fillText(c,i*22,drops[i]*20);
+      if(drops[i]*20>h&&Math.random()>.975)drops[i]=0;
+      drops[i]++;
+    }
+    requestAnimationFrame(drawRain);
+  })();
+}
+
+function safeGet(key){
+  try{ return localStorage.getItem(key); }catch(_e){ return null; }
+}
+function safeSet(key,val){
+  try{ localStorage.setItem(key,val); }catch(_e){ /* ignore */ }
+}
+
+/* Never insert data that came from an API response into innerHTML
+   without escaping it first — a nickname or update title could
+   otherwise contain HTML/JS and run in every visitor's browser. */
+function escapeHTML(value){
+  return String(value == null ? '' : value).replace(/[&<>"']/g, ch => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;'
+  }[ch]));
+}
+
+const state={lang:safeGet('grock_lang')||'en'};
+const api={
+  students:'/api/students',
+  updates:'/api/updates',
+  stats:'/api/stats',
+  admin:'/api/admin/students',
+  stripeIntent:'/api/stripe/create-payment-intent',
+  paypalOrder:'/api/paypal/order',
+  paypalCapture:'/api/paypal/order/capture',
+  /* The frontend never grants access itself. It only reports the
+     payment reference (PaymentIntent id / PayPal order id) here.
+     The backend must independently verify that reference against
+     Stripe/PayPal before issuing a Archive Access ID — never trust a
+     "payment succeeded" message coming only from the browser. */
+  paymentsConfirm:'/api/payments/confirm'
+};
+const generatedIdEl=document.getElementById('generatedId');
+const welcomeOverlay=document.getElementById('welcomeOverlay');
+const introScreen=document.getElementById('introScreen');
+const mainShell=document.getElementById('mainShell');
+
+let lastStats={registered:0,totalFiles:0,archiveUpdates:0,languages:6};
+let lastStudents=[];
+let lastUpdates=[];
+let lastCounts={};
+
+function applyI18n(lang){
+  state.lang = translations[lang] ? lang : 'en';
+  document.documentElement.lang = state.lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    el.textContent = t(k);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-placeholder');
+    el.placeholder = t(k);
+  });
+  document.getElementById('status').textContent = t('statusLabel')+' // '+state.lang.toUpperCase();
+  document.querySelectorAll('.lang').forEach(x=>x.classList.toggle('active',x.dataset.lang===state.lang));
+  safeSet('grock_lang', state.lang);
+  setStats(lastStats);
+  renderStudents(lastStudents);
+  renderUpdates(lastUpdates);
+  renderArchiveCounts(lastCounts);
+}
+
+document.querySelectorAll('.flag-card').forEach(el=>el.addEventListener('click',()=>{
+  applyI18n(el.dataset.lang);
+  document.getElementById('langSelect').classList.remove('active');
+  mainShell.style.display='flex';
+}));
+document.querySelectorAll('#langGrid .lang').forEach(el=>el.addEventListener('click',()=>{
+  applyI18n(el.dataset.lang);
+}));
+on('returnHub','click',(e)=>{
+  e.preventDefault();
+  window.location.href='index.html';
+});
+on('openLang','click',()=>document.getElementById('langSelect').classList.add('active'));
+on('openPayment','click',()=>document.getElementById('paymentSection').scrollIntoView({behavior:'smooth'}));
+on('openContinue','click',()=>document.getElementById('librarySection').scrollIntoView({behavior:'smooth'}));
+
+function setStats(s){
+  lastStats=s;
+  const grid=document.getElementById('statsGrid');
+  grid.innerHTML=[
+    [t('statRegistered'),s.registered],
+    [t('statFiles'),s.totalFiles],
+    [t('statUpdates'),s.archiveUpdates],
+    [t('statLangs'),s.languages]
+  ].map(([label,value])=>'<div class="stat"><div class="n">'+escapeHTML(value)+'</div><div class="l">'+label+'</div></div>').join('');
+}
+function renderStudents(rows){
+  lastStudents=rows;
+  const body=document.getElementById('studentListBody');
+  if(!rows.length){
+    body.innerHTML='<tr><td colspan="2">'+t('noRecords')+'</td></tr>';
+    return;
+  }
+  body.innerHTML=rows.map(r=>'<tr><td>'+escapeHTML(r.student_id)+'</td><td>'+escapeHTML(r.nickname)+'</td></tr>').join('');
+}
+function renderUpdates(rows){
+  lastUpdates=rows;
+  const list=document.getElementById('latestList');
+  if(!rows.length){
+    list.innerHTML='<div class="latest-item"><b>'+t('noUpdates')+'</b><span>'+t('waitingBackend')+'</span></div>';
+    return;
+  }
+  list.innerHTML=rows.slice(0,10).map(r=>'<div class="latest-item"><b>'+escapeHTML(r.name)+'</b><span>'+escapeHTML(r.date)+'</span></div>').join('');
+}
+function renderArchiveCounts(counts){
+  lastCounts=counts;
+  const labels=[['books',t('filterBooks')],['audiobooks',t('filterAudio')],['videos',t('filterVideo')],['documents',t('filterDocs')],['images',t('filterImages')]];
+  document.getElementById('valueGrid').innerHTML=labels.map(([key,label])=>'<div class="stat"><div class="n">'+escapeHTML(counts[key]||0)+'</div><div class="l">'+label+'</div></div>').join('');
+}
+async function fetchJSON(url, options={}){
+  const res = await fetch(url, options);
+  if(!res.ok){ throw new Error('HTTP '+res.status+' from '+url); }
+  const contentType = res.headers.get('content-type') || '';
+  if(!contentType.includes('application/json')){
+    throw new Error('Expected JSON response from '+url);
+  }
+  return res.json();
+}
+async function loadAll(){
+  try{
+    const [students,updates,stats]=await Promise.all([
+      fetchJSON(api.students),
+      fetchJSON(api.updates),
+      fetchJSON(api.stats)
+    ]);
+    renderStudents(students);
+    renderUpdates(updates);
+    renderArchiveCounts(stats.archive_counts||{});
+    setStats(stats);
+  }catch(e){
+    console.error('loadAll failed (backend not reachable):', e);
+    renderStudents([]);
+    renderUpdates([]);
+    renderArchiveCounts({});
+    setStats({registered:0,totalFiles:0,archiveUpdates:0,languages:6});
+  }
+}
+/* CSRF token cache: fetched once from the backend, then reused on every
+   state-changing request. If the backend rejects it (session expired,
+   token rotated), the caller clears the cache and asks apiPost to retry
+   once with a fresh token. */
+let cachedCsrfToken = null;
+async function getCsrfToken(forceRefresh){
+  if(cachedCsrfToken && !forceRefresh) return cachedCsrfToken;
+  const res = await fetch('/api/auth/csrf-token', { credentials:'include' });
+  if(!res.ok) throw new Error('Could not obtain CSRF token');
+  const data = await res.json();
+  cachedCsrfToken = data.csrfToken;
+  return cachedCsrfToken;
+}
+
+async function apiPost(url,data){
+  const token = await getCsrfToken();
+  let res=await fetch(url,{
+    method:'POST',
+    headers:{'Content-Type':'application/json', 'x-csrf-token': token},
+    credentials:'include',
+    body:JSON.stringify(data)
+  });
+  if(res.status === 403){
+    // Token may have rotated (e.g. new session) — refresh once and retry.
+    const freshToken = await getCsrfToken(true);
+    res = await fetch(url,{
+      method:'POST',
+      headers:{'Content-Type':'application/json', 'x-csrf-token': freshToken},
+      credentials:'include',
+      body:JSON.stringify(data)
+    });
+  }
+  if(!res.ok) throw new Error('Request failed');
+  return res.json();
+}
+on('adminAdd','click',async()=>{
+  try{
+    const payload={
+      nickname:document.getElementById('adminNick').value.trim(),
+      access_type:document.getElementById('adminAccess').value,
+      source:document.getElementById('adminSource').value.trim(),
+      expiry_date:document.getElementById('adminExpiry').value || null
+    };
+    const result=await apiPost(api.admin,payload);
+    await loadAll();
+    alert('Added: '+result.student_id);
+  }catch(e){
+    console.error(e);
+    alert('Backend unavailable — cannot add student right now.');
+  }
+});
+function csvCell(value){
+  return '"'+String(value==null?'':value).replace(/"/g,'""')+'"';
+}
+on('adminExport','click',()=>{
+  const rows=lastStudents.map(r=>[r.student_id, r.nickname]);
+  const csv=[['Archive Access ID','Nick'], ...rows].map(row=>row.map(csvCell).join(',')).join('\r\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='grock-student-list.csv';
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+
+/* Filter buttons and the search box used to work independently —
+   picking "Books" and then typing a query would drop the filter.
+   Both now feed one shared view function. */
+let activeFilter='all';
+let activeQuery='';
+function updateLibraryView(){
+  document.querySelectorAll('.item').forEach(item=>{
+    const typeMatch = activeFilter==='all' || item.dataset.type===activeFilter;
+    const textMatch = !activeQuery || item.innerText.toLowerCase().includes(activeQuery);
+    item.parentElement.style.display = (typeMatch && textMatch) ? '' : 'none';
+  });
+}
+on('filterBar','click',e=>{
+  const btn=e.target.closest('.filter-btn');
+  if(!btn) return;
+  activeFilter=btn.dataset.filter;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active', b===btn));
+  updateLibraryView();
+});
+on('searchBtn','click',()=>{
+  const input = document.getElementById('searchInput');
+  activeQuery = input ? input.value.toLowerCase().trim() : '';
+  updateLibraryView();
+});
+on('searchInput','input',e=>{
+  activeQuery=e.target.value.toLowerCase().trim();
+  updateLibraryView();
+});
+
+let lastFocusedEl = null;
+function openWelcome(){
+  /* This is only a placeholder shown before payment — it is NOT a
+     real, permanent Archive Access ID. It's replaced with the backend's
+     actual ID once a payment is confirmed via /api/payments/confirm
+     (see payWithCard and the PayPal onApprove handler below). */
+  if(generatedIdEl) generatedIdEl.textContent = 'PENDING';
+  lastFocusedEl = document.activeElement;
+  if(welcomeOverlay) welcomeOverlay.classList.add('active');
+  const closeBtn = document.getElementById('closeWelcome');
+  if(closeBtn) closeBtn.focus();
+}
+function closeWelcomeOverlay(){
+  welcomeOverlay.classList.remove('active');
+  if(lastFocusedEl && typeof lastFocusedEl.focus === 'function'){
+    lastFocusedEl.focus();
+  }
+}
+on('closeWelcome','click', closeWelcomeOverlay);
+on('finishAccess','click', ()=>{
+  closeWelcomeOverlay();
+  mainShell.style.display='flex';
+  loadAll();
+});
+
+/* Startup flow: wait for the cinematic intro to actually finish
+   (animationend) instead of guessing a fixed delay — this stays
+   correct even if the intro's CSS animation timing changes later.
+   The 8s timer below is only a last-resort failsafe in case the
+   animationend event never fires for some reason (e.g. the intro
+   element gets removed by other code before it completes).
+   Guarded so a missing #introScreen (e.g. after a future markup
+   change) can't throw here and take down every handler registered
+   after this point in the script — it simply skips straight to
+   showing the welcome overlay instead. */
+if(introScreen){
+  introScreen.addEventListener('animationend',()=>{
+    introScreen.style.display='none';
+    if(!welcomeOverlay.classList.contains('active') && mainShell.style.display==='none'){
+      openWelcome();
+    }
+  });
+}else{
+  openWelcome();
+}
+setTimeout(()=>{
+  if(!welcomeOverlay.classList.contains('active') && mainShell.style.display==='none'){
+    if(introScreen) introScreen.style.display='none';
+    mainShell.style.display='flex';
+    loadAll();
+  }
+},8000);
+
+applyI18n(state.lang);
+
+/* =========================================================
+   PAYMENT METHOD SWITCHER — Card (Stripe) vs PayPal
+   ========================================================= */
+const payTabCard = document.getElementById('payTabCard');
+const payTabPaypal = document.getElementById('payTabPaypal');
+const cardPane = document.getElementById('cardPane');
+const paypalPane = document.getElementById('paypalPane');
+
+function showPayMethod(method){
+  if(payTabCard) payTabCard.classList.toggle('active', method==='card');
+  if(payTabPaypal) payTabPaypal.classList.toggle('active', method==='paypal');
+  if(cardPane) cardPane.classList.toggle('active', method==='card');
+  if(paypalPane) paypalPane.classList.toggle('active', method==='paypal');
+}
+on('payTabCard','click', ()=>showPayMethod('card'));
+on('payTabPaypal','click', ()=>showPayMethod('paypal'));
+
+/* =========================================================
+   Purchase consent checkbox — required before either payment
+   method can be used. Enables the Stripe button and lifts the
+   pointer-events block on the PayPal button container once
+   checked; both panes get a shared 'consent-ok' class so the
+   CSS above can react without duplicating this logic per pane.
+   ========================================================= */
+function syncConsentState(){
+  const checkbox = document.getElementById('purchaseConsent');
+  const ok = !!(checkbox && checkbox.checked);
+  const stripeBtn = document.getElementById('stripePayBtn');
+  if(stripeBtn) stripeBtn.disabled = !ok;
+  if(cardPane) cardPane.classList.toggle('consent-ok', ok);
+  if(paypalPane) paypalPane.classList.toggle('consent-ok', ok);
+}
+on('purchaseConsent','change', syncConsentState);
+syncConsentState();
+
+/* =========================================================
+   STRIPE — Card payments (Visa / Mastercard)
+   Replace STRIPE_PUBLISHABLE_KEY below with your real
+   publishable (pk_live_... or pk_test_...) key from the
+   Stripe Dashboard. This key is safe to expose in the
+   frontend — it can only create payments, never move money
+   out or read secret data.
+   Your backend must expose:
+     POST /api/stripe/create-payment-intent
+       body: { amount, currency, nickname }
+       returns: { clientSecret }
+   ========================================================= */
+const STRIPE_PUBLISHABLE_KEY = 'pk_test_REPLACE_WITH_YOUR_KEY';
+let stripe = null;
+let stripeElements = null;
+let cardElement = null;
+
+function initStripe(){
+  if(!window.Stripe){
+    console.warn('Stripe.js not loaded yet.');
+    return;
+  }
+  if(stripe) return; // already initialized
+  stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+  stripeElements = stripe.elements();
+  cardElement = stripeElements.create('card', {
+    style: {
+      base: {
+        color: '#e8eef9',
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '16px',
+        '::placeholder': { color: '#6f84a8' }
+      },
+      invalid: { color: '#ff9c9c' }
+    }
+  });
+  cardElement.mount('#card-element');
+  cardElement.on('change', (event)=>{
+    document.getElementById('cardErrors').textContent = event.error ? event.error.message : '';
+  });
+}
+
+async function payWithCard(){
+  const btn = document.getElementById('stripePayBtn');
+  const errEl = document.getElementById('cardErrors');
+  if(!btn || !errEl) return; // required UI missing, nothing safe to do
+  const consentEl = document.getElementById('purchaseConsent');
+  if(!consentEl || !consentEl.checked){
+    errEl.textContent = t('consentRequiredNote');
+    return;
+  }
+  if(!stripe || !cardElement){
+    errEl.textContent = 'Stripe is not configured yet. Add your publishable key in the script.';
+    return;
+  }
+  btn.disabled = true;
+  const originalText = btn.textContent;
+  btn.textContent = t('payProcessing');
+  errEl.textContent = '';
+  try{
+    const nickname = (document.getElementById('nicknameInput') && document.getElementById('nicknameInput').value.trim()) || 'G-ROCK Archive Member';
+    const intentRes = await fetch(api.stripeIntent, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      credentials:'include',
+      body: JSON.stringify({ amount: 500, currency: 'gbp', nickname })
+    });
+    if(!intentRes.ok) throw new Error('Could not create payment intent');
+    const { clientSecret } = await intentRes.json();
+
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: { card: cardElement, billing_details: { name: nickname } }
+    });
+
+    if(result.error){
+      errEl.textContent = result.error.message || t('payFailed');
+      btn.disabled = false;
+      btn.textContent = originalText;
+      return;
+    }
+
+    if(result.paymentIntent && result.paymentIntent.status === 'succeeded'){
+      errEl.style.color = '#7cffb2';
+      errEl.textContent = t('payCompleted');
+      /* Send only the payment reference. The backend re-verifies
+         it with Stripe's API (amount, currency, status) before
+         issuing anything — the client can't be trusted to decide
+         who paid. */
+      const confirmed = await apiPost(api.paymentsConfirm, {
+        provider: 'STRIPE',
+        payment_reference: result.paymentIntent.id,
+        nickname: nickname
+      });
+      if(confirmed && confirmed.student_id){
+        generatedIdEl.textContent = confirmed.student_id;
+      }
+      await loadAll();
+    }
+  }catch(e){
+    console.error(e);
+    errEl.textContent = t('payFailed');
+  }finally{
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+}
+on('stripePayBtn','click', payWithCard);
+
+/* =========================================================
+   PAYPAL — unchanged flow, still available as a second
+   payment tab next to Card.
+   ========================================================= */
+window.PayPalCheckoutReady = async function() {
+  if(!window.paypal) return;
+  paypal.Buttons({
+    style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay' },
+    createOrder: async function () {
+      const consentEl = document.getElementById('purchaseConsent');
+      if(!consentEl || !consentEl.checked){
+        alert(t('consentRequiredNote'));
+        throw new Error('Purchase consent checkbox is not checked.');
+      }
+      /* amount/currency here are only a hint for the backend UI —
+         the server must ignore them and always charge its own
+         configured price (£5.00). Never trust a price coming from
+         the browser. */
+      const res = await fetch(api.paypalOrder, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({ amount: '5.00', currency: 'GBP', description: 'G-ROCK Archive — One-Time Digital Access' })
+      });
+      const data = await res.json();
+      return data.orderID;
+    },
+    onApprove: async function (data) {
+      const res = await fetch(api.paypalCapture, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({ orderID: data.orderID })
+      });
+      const captureData = await res.json();
+      if (captureData.status === 'COMPLETED') {
+        /* Same rule as Stripe: only the order id is sent, the
+           backend re-verifies the capture with PayPal itself. */
+        const confirmed = await apiPost(api.paymentsConfirm, {
+          provider: 'PAYPAL',
+          payment_reference: data.orderID,
+          nickname: (document.getElementById('nicknameInput') && document.getElementById('nicknameInput').value.trim()) || 'PayPal User'
+        });
+        if(confirmed && confirmed.student_id){
+          generatedIdEl.textContent = confirmed.student_id;
+        }
+        alert(t('payCompleted'));
+        loadAll();
+      } else {
+        alert('Payment not completed.');
+      }
+    },
+    onError: function (err) {
+      console.error(err);
+      alert('PayPal error.');
+    }
+  }).render('#paypal-button-container');
+};
+
+/* =========================================================
+   Accessibility: Escape closes any open overlay
+   ========================================================= */
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape'){
+    document.getElementById('langSelect').classList.remove('active');
+    if(welcomeOverlay.classList.contains('active')) closeWelcomeOverlay();
+  }
+});
+
+/* =========================================================
+   Admin panel visibility — hidden until the backend confirms
+   an authenticated admin session. Never rely on display:none
+   alone: the backend must independently check the caller's
+   role on every /api/admin/* request regardless of what the
+   frontend shows or hides.
+   ========================================================= */
+async function loadAdminPanel(){
+  const panel = document.getElementById('adminPanel');
+  try{
+    const res = await fetch('/api/auth/me', { credentials:'include' });
+    if(!res.ok){ panel.hidden = true; return; }
+    const user = await res.json();
+    panel.hidden = user.role !== 'admin';
+  }catch(_e){
+    panel.hidden = true;
+  }
+}
+loadAdminPanel();
+</script>
+<script src="https://js.stripe.com/v3/"></script>
+<script>initStripe();</script>
+<script src="https://www.paypal.com/sdk/js?client-id=TWOJ_PAYPAL_CLIENT_ID&currency=GBP&intent=capture&components=buttons" onload="PayPalCheckoutReady()"></script>
+</body>
+</html>
+
+

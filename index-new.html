@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G-Rock Corporation</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#070A10;
+color:#E6E6E6;
+overflow:hidden;
+}
+
+/* ================= CINEMATIC INTRO ================= */
+.intro{
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at center,#000 0%,#05070d 60%,#000 100%);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+z-index:9999;
+overflow:hidden;
+animation:fadeOut 3.8s ease 3.8s forwards;
+}
+
+.intro::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(120deg,transparent,rgba(74,163,255,0.12),transparent);
+transform:translateX(-100%);
+animation:sweep 2.5s ease infinite;
+}
+
+@keyframes sweep{
+0%{transform:translateX(-100%);}
+100%{transform:translateX(100%);}
+}
+
+.intro h1{
+font-size:78px;
+letter-spacing:10px;
+margin:0;
+color:#4aa3ff;
+text-shadow:0 0 40px rgba(74,163,255,0.35);
+opacity:0;
+animation:fadeIn 1.2s ease forwards;
+}
+
+.intro h2{
+font-size:26px;
+margin-top:10px;
+color:#dcdcdc;
+font-weight:normal;
+letter-spacing:2px;
+opacity:0;
+animation:fadeIn 1.2s ease 0.7s forwards;
+}
+
+.intro p{
+font-size:13px;
+margin-top:10px;
+color:#888;
+letter-spacing:2px;
+opacity:0;
+animation:fadeIn 1.2s ease 1.4s forwards;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(18px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes fadeOut{
+to{opacity:0;visibility:hidden;pointer-events:none;}
+}
+
+/* ================= MAIN ================= */
+main{
+opacity:0;
+animation:show 1s ease 4.2s forwards;
+height:100vh;
+overflow:auto;
+}
+
+@keyframes show{to{opacity:1;}}
+
+/* HEADER */
+header{
+display:flex;
+justify-content:space-between;
+padding:18px;
+background:#0b0f18;
+border-bottom:1px solid #1f2a3a;
+}
+
+header b{
+color:#fff;
+letter-spacing:1px;
+}
+
+.lang a{
+margin-left:10px;
+color:#aaa;
+font-size:12px;
+cursor:pointer;
+}
+
+.lang a:hover{
+color:#4aa3ff;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:15px;
+max-width:1200px;
+margin:40px auto;
+padding:0 20px;
+}
+
+/* CARD */
+.card{
+background:#111827;
+padding:20px;
+border-radius:12px;
+border:1px solid #1f2a3a;
+cursor:pointer;
+text-align:center;
+transition:0.25s;
+min-height:110px;
+display:flex;
+align-items:center;
+justify-content:center;
+opacity:0;
+transform:translateY(20px);
+animation:cardIn 0.6s ease forwards;
+}
+
+.card:nth-child(1){animation-delay:0.2s;}
+.card:nth-child(2){animation-delay:0.3s;}
+.card:nth-child(3){animation-delay:0.4s;}
+.card:nth-child(4){animation-delay:0.5s;}
+.card:nth-child(5){animation-delay:0.6s;}
+
+@keyframes cardIn{
+to{opacity:1;transform:translateY(0);}
+}
+
+.card:hover{
+transform:translateY(-6px) scale(1.02);
+border-color:#4aa3ff;
+box-shadow:0 0 25px rgba(74,163,255,0.15);
+}
+
+h3{
+color:#4aa3ff;
+margin:0;
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div class="intro">
+  <h1>G-Rock Corporation</h1>
+  <h2>Monkeys University of Gibraltar</h2>
+  <p>G-ROCK PRESENTS</p>
+  <p>POWERED BY G-SYSTEM</p>
+</div>
+
+<!-- MAIN -->
+<main>
+
+<header>
+<b>G-Rock Corporation</b>
+
+<div class="lang">
+<a onclick="setLang('en')">EN</a>
+<a onclick="setLang('pl')">PL</a>
+<a onclick="setLang('es')">ES</a>
+<a onclick="setLang('fr')">FR</a>
+</div>
+</header>
+
+<div class="grid">
+
+<div class="card" onclick="location.href='university.html'">
+<h3>Monkeys University of Gibraltar</h3>
+</div>
+
+<div class="card" onclick="location.href='bank.html'">
+<h3>Bank of the Monkeys from Gibraltar</h3>
+</div>
+
+<div class="card" onclick="location.href='parliament.html'">
+<h3>Parliament of the Monkeys from Gibraltar</h3>
+</div>
+
+<div class="card" onclick="location.href='episode1.html'">
+<h3>Episode 1</h3>
+</div>
+
+<div class="card" onclick="location.href='map.html'">
+<h3>World Map</h3>
+</div>
+
+</div>
+
+</main>
+
+<script>
+function setLang(lang){
+const data = {
+en:[
+"Monkeys University of Gibraltar",
+"Bank of the Monkeys from Gibraltar",
+"Parliament of the Monkeys from Gibraltar",
+"Episode 1",
+"World Map"
+],
+pl:[
+"Uniwersytet Małp Gibraltaru",
+"Bank Małp z Gibraltaru",
+"Parlament Małp z Gibraltaru",
+"Odcinek 1",
+"Mapa Świata"
+],
+es:[
+"Universidad de los Monos de Gibraltar",
+"Banco de los Monos de Gibraltar",
+"Parlamento de los Monos de Gibraltar",
+"Episodio 1",
+"Mapa del Mundo"
+],
+fr:[
+"Université des Singes de Gibraltar",
+"Banque des Singes de Gibraltar",
+"Parlement des Singes de Gibraltar",
+"Épisode 1",
+"Carte du Monde"
+]
+};
+
+document.querySelectorAll(".grid h3").forEach((el,i)=>{
+el.innerText = data[lang][i];
+});
+}
+</script>
+
+</body>
+</html>

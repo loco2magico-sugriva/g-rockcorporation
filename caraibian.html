@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caribbean Campuses // Monkeys University of Gibraltar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#030712;
+  --panel:rgba(15,23,42,.55);
+  --panel-solid:#0b1120;
+  --line:rgba(163,112,44,.28);
+  --brass1:#a3702c;
+  --brass2:#684a06;
+  --brass3:#3d2b03;
+  --brass-bright:#c9922a;
+  --cyan:#00f0ff;
+  --text:#dbe3ee;
+  --muted:#6b7c93;
+  --light:#aebdd1;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+  background-image:
+    linear-gradient(rgba(0,240,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,240,255,.025) 1px, transparent 1px);
+  background-size:34px 34px;
+}
+a{color:inherit;text-decoration:none}
+
+/* ============ TOP NAVBAR ============ */
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:14px;
+  padding:16px 4%;
+  background:rgba(3,7,18,.82);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+}
+.nav-left{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.nav-link{
+  font-family:'Orbitron',sans-serif;
+  font-size:12px;
+  letter-spacing:2px;
+  color:var(--brass-bright);
+  text-transform:uppercase;
+  cursor:pointer;
+  border-bottom:1px solid var(--brass1);
+  padding-bottom:3px;
+  text-shadow:0 0 10px rgba(163,112,44,.4);
+  transition:.2s;
+}
+.nav-link:hover{color:var(--cyan);border-bottom-color:var(--cyan);text-shadow:0 0 12px rgba(0,240,255,.6)}
+.nav-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.lang-switch{display:flex;gap:5px;background:rgba(11,17,32,.7);padding:5px;border-radius:8px;border:1px solid var(--line);flex-wrap:wrap}
+.lang-switch a{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  padding:7px 11px;
+  border-radius:6px;
+  cursor:pointer;
+  transition:.2s;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.lang-switch a:hover, .lang-switch a.active{
+  color:#1c1300;
+  background:linear-gradient(135deg, var(--brass-bright), var(--brass1));
+  box-shadow:0 0 14px rgba(163,112,44,.5);
+}
+.return-hub{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 16px;
+  background:rgba(11,17,32,.7);
+  border:1px solid var(--line);
+  border-radius:8px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:600;
+  transition:.3s;
+}
+.return-hub:hover{color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 14px rgba(0,240,255,.25)}
+
+/* ============ HEADER / TITLE ============ */
+.main-header{position:relative;padding:80px 4% 40px;text-align:center;overflow:hidden}
+.brass-title{
+  font-family:'Orbitron',sans-serif;
+  font-weight:900;
+  letter-spacing:2px;
+  font-size:clamp(28px, 5vw, 56px);
+  text-transform:uppercase;
+  line-height:1.2;
+  background:linear-gradient(180deg, var(--brass-bright) 0%, var(--brass1) 45%, var(--brass2) 75%, var(--brass3) 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  filter:drop-shadow(0 2px 0 #1a0f00) drop-shadow(0 4px 12px rgba(0,0,0,.8));
+  margin-bottom:14px;
+}
+.brass-subtitle{
+  font-family:'Orbitron',sans-serif;
+  font-weight:800;
+  letter-spacing:4px;
+  font-size:clamp(18px, 2.5vw, 26px);
+  text-transform:uppercase;
+  background:linear-gradient(180deg, var(--brass-bright) 0%, var(--brass1) 50%, var(--brass2) 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  filter:drop-shadow(0 2px 0 #1a0f00) drop-shadow(0 3px 10px rgba(0,0,0,.7));
+  margin-bottom:10px;
+}
+
+/* ============ BRIDGE STATUS BAR ============ */
+.bridge-console{
+  max-width:900px;
+  margin:32px auto 0;
+  background:var(--panel);
+  backdrop-filter:blur(14px);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:22px 28px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+@media(max-width:600px){.bridge-console{flex-direction:column}}
+.bridge-line-wrap{flex:1;max-width:520px;position:relative;height:30px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.bridge-line{width:100%;height:2px;background:linear-gradient(90deg, rgba(0,240,255,.15), var(--cyan));position:relative}
+.pulse-dot{width:8px;height:8px;background:var(--cyan);border-radius:50%;position:absolute;top:-3px;box-shadow:0 0 16px var(--cyan);animation:pulseMove 3s linear infinite}
+@keyframes pulseMove{0%{left:0%}100%{left:100%}}
+.bridge-label{font-family:'Orbitron',sans-serif;font-size:10.5px;letter-spacing:1.5px;color:var(--cyan);text-transform:uppercase;margin-top:10px;text-align:center;text-shadow:0 0 10px rgba(0,240,255,.4)}
+
+/* ============ CAMPUS TILES ============ */
+.container{max-width:1300px;margin:0 auto;padding:50px 4%}
+.campus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:34px}
+@media(max-width:900px){.campus-grid{grid-template-columns:1fr}}
+.campus-card{
+  background:var(--panel);
+  backdrop-filter:blur(14px);
+  border:1px solid var(--brass1);
+  border-radius:14px;
+  padding:32px 24px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .35s cubic-bezier(.25,.8,.25,1);
+  box-shadow:0 4px 18px rgba(163,112,44,.15);
+  position:relative;
+  overflow:hidden;
+}
+.campus-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:14px;
+  background:linear-gradient(135deg, rgba(163,112,44,.15), rgba(163,112,44,.4));
+  opacity:0;
+  transition:opacity .3s;
+  pointer-events:none;
+}
+.campus-card:hover::before, .campus-card.active::before{opacity:1}
+.campus-card:hover, .campus-card.active{
+  transform:translateY(-5px);
+  background:rgba(163,112,44,.12);
+  border-color:var(--brass-bright);
+  box-shadow:0 14px 34px rgba(163,112,44,.3), 0 0 0 1px rgba(163,112,44,.4);
+}
+.campus-icon{font-size:30px;margin-bottom:14px;filter:drop-shadow(0 0 8px rgba(0,240,255,.35))}
+.campus-card h3{font-family:'Orbitron',sans-serif;color:#fff;font-size:17px;letter-spacing:1px;margin-bottom:8px}
+.campus-card p{color:var(--muted);font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;margin:0}
+
+/* ============ DYNAMIC PANEL ============ */
+.command-console{
+  display:grid;
+  grid-template-columns:1.3fr 1fr;
+  gap:30px;
+  background:var(--panel);
+  backdrop-filter:blur(14px);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:36px;
+  box-shadow:0 14px 40px rgba(0,0,0,.5);
+  scroll-margin-top: 100px;
+}
+@media(max-width:900px){.command-console{grid-template-columns:1fr}}
+.haiti-quote{
+  display:none;
+  font-family:'Orbitron',sans-serif;
+  font-size:15px;
+  font-style:italic;
+  color:var(--cyan);
+  line-height:1.6;
+  padding:16px 20px;
+  border-left:3px solid var(--cyan);
+  background:rgba(0,240,255,.05);
+  border-radius:0 8px 8px 0;
+  margin-bottom:22px;
+  text-shadow:0 0 10px rgba(0,240,255,.25);
+  white-space: pre-line;
+}
+.haiti-quote.show{display:block}
+.console-left h2{
+  font-family:'Orbitron',sans-serif;
+  font-size:23px;
+  letter-spacing:1px;
+  color:#fff;
+  margin-bottom:8px;
+}
+.console-meta{
+  display:block;
+  font-family:'Orbitron',sans-serif;
+  font-size:11px;
+  letter-spacing:2px;
+  color:var(--brass-bright);
+  text-transform:uppercase;
+  margin-bottom:22px;
+}
+.console-left p.lead{color:var(--light);font-size:15px;line-height:1.75;margin-bottom:20px}
+.context-badge{
+  background:rgba(0,0,0,.35);
+  border-left:3px solid var(--brass1);
+  padding:18px 20px;
+  border-radius:0 10px 10px 0;
+  font-size:13.5px;
+  color:var(--light);
+  line-height:1.75;
+}
+.console-right h4{
+  font-family:'Orbitron',sans-serif;
+  color:#fff;
+  font-size:14px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:20px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:12px;
+}
+.specialization-list{display:flex;flex-direction:column;gap:13px}
+.spec-item{
+  background:rgba(0,0,0,.3);
+  border:1px solid rgba(163,112,44,.18);
+  padding:16px 18px;
+  border-radius:8px;
+  transition:.25s;
+}
+.spec-item:hover{border-color:var(--cyan);background:rgba(0,240,255,.04)}
+.spec-item strong{
+  font-family:'Orbitron',sans-serif;
+  color:#fff;
+  font-size:13px;
+  display:block;
+  margin-bottom:6px;
+  letter-spacing:.4px;
+}
+.spec-item p{color:var(--light);font-size:13.5px;margin:0;line-height:1.55}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <a class="nav-link" href="university.html">MUoG</a>
+    <a class="nav-link" href="archive.html">G-ROCK ARCHIVE</a>
+    <a class="nav-link" href="ceuta.html">CEUTA</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <a onclick="setLang('en')" id="lang-en" class="active">EN</a>
+      <a onclick="setLang('es')" id="lang-es">ES</a>
+      <a onclick="setLang('fr')" id="lang-fr">FR</a>
+      <a onclick="setLang('pl')" id="lang-pl">PL</a>
+      <a onclick="setLang('ru')" id="lang-ru">RU</a>
+      <a onclick="setLang('nl')" id="lang-nl">NL</a>
+    </div>
+    <a href="index.html" class="return-hub" id="return-hub">⬅ Return to Hub</a>
+  </div>
+</nav>
+
+<header class="main-header">
+  <div class="brass-title">Monkeys University of Gibraltar</div>
+  <div class="brass-subtitle" id="campus-subtitle">Caribbean Campuses</div>
+
+  <div class="bridge-console">
+    <div class="bridge-line-wrap">
+      <div class="bridge-line"><div class="pulse-dot"></div></div>
+      <div class="bridge-label" id="bridge-label">MAIN CORE // GIBRALTAR SYNC — ACTIVE TRANS-ATLANTIC FIBER SYNC</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="campus-grid">
+    <div class="campus-card active" id="card-haiti" onclick="selectCampus('haiti')">
+      <div class="campus-icon">🛡️</div>
+      <h3 id="c1-title">Haiti Campus</h3>
+      <p>CAZALÉ / PORT-AU-PRINCE</p>
+    </div>
+    <div class="campus-card" id="card-jamaica" onclick="selectCampus('jamaica')">
+      <div class="campus-icon">📡</div>
+      <h3 id="c2-title">Jamaica Campus</h3>
+      <p>KINGSTON CORE</p>
+    </div>
+    <div class="campus-card" id="card-dominican" onclick="selectCampus('dominican')">
+      <div class="campus-icon">🌴</div>
+      <h3 id="c3-title">Dominican Republic Campus</h3>
+      <p>SANTO DOMINGO BASE</p>
+    </div>
+  </div>
+
+  <div class="command-console">
+    <div class="console-left">
+      <div class="haiti-quote" id="haiti-quote"></div>
+      <h2 id="disp-title">Haiti Campus — Cazalé</h2>
+      <span class="console-meta" id="disp-meta">MAJOR: REVOLUTIONARY HISTORY, POLITICAL THOUGHT &amp; SHADOW SYSTEMS</span>
+      <p class="lead" id="disp-desc"></p>
+      <div class="context-badge" id="disp-badge"></div>
+    </div>
+    <div class="console-right">
+      <h4 id="disp-right-title">ACADEMIC SPECIALIZATIONS</h4>
+      <div class="specialization-list" id="disp-specs"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const dataMatrix = {
+  haiti: {
+    titles: {
+      en:"Haiti Campus — Cazalé", es:"Campus de Haití — Cazalé", fr:"Campus d'Haïti — Cazalé",
+      pl:"Kampus Haiti — Cazalé", ru:"Кампус Гаити — Казале", nl:"Haïti Campus — Cazalé"
+    },
+    major: {
+      en:"MAJOR: REVOLUTIONARY HISTORY, POLITICAL THOUGHT &amp; SHADOW SYSTEMS",
+      es:"CARRERA: HISTORIA REVOLUCIONARIA, PENSAMIENTO POLÍTICO Y SISTEMAS DE SOMBRA",
+      fr:"FILIÈRE : HISTOIRE RÉVOLUTIONNAIRE, PENSÉE POLITIQUE ET SYSTÈMES DE L'OMBRE",
+      pl:"KIERUNEK: REVOLUTIONARY HISTORY, POLITICAL THOUGHT &amp; SHADOW SYSTEMS",
+      ru:"НАПРАВЛЕНИЕ: РЕВОЛЮЦИОННАЯ ИСТОРИЯ, ПОЛИТИЧЕСКАЯ МЫСЛЬ И ТЕНЕВЫЕ СИСТЕМЫ",
+      nl:"HOOFDVAK: REVOLUTIONAIRE GESCHIEDENIS, POLITIEKE FILOSOFIE EN SCHADUWSYSTEMEN"
+    },
+    desc: {
+      en:"A historic sanctuary bridging Polish, Gibraltar and Caribbean heritage. Deep archives investigate post-war survival, sovereignty models and the mechanisms of great-power interference.",
+      es:"Un santuario histórico que une la herencia polaca, gibraltareña y caribeña. Archivos profundos investigan la supervivencia de posguerra, los modelos de soberanía y los mecanismos de injerencia de las grandes potencias.",
+      fr:"Un sanctuaire historique reliant l'héritage polonais, gibraltarien et caribéen. Des archives approfondies étudient la survie d'après-guerre, les modèles de souveraineté et les mécanismes d'ingérence des grandes puissances.",
+      pl:"Historyczny azyl łączący dziedzictwo polskie, gibraltarskie i karaibskie. Głębokie archiwa badają powojenne przetrwanie, modele suwerenności i mechanizmy ingerencji mocarstw.",
+      ru:"Исторический приют, объединяющий польское, гибралтарское и карибское наследие. Глубокие архивы исследуют послевоенное выживание, модели суверенитета и механизмы вмешательства великих держав.",
+      nl:"Een historisch toevluchtsoord dat Pools, Gibraltarees en Caribisch erfgoed verbindt. Diepgaande archieven onderzoeken naoorlogse overleving, soevereiniteitsmodellen en de mechanismen van grootmachtinmenging."
+    },
+    badge: {
+      en:"Cazalé is a mountain village located 19 km from Port-au-Prince, known as the \"Polish Village\" of Haiti. It is inhabited by descendants of Polish legionnaires who, during the 1802 revolution, refused to suppress the uprising of rebellious slaves and instead joined them, fighting side by side for freedom. After the rebels' victory, Haiti's 1805 constitution granted all Poles remaining on the island the status of Noir (Black). At a time when the newly founded republic reserved land ownership and citizenship exclusively for Black people to protect the country from renewed colonial exploitation, this was an extraordinary legal privilege. Today, more than 200 years later, although skin colour has changed, the residents of Cazalé still visibly carry traits of European origin, such as blue eyes.",
+      es:"Cazalé es un pueblo de montaña situado a 19 km de Puerto Príncipe, conocido como el \"Pueblo Polaco\" de Haití. Está habitado por descendientes de legionarios polacos que, durante la revolución de 1802, se negaron a sofocar el levantamiento de los esclavos rebeldes y se unieron a ellos, luchando codo con codo por la libertad. Tras la victoria de los rebeldes, la constitución haitiana de 1805 otorgó a todos los polacos que permanecían en la isla el estatus de Noir (negro). En una época en que la recién fundada república reservaba la propiedad de la tierra y la ciudadanía exclusivamente a las personas negras para proteger al país de una nueva explotación colonial, se trataba de un privilegio legal extraordinario. Hoy, más de 200 años después, aunque el color de piel ha cambiado, los habitantes de Cazalé aún conservan rasgos visibles de origen europeo, como los ojos azules.",
+      fr:"Cazalé est un village de montagne situé à 19 km de Port-au-Prince, connu comme le « Village Polonais » d'Haïti. Il est habité par des descendants de légionnaires polonais qui, lors de la révolution de 1802, refusèrent de réprimer le soulèvement des esclaves rebelles et se joignirent à eux, combattant côte à côte pour la liberté. Après la victoire des rebelles, la constitution haïtienne d'1805 accorda à tous les Polonais restés sur l'île le statut de Noir. À une époque où la république nouvellement fondée réservait la propriété foncière et la citoyenneté exclusivement aux personnes noires afin de protéger le pays d'une nouvelle exploitation coloniale, il s'agissait d'un privilège juridique extraordinaire. Aujourd'hui, plus de 200 ans plus tard, bien que la couleur de peau ait changé, les habitants de Cazalé portent encore des traits visibles d'origine européenne, comme les yeux bleus.",
+      pl:"Cazalé to górska wioska położona 19 km od Port-au-Prince, znana jako \"Polska Wieś\" na Haiti. Zamieszkują ją potomkowie polskich legionistów, którzy podczas rewolucji w 1802 roku odmówili tłumienia powstania zbuntowanych niewolników i przyłączyli się do nich, walcząc ramie w ramię o wolność. Po zwycięstwie rebeliantów, w konstytucji Haiti z 1805 roku wszyscy Polacy pozostający na wyspie otrzymali status Noir (czarnych). W epoce, gdy nowo powstała republika zastrzegła prawo własności ziemi i obywatelstwa wyłącznie dla osób czarnoskórych w celu ochrony kraju przed ponowną kolonialną eksploatacją, był to wyjątkowy przywilej prawny. Dziś, po ponad 200 latach, mimo że kolor skóry uległ zmianie, u mieszkańców Cazalé nadal widoczne są cechy europejskiego pochodzenia, takie jak niebieskie oczy.",
+      ru:"Казале — горная деревня, расположенная в 19 км от Порт-о-Пренса, известная как «польская деревня» Гаити. В ней живут потомки польских легионеров, которые во время революции 1802 года отказались подавлять восстание взбунтовавшихся рабов и присоединились к ним, сражаясь плечом к плечу за свободу. После победы повстанцев конституция Гаити 1805 года предоставила всем полякам, оставшимся на острове, статус Noir (чёрных). В эпоху, когда новообразованная республика закрепляла право собственности на землю и гражданство исключительно за чернокожими, чтобы защитить страну от повторной колониальной эксплуатации, это было исключительной правовой привилегией. Сегодня, спустя более 200 лет, несмотря на то что цвет кожи изменился, у жителей Казале всё ещё заметны черты европейского происхождения, такие как голубые глаза.",
+      nl:"Cazalé is een bergdorp op 19 km van Port-au-Prince, bekend als het \"Poolse Dorp\" van Haïti. Het wordt bewoond door afstammelingen van Poolse legionairs die zich tijdens de revolutie van 1802 weigerden de opstand van in opstand gekomen slaven te onderdrukken en zich in plaats daarvan bij hen aansloten, zij aan zij vechtend voor vrijheid. Na de overwinning van de rebellen kregen alle Polen die op het eiland bleven, in de Haïtiaanse grondwet van 1805 de status van Noir (zwart). In een tijd waarin de pas opgerichte republiek grondbezit en burgerschap uitsluitend voorbehield aan zwarte mensen om het land te beschermen tegen hernieuwde koloniale uitbuiting, was dit een buitengewoon juridisch voorrecht. Vandaag, meer dan 200 jaar later, dragen de inwoners van Cazalé nog steeds zichtbare Europese trekken, zoals blauwe ogen, ook al is hun huidskleur veranderd."
+    },
+    quote: {
+      en:"\u201cIn Haiti, we can find humanity.\u201d\n— Prof. Sugriva",
+      es:"\u00abEn Hait\u00ed podemos encontrar la humanidad.\u00bb\n— Prof. Sugriva",
+      fr:"\u00ab En Ha\u00efti, nous pouvons trouver l'humanit\u00e9. \u00bb\n— Professor Sugriva",
+      pl:"\u201eNa Haiti mo\u017cemy odnale\u017a\u0107 cz\u0142owiecze\u0144stwo.\u201d\n— Prof. Sugriva",
+      ru:"\u00abНа Гаити мы можем найти человечность.\u00bb\n— профессор Сугрива",
+      nl:"\u201cIn Haïti kunnen we menselijkheid vinden.\u201d\n— Professor Sugriva"
+    },
+    specs: [
+      {
+        t:{en:"Shadow Systems Studies",es:"Estudios de Sistemas de Sombra",fr:"Études des Systèmes de l'Ombre",pl:"Badania Systemów Cienia",ru:"Исследования Теневых Систем",nl:"Schaduwsystemenstudies"},
+        d:{
+          en:"Deconstructing destabilization campaigns by the CIA, DGSE, and MI6—focusing on their destructive impact on Haiti, the creation of powerful criminal organizations through proxy networks, and armed groups such as Jimmy \"Barbecue\" Cherizier's coalition.",
+          es:"Deconstrucción de las campañas de desestabilización de la CIA, la DGSE y el MI6, centrándose en su impacto destructivo en Haití, la creación de poderosas organizaciones criminales a través de redes de apoderados y grupos armados como la coalición de Jimmy \"Barbecue\" Cherizier.",
+          fr:"Déconstruction des campagnes de déstabilisation menées par la CIA, la DGSE et le MI6 — en se concentrant sur leur impact destructeur sur Haïti, la création d'organisations criminelles puissantes par le biais de réseaux mandataires et de groupes armés tels que la coalition de Jimmy « Barbecue » Cherizier.",
+          pl:"Dekompozycja kampanii destabilizacyjnych prowadzonych przez CIA, DGSE i MI6 — ze szczególnym uwzględnieniem ich destrukcyjnego wpływu na Haiti, tworzenia potężnych organizacji przestępczych poprzez sieci pełnomocników oraz grup zbrojnych, takich jak koalicja Jimmy'ego „Barbecue” Cheriziera.",
+          ru:"Деконструкция дестабилизационных кампаний ЦРУ, DGSE и MI6 с акцентом на их разрушительное воздействие на Гаити, создание мощных преступных организаций через прокси-сети и вооруженные группы, такие как коалиция Джимми «Барбекю» Шеризье.",
+          nl:"Deconstructie van destabilisatiecampagnes door de CIA, DGSE en MI6 — met de nadruk op hun destructieve impact op Haïti, de creatie van krachtige criminele organisaties via proxynetwerken en gewapende groepen zoals de coalitie van Jimmy \"Barbecue\" Cherizier."
+        }
+      },
+      {
+        t:{en:"Haitian Revolution &amp; Legacy",es:"Revolución Haitiana y Legado",fr:"Révolution Haïtienne et Héritage",pl:"Rewolucja Haitańska i Dziedzictwo",ru:"Гаитянская Революция и Наследие",nl:"Haïtiaanse Revolutie en Erfenis"},
+        d:{en:"Sovereignty analytics based on the legal precedents of the 1804 Declaration and the 1805 Constitution — the Noir status.",
+           es:"Análisis de soberanía basado en los precedentes legales de la Declaración de 1804 y la Constitución de 1805 — el estatus Noir.",
+           fr:"Analyse de la souveraineté fondée sur les précédents juridiques de la Déclaration de 1804 et de la Constitution de 1805 — le statut Noir.",
+           pl:"Analiza suwerenności na podstawie precedensów prawnych z Deklaracji z 1804 r. oraz Konstytucji z 1805 r. - status Noir.",
+           ru:"Анализ суверенитета на основе правовых прецедентов Декларации 1804 года и Конституции 1805 года — статус Noir.",
+           nl:"Soevereiniteitsanalyse op basis van de juridische precedenten van de Verklaring van 1804 en de Grondwet van 1805 — de Noir-status."}
+      },
+      {
+        t:{en:"Decolonization &amp; Freedom",es:"Descolonización y Libertad",fr:"Décolonisation et Liberté",pl:"Dekolonizacja i Wolność",ru:"Деколонизация и Свобода",nl:"Dekolonisatie en Vrijheid"},
+        d:{en:"Building self-governance models free from foreign oversight structures.",
+           es:"Elaboración de modelos de autogobierno libres de estructuras de supervisión extranjeras.",
+           fr:"Élaboration de modèles d'autogouvernance libres de toute structure de supervision étrangère.",
+           pl:"Tworzenie modeli samorządności wolnych od zagranicznych struktur nadzorczych.",
+           ru:"Разработка моделей самоуправления, свободных от иностранных надзорных структур.",
+           nl:"Ontwikkeling van zelfbestuursmodellen die vrij zijn van buitenlandse toezichtstructuren."}
+      },
+      {
+        t:{en:"Polish-Haitian Alliance",es:"Alianza Polaco-Haitiana",fr:"Alliance Polono-Haïtienne",pl:"Sojusz Polsko-Haitański",ru:"Польско-Гаитянский Союз",nl:"Pools-Haïtiaanse Alliantie"},
+        d:{en:"Study of the historic alliance, legal exceptions and cultural legacy in Haitian law and the village of Cazalé.",
+           es:"Estudio de la alianza histórica, las excepciones legales y el legado cultural en la legislación haitiana y el pueblo de Cazalé.",
+           fr:"Étude de l'alliance historique, des exceptions juridiques et de l'héritage culturel dans la législation haïtienne et le village de Cazalé.",
+           pl:"Badanie historycznego sojuszu, wyjątków prawnych i dziedzictwa kulturowego w prawodawstwie Haiti oraz wiosce Cazalé.",
+           ru:"Изучение исторического союза, правовых исключений и культурного наследия в гаитянском законодательстве и деревне Казале.",
+           nl:"Studie van de historische alliantie, juridische uitzonderingen en culturele erfenis in de Haïtiaanse wetgeving en het dorp Cazalé."}
+      },
+      {
+        t:{en:"Political Archives &amp; Resistance",es:"Archivos Políticos y Resistencia",fr:"Archives Politiques et Résistance",pl:"Archiwa Polityczne i Opór",ru:"Политические Архивы и Сопротивление",nl:"Politieke Archieven en Verzet"},
+        d:{en:"Systematizing the documentation of anti-imperialist underground movements across the Caribbean.",
+           es:"Sistematización de la documentación de los movimientos clandestinos antiimperialistas en el Caribe.",
+           fr:"Systématisation de la documentation des mouvements clandestins anti-impérialistes dans les Caraïbes.",
+           pl:"Systematyzacja dokumentacji antyimperialistycznych ruchów podziemnych na Karaibach.",
+           ru:"Систематизация документации антиимпериалистических подпольных движений на Карибах.",
+           nl:"Systematisering van de documentatie van anti-imperialistische ondergrondse bewegingen in het Caribisch gebied."}
+      }
+    ]
+  },
+  jamaica: {
+    titles: {
+      en:"Jamaica Campus — Kingston", es:"Campus de Jamaica — Kingston", fr:"Campus de la Jamaïque — Kingston",
+      pl:"Kampus Jamajka — Kingston", ru:"Кампус Ямайка — Кингстон", nl:"Jamaica Campus — Kingston"
+    },
+    major: {
+      en:"MAJOR: ART, MUSIC, CULTURAL SYSTEMS &amp; RESISTANCE PHILOSOPHY",
+      es:"CARRERA: ARTE, MÚSICA, SISTEMAS CULTURALES Y FILOSOFÍA DE LA RESISTENCIA",
+      fr:"FILIÈRE : ART, MUSIQUE, SYSTÈMES CULTURELS ET PHILOSOPHIE DE LA RÉSISTANCE",
+      pl:"KIERUNEK: ART, MUSIC, CULTURAL SYSTEMS &amp; RESISTANCE PHILOSOPHY",
+      ru:"НАПРАВЛЕНИЕ: ИСКУССТВО, МУЗЫКА, КУЛЬТУРНЫЕ СИСТЕМЫ И ФИЛОСОФИЯ СОПРОТИВЛЕНИЯ",
+      nl:"HOOFDVAK: KUNST, MUZIEK, CULTURELE SYSTEMEN EN VERZETSFILOSOFIE"
+    },
+    desc: {
+      en:"Functions as the world capital of Reggae, Ska and Dancehall. The campus operates as a living laboratory measuring acoustic impact, lyrical combat and the survival dynamics of sound systems.",
+      es:"Funciona como la capital mundial del Reggae, el Ska y el Dancehall. El campus opera como un laboratorio vivo que mide el impacto acústico, el combate lírico y la dinámica de supervivencia de los sound systems.",
+      fr:"Fonctionne comme la capitale mondiale du Reggae, du Ska et du Dancehall. Le campus opère comme un laboratoire vivant mesurant l'impact acoustique, le combat lyrique et la dynamique de survie des sound systems.",
+      pl:"Działa jako światowa stolica Reggae, Ska i Dancehallu. Kampus funkcjonuje jako żywe laboratorium mierzące wpływ akustyczny, walkę liryczną i dynamikę przetrwania sound systemów.",
+      ru:"Функционирует как мировая столица регги, ска и дэнсхолла. Кампус работает как живая лаборатория, измеряющая акустическое воздействие, лирическую борьбу и динамику выживания саунд-систем.",
+      nl:"Functioneert als de wereldhoofdstad van Reggae, Ska en Dancehall. De campus werkt als een levend laboratorium dat akoestische impact, lyrische strijd en de overlevingsdynamiek van soundsystems meet."
+    },
+    badge: {
+      en:"Kingston's street culture produced some of the most geopolitically powerful musical genres in history. Born from anti-colonial resistance, sound systems served not only as entertainment but as alternative media, communication networks and ideological weapons against systemic oppression. Through analogue acoustics, heavyweight bass and independent recording studios, Jamaica's culture transformed artistic expression into a global movement for human rights and spiritual sovereignty.",
+      es:"La cultura callejera de Kingston produjo algunos de los géneros musicales geopolíticamente más poderosos de la historia. Nacidos de la resistencia anticolonial, los sound systems sirvieron no solo como entretenimiento, sino como medios alternativos, redes de comunicación y armas ideológicas contra la opresión sistémica. A través de la acústica analógica, un bajo contundente y estudios de grabación independientes, la cultura jamaicana transformó la expresión artística en un movimiento global por los derechos humanos y la soberanía espiritual.",
+      fr:"La culture de rue de Kingston a produit certains des genres musicaux les plus puissants géopolitiquement de l'histoire. Nés de la résistance anticoloniale, les sound systems ont servi non seulement de divertissement, mais aussi de médias alternatifs, de réseaux de communication et d'armes idéologiques contre l'oppression systémique. Grâce à l'acoustique analogique, à une basse puissante et à des studios d'enregistrement indépendants, la culture jamaïcaine a transformé l'expression artistique en un mouvement mondial pour les droits humains et la souveraineté spirituelle.",
+      pl:"Uliczna kultura Kingston stworzyła jedne z najbardziej potężnych geopolitycznie gatunków muzycznych w historii. Zrodzone z antykolonialnego oporu sound systemy służyły nie tylko jako rozrywka, ale jako alternatywne media, sieci komunikacyjne i broń ideologiczna przeciwko uciskowi systemowemu. Poprzez analogową akustykę, potężny bas i niezależne studia nagraniowe, kultura Jamajki przekształciła ekspresję artystyczną w globalny ruch na rzecz praw człowieka i suwerenności duchowej.",
+      ru:"Уличная культура Кингстона породила одни из самых геополитически мощных музыкальных жанров в истории. Возникшие из антиколониального сопротивления саунд-системы служили не только развлечением, но и альтернативными медиа, коммуникационными сетями и идеологическим оружием против системного угнетения. Благодаря аналоговой акустике, мощному басу и независимым звукозаписывающим студиям культура Ямайки превратила художественное самовыражение в глобальное движение за права человека и духовный суверенитет.",
+      nl:"De straatcultuur van Kingston bracht enkele van de geopolitiek machtigste muziekgenres uit de geschiedenis voort. Geboren uit antikoloniaal verzet, dienden soundsystems niet alleen als entertainment, maar ook als alternatieve media, communicatienetwerken en ideologische wapens tegen systemische onderdrukking. Door analoge akoestiek, zware bas en onafhankelijke opnamestudio's transformeerde de Jamaicaanse cultuur artistieke expressie tot een wereldwijde beweging voor mensenrechten en spiritualiteit."
+    },
+    quote: { en:"", es:"", fr:"", pl:"", ru:"", nl:"" },
+    specs: [
+      {
+        t:{en:"Caribbean Musicology",es:"Musicología del Caribe",fr:"Musicologie Caribéenne",pl:"Muzykologia Karaibska",ru:"Карибская Музыковедение",nl:"Caribische Musicologie"},
+        d:{en:"The evolution of Ska, Rocksteady, Reggae and Dub as socio-political technologies.",
+           es:"La evolución del Ska, el Rocksteady, el Reggae y el Dub como tecnologías sociopolíticas.",
+           fr:"L'évolution du Ska, du Rocksteady, du Reggae et du Dub en tant que technologies sociopolitiques.",
+           pl:"Ewolucja Ska, Rocksteady, Reggae i Dub jako technologii społeczno-politycznych.",
+           ru:"Эволюция ска, рокстеди, регги и даба как социально-политических технологий.",
+           nl:"De evolutie van Ska, Rocksteady, Reggae en Dub als sociaal-politieke technologieën."}
+      },
+      {
+        t:{en:"Bob Marley Studies",es:"Estudios de Bob Marley",fr:"Études Bob Marley",pl:"Bob Marley Studies",ru:"Исследования Боба Марли",nl:"Bob Marley Studies"},
+        d:{en:"Music as political philosophy. The struggle for civil rights, Pan-African unity and equality.",
+           es:"La música como filosofía política. La lucha por los derechos civiles, la unidad panafricana y la igualdad.",
+           fr:"La musique comme philosophie politique. La lutte pour les droits civiques, l'unité panafricaine et l'égalité.",
+           pl:"Muzyka jako filozofia polityczna. Walka o prawa obywatelskie, jedność panafrykańską i równość.",
+           ru:"Музыка как политическая философия. Борьба за гражданские права, панафриканское единство и равенство.",
+           nl:"Muziek als politieke filosofie. De strijd voor burgerrechten, pan-Afrikaanse eenheid en gelijkheid."}
+      },
+      {
+        t:{en:"Visual Arts &amp; Culture",es:"Artes Visuales y Cultura",fr:"Arts Visuels et Culture",pl:"Sztuki Wizualne i Kultura",ru:"Изобразительное Искусство и Культура",nl:"Beeldende Kunst en Cultuur"},
+        d:{en:"Street art, iconography and the visual symbolism of Caribbean public space.",
+           es:"Arte urbano, iconografía y simbolismo visual del espacio público caribeño.",
+           fr:"L'art urbain, l'iconographie et le symbolisme visuel de l'espace public caribéen.",
+           pl:"Sztuka uliczna, ikonografia i symbolika wizualna przestrzeni publicznej Karaibów.",
+           ru:"Уличное искусство, иконография и визуальная символика общественного пространства Карибов.",
+           nl:"Straatkunst, iconografie en de visuele symboliek van de Caribische openbare ruimte."}
+      },
+      {
+        t:{en:"Sound System Physics",es:"Física de los Sound Systems",fr:"Physique des Sound Systems",pl:"Fizyka Sound Systemów",ru:"Физика Саунд-Систем",nl:"Soundsystem-fysica"},
+        d:{en:"Engineering, acoustics and the socio-economics of autonomous broadcast systems.",
+           es:"Ingeniería, acústica y socioeconomía de los sistemas de transmisión autónomos.",
+           fr:"Ingénierie, acoustique et socio-économie des systèmes de diffusion autonomes.",
+           pl:"Inżynieria, akustyka i socjo-ekonomia autonomicznych systemów nadawczych.",
+           ru:"Инженерия, акустика и социально-экономические аспекты автономных вещательных систем.",
+           nl:"Techniek, akoestiek en sociaal-economie van autonome uitzendsystemen."}
+      }
+    ]
+  },
+  dominican: {
+    titles: {
+      en:"Dominican Republic Campus — Santo Domingo", es:"Campus de República Dominicana — Santo Domingo", fr:"Campus de République Dominicaine — Saint-Domingue",
+      pl:"Kampus Republiki Dominikańskiej — Santo Domingo", ru:"Кампус Доминиканской Республики — Санто-Доминго", nl:"Dominicaanse Republiek Campus — Santo Domingo"
+    },
+    major: {
+      en:"MAJOR: TOURISM, AGRICULTURE, SUSTAINABLE ECONOMY &amp; RESOURCE LOGISTICS",
+      es:"CARRERA: TURISMO, AGRICULTURA, ECONOMÍA SOSTENIBLE Y LOGÍSTICA DE RECURSOS",
+      fr:"FILIÈRE : TOURISME, AGRICULTURE, ÉCONOMIE DURABLE ET LOGISTIQUE DES RESSOURCES",
+      pl:"KIERUNEK: TOURISM, AGRICULTURE, SUSTAINABLE ECONOMY &amp; RESOURCE LOGISTICS",
+      ru:"НАПРАВЛЕНИЕ: ТУРИЗМ, СЕЛЬСКОЕ ХОЗЯЙСТВО, УСТОЙЧИВАЯ ЭКОНОМИКА И ЛОГИСТИКА РЕСУРСОВ",
+      nl:"HOOFDVAK: TOERISME, LANDBOUW, DUURZAME ECONOMIE EN RESOURCELOGISTIEK"
+    },
+    desc: {
+      en:"The oldest European-founded metropolis in the Americas researches tropical agroecology, sovereign tourism and macroeconomic resilience networks.",
+      es:"La metrópolis de fundación europea más antigua de América investiga la agroecología tropical, el turismo soberano y las redes de resiliencia macroeconómica.",
+      fr:"La plus ancienne métropole d'origine européenne des Amériques étudie l'agroécologie tropicale, le tourisme souverain et les réseaux de résilience macroéconomique.",
+      pl:"Najstarsza europejska metropolia w Amerykach bada agroekologię tropikalną, suwerenną turystykę oraz sieci odporności makroekonomicznej.",
+      ru:"Старейший основанный европейцами мегаполис в Америке исследует тропическую агроэкологию, суверенный туризм и сети макроэкономической устойчивости.",
+      nl:"De oudste door Europeanen gestichte metropool in Amerika onderzoekt tropische agro-ecologie, soeverein toerisme en macro-economische veerkrachtnetwerken."
+    },
+    badge: {
+      en:"Santo Domingo serves as a testing ground for non-colonial economic models. While the Punta Cana region represents globalized, enclave-style mega-tourism built on foreign capital, this campus examines the friction between luxury resorts and local economic sovereignty. The centre focuses on optimizing resource logistics, transforming tourist corridors into sustainable value networks and protecting the ecosystem.",
+      es:"Santo Domingo sirve como campo de pruebas para modelos económicos no coloniales. Mientras que la región de Punta Cana representa un megaturismo globalizado y de enclave basado en capital extranjero, este campus examina la fricción entre los resorts de lujo y la soberanía económica local. El centro se centra en optimizar la logística de recursos, transformar los corredores turísticos en redes de valor sostenibles y proteger el ecosistema.",
+      fr:"Saint-Domingue sert de terrain d'essai pour des modèles économiques non coloniaux. Alors que la région de Punta Cana représente un megatourisme mondialisé de type enclave, fondé sur des capitaux étrangers, ce campus examine les frictions entre les complexes de luxe et la souveraineté économique locale. Le centre se concentre sur l'optimisation de la logistique des ressources, la transformation des corridors turistiques en réseaux de valeur durables et la protection de l'écosystème.",
+      pl:"Santo Domingo służy jako pole doświadczalne dla niekolonialnych modeli gospodarczych. Podczas gdy rejon Punta Cana reprezentuje zglobalizowaną, enklawową gigantyczną turystykę opartą na kapitałach zagranicznych, kampus ten analizuje tarcia między luksusowymi resortami a lokalną suwerennością ekonomiczną. Ośrodek skupia się na optymalizacji logistyki zasobów, przekształcaniu korytarzy turystycznych w zrównoważone sieci wartości oraz ochronie ekosystemu.",
+      ru:"Санто-Доминго служит испытательным полигоном для неколониальных экономических моделей. В то время как регион Пунта-Каны представляет собой глобализированный анклавный мегатуризм, построенный на иностранном капитале, этот кампус изучает трения между роскошными курортами и местным экономическим суверенитетом. Центр фокусируется на оптимизации логистики ресурсов, превращении туристических коридоров в устойчивые сети создания стоимости и защите экосистемы.",
+      nl:"Santo Domingo dient als proefterrein voor niet-koloniale economische modellen. Terwijl de regio Punta Cana staat voor een geglobaliseerd, enclave-achtig megatoerisme gebaseerd op buitenlands kapitaal, onderzoekt deze campus de wrijving tussen luxeresorts en lokale economische soevereiniteit. Het centrum richt zich op het optimaliseren van de resourcelogistiek, het omvormen van toeristische corridors tot duurzame waardenetwerken en de bescherming van het ecosysteem."
+    },
+    quote: { en:"", es:"", fr:"", pl:"", ru:"", nl:"" },
+    specs: [
+      {
+        t:{en:"Tourism Management",es:"Gestión de Turismo",fr:"Gestion du Tourisme",pl:"Zarządzanie Turystyką",ru:"Управление Туризмом",nl:"Toerismebeheer"},
+        d:{en:"Analysis of Punta Cana resort logistics compared with sustainable local tourism.",
+           es:"Análisis de la logística de los resorts de Punta Cana en comparación con el turismo local sostenible.",
+           fr:"Analyse de la logistique des complexes de Punta Cana comparée au tourisme local durable.",
+           pl:"Analiza logistyki kurortów Punta Cana w zestawieniu ze zrównoważoną turystyką lokalną.",
+           ru:"Анализ логистики курортов Пунта-Каны в сравнении с устойчивым местным туризмом.",
+           nl:"Analyse van de resortlogistiek van Punta Cana in vergelijking met duurzaam lokaal toerisme."}
+      },
+      {
+        t:{en:"Tropical Agroecology",es:"Agroecología Tropical",fr:"Agroécologie Tropicale",pl:"Agroekologia Tropikalna",ru:"Тропическая Агроэкология",nl:"Tropische Agro-ecologie"},
+        d:{en:"Designing secure food systems resilient to corporate monopolies.",
+           es:"Diseño de sistemas alimentarios seguros resistentes a los monopolios corporativos.",
+           fr:"Conception de systèmes alimentaires sûrs et résistants aux monopoles des entreprises.",
+           pl:"Projektowanie bezpiecznych systemów żywnościowych odpornych na korporacyjne monopole.",
+           ru:"Разработка безопасных продовольственных систем, устойчивых к корпоративным монополиям.",
+           nl:"Ontwerp van veilige voedselsystemen die bestand zijn tegen bedrijfsmonopolies."}
+      },
+      {
+        t:{en:"Sustainable Development",es:"Desarrollo Sostenible",fr:"Développement Durable",pl:"Zrównoważony Rozwój",ru:"Устойчивое Развитие",nl:"Duurzame Ontwikkeling"},
+        d:{en:"Macroeconomic resilience, green infrastructure and sovereign logistics corridors.",
+           es:"Resiliencia macroeconómica, infraestructura verde y corredores logísticos soberanos.",
+           fr:"Résilience macroéconomique, infrastructure verte et corridors logistiques souverains.",
+           pl:"Odporność makroekonomiczna, zielona infrastruktura i suwerenne korytarze logistyczne.",
+           ru:"Макроэкономическая устойчивость, зеленая инфраструктура и суверенные логистические коридоры.",
+           nl:"Macro-economische veerkracht, groene infrastructuur en soevereine logistieke corridors."}
+      }
+    ]
+  }
+};
+
+let currentLang = "en";
+let currentCampus = "haiti";
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll(".lang-switch a").forEach(a => a.classList.remove("active"));
+  const langEl = document.getElementById("lang-" + lang);
+  if (langEl) langEl.classList.add("active");
+  renderCampus();
+}
+
+function selectCampus(campus) {
+  if (!dataMatrix[campus]) return;
+  currentCampus = campus;
+
+  document.querySelectorAll(".campus-card").forEach(card => {
+    card.classList.remove("active");
+  });
+
+  const selectedCard = document.getElementById("card-" + campus);
+  if (selectedCard) {
+    selectedCard.classList.add("active");
+  }
+
+  renderCampus();
+
+  setTimeout(() => {
+    const panel = document.querySelector(".command-console");
+    if (panel) {
+      panel.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest"
+      });
+    }
+  }, 100);
+}
+
+function renderCampus() {
+  const item = dataMatrix[currentCampus];
+  if (!item) return;
+
+  const c1 = document.getElementById("c1-title");
+  const c2 = document.getElementById("c2-title");
+  const c3 = document.getElementById("c3-title");
+  if(c1) c1.innerHTML = dataMatrix.haiti.titles[currentLang] || dataMatrix.haiti.titles.en;
+  if(c2) c2.innerHTML = dataMatrix.jamaica.titles[currentLang] || dataMatrix.jamaica.titles.en;
+  if(c3) c3.innerHTML = dataMatrix.dominican.titles[currentLang] || dataMatrix.dominican.titles.en;
+
+  document.getElementById("disp-title").innerHTML = item.titles[currentLang] || item.titles.en;
+  document.getElementById("disp-meta").innerHTML = item.major[currentLang] || item.major.en;
+  document.getElementById("disp-desc").innerHTML = item.desc[currentLang] || item.desc.en;
+  document.getElementById("disp-badge").innerHTML = item.badge[currentLang] || item.badge.en;
+
+  const quoteBox = document.getElementById("haiti-quote");
+  const qText = item.quote ? (item.quote[currentLang] || item.quote.en) : "";
+  if (qText && qText.trim() !== "") {
+    quoteBox.innerHTML = qText;
+    quoteBox.classList.add("show");
+  } else {
+    quoteBox.innerHTML = "";
+    quoteBox.classList.remove("show");
+  }
+
+  const specList = document.getElementById("disp-specs");
+  specList.innerHTML = "";
+  item.specs.forEach(spec => {
+    const div = document.createElement("div");
+    div.className = "spec-item";
+    div.innerHTML = `
+      <strong>${spec.t[currentLang] || spec.t.en}</strong>
+      <p>${spec.d[currentLang] || spec.d.en}</p>
+    `;
+    specList.appendChild(div);
+  });
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  renderCampus();
+});
+</script>
+</body>
+</html>
+
+

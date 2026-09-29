@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G-Rock Live Feed Systems</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Share+Tech+Mono&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #05070d;
+            color: #e6e6e6;
+            overflow: hidden;
+        }
+        header {
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0b0f18;
+            border-bottom: 1px solid #1f2a3a;
+        }
+        header b {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            color: #4aa3ff;
+        }
+        header a {
+            font-family: 'Share Tech Mono', monospace;
+            color: #8a99ad;
+            text-decoration: none;
+            border: 1px solid #1f2a3a;
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+        header a:hover { color: #4aa3ff; border-color: #4aa3ff; }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            height: calc(100vh - 67px);
+            gap: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .panel {
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid #1f2a3a;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #4aa3ff;
+            font-size: 18px;
+            margin-top: 0;
+            letter-spacing: 1px;
+        }
+        .status-row {
+            font-family: 'Share Tech Mono', monospace;
+            margin-bottom: 15px;
+        }
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .green { background: #0f3d2e; color: #3dff9c; }
+        .yellow { background: #3d3410; color: #ffd24a; }
+        .red { background: #3d1010; color: #ff5c5c; }
+
+        .data-stream {
+            font-family: 'Share Tech Mono', monospace;
+            padding: 10px;
+            border-left: 3px solid #4aa3ff;
+            background: #0c111c;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        button {
+            background: #111827;
+            border: 1px solid #4aa3ff;
+            color: #4aa3ff;
+            font-family: 'Share Tech Mono', monospace;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+        button:hover { background: #4aa3ff; color: #000; }
+        .critical-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            color: #3dff9c;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <b>G-ROCK REAL-TIME MONITOR FEED</b>
+    <div><a href="index.html">MAINFRAME DASHBOARD</a></div>
+</header>
+
+<div class="container">
+    <!-- ECONOMY LAYER -->
+    <div class="panel">
+        <h2>Financial Telemetry Layer (Bank Core)</h2>
+        <div class="status-row">
+            Network Integrity: <span id="ecoStatus" class="badge green">STABLE</span>
+        </div>
+        <div class="data-stream">Currency Circulation Vector: MP£ NORMAL FLOW</div>
+        <div class="data-stream">Liquid Capital Index: <span id="liq">100</span></div>
+        <button onclick="simulateShock()">Simulate Market Threat Vector</button>
+    </div>
+
+    <!-- GOVERNANCE LAYER -->
+    <div class="panel">
+        <h2>Legislative Telemetry Layer (Parliament Core)</h2>
+        <div class="status-row">
+            Consensus State: <span id="govStatus" class="badge green">STABLE</span>
+        </div>
+        <div class="data-stream">Sovereign Validation Matrix: SECURED</div>
+        <div class="data-stream">Wojtek Bear Emergency Overrule Security: ACTIVE</div>
+        <button onclick="simulateCrisis()">Simulate Institutional Crisis</button>
+    </div>
+
+    <!-- ACADEMIA LAYER -->
+    <div class="panel">
+        <h2>Sovereign Knowledge Layer (University Core)</h2>
+        <div class="status-row">
+            Research Validation Engine: <span id="uniStatus" class="badge green">STABLE</span>
+        </div>
+        <div class="data-stream">Data Dissemination Pipeline: OPTIMIZED</div>
+        <div class="data-stream">Professor Sugriva Executive Command: CONFIRMED</div>
+        <button onclick="simulateBoost()">Inject Innovation Stimulus</button>
+    </div>
+
+    <!-- MAIN RESILIENT CORE LAYER -->
+    <div class="panel" style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
+        <h2 style="text-align:center;">GLOBAL SYSTEM INTEGRITY INDEX</h2>
+        <div id="coreState" class="critical-value">100%</div>
+        <p style="font-family:'Share Tech Mono', monospace; color:#8a99ad; margin-top:15px;">All internal system components synced with G-System architecture.</p>
+    </div>
+</div>
+
+<script>
+let globalIntegrity = 100;
+let baseLiquidity = 100;
+
+function syncGlobalConsole() {
+    const stateEl = document.getElementById("coreState");
+    stateEl.innerText = globalIntegrity + "%";
+    document.getElementById("liq").innerText = baseLiquidity;
+
+    if (globalIntegrity > 75) stateEl.style.color = "#3dff9c";
+    else if (globalIntegrity > 45) stateEl.style.color = "#ffd24a";
+    else stateEl.style.color = "#ff5c5c";
+}
+
+function simulateShock() {
+    baseLiquidity -= 25;
+    globalIntegrity -= 10;
+    
+    const eco = document.getElementById("ecoStatus");
+    eco.innerText = "VOLATILE";
+    eco.className = "badge yellow";
+    syncGlobalConsole();
+}
+
+function simulateCrisis() {
+    globalIntegrity -= 20;
+    
+    const gov = document.getElementById("govStatus");
+    gov.innerText = "UNSTABLE";
+    gov.className = "badge red";
+    syncGlobalConsole();
+}
+
+function simulateBoost() {
+    globalIntegrity = Math.min(100, globalIntegrity + 5);
+    
+    const uni = document.getElementById("uniStatus");
+    uni.innerText = "OVERACTIVE";
+    uni.className = "badge yellow";
+    syncGlobalConsole();
+}
+</script>
+
+</body>
+</html>

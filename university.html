@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monkeys University of Gibraltar // MUoG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0d14;--bg2:#121621;--panel:#1a1f2e;--panel2:#23293b;--line:#2a3142;--red:#e50914;--gold:#fbbf24;--gold2:#c9922a;--brown:#6b4a2f;--brown-light:#8a6238;--white:#ffffff;--gray:#94a3b8;--light-gray:#cbd5e1;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.background{position:fixed;top:0;left:0;right:0;bottom:0;z-index:-1;overflow:hidden}
+.background::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 20%,rgba(251,191,36,0.10) 0%,transparent 50%),radial-gradient(circle at 70% 80%,rgba(229,9,20,0.08) 0%,transparent 50%),radial-gradient(circle at 50% 50%,rgba(107,74,47,0.10) 0%,transparent 60%);animation:bgMove 20s ease-in-out infinite}
+@keyframes bgMove{0%,100%{transform:translate(0,0)} 50%{transform:translate(-2%,2%)}}
+
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:20px 4%;background:linear-gradient(180deg,rgba(11,13,20,0.95) 0%,rgba(11,13,20,0.85) 100%);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.05);flex-wrap:wrap;gap:14px}
+.nav-left{display:flex;align-items:center;gap:20px}
+.nav-logo{width:40px;height:40px;background:linear-gradient(135deg,var(--red),var(--brown));border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;color:var(--white);box-shadow:0 4px 20px rgba(229,9,20,0.4)}
+.nav-brand{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:700;color:var(--white);letter-spacing:2px;text-transform:uppercase;background:linear-gradient(90deg,var(--white),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-right{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.lang-switch{display:flex;gap:6px;background:var(--panel);padding:6px;border-radius:8px;border:1px solid var(--line);flex-wrap:wrap}
+.lang-switch a{color:var(--gray);font-size:12px;font-weight:700;padding:8px 12px;border-radius:6px;transition:all 0.3s;text-transform:uppercase;letter-spacing:1px;cursor:pointer}
+.lang-switch a:hover,.lang-switch a.active{color:#1a1608;background:var(--gold);box-shadow:0 4px 15px rgba(251,191,36,0.4)}
+.return-hub{display:flex;align-items:center;gap:8px;padding:10px 20px;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--gray);font-size:13px;font-weight:600;transition:all 0.3s}
+.return-hub:hover{color:var(--white);border-color:var(--gold);background:rgba(251,191,36,0.12);box-shadow:0 4px 20px rgba(251,191,36,0.25)}
+
+/* ============ HERO ============ */
+.uni-hero{position:relative;padding:150px 4% 60px;text-align:center;overflow:hidden}
+.uni-hero-bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 0%, rgba(251,191,36,0.10), transparent 45%),linear-gradient(180deg, rgba(11,13,20,0.2) 0%, var(--bg) 100%);pointer-events:none}
+.uni-title{position:relative;z-index:1;font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:2px;font-size:clamp(20px,4.4vw,52px);white-space:nowrap;color:var(--gold);text-shadow:0 0 30px rgba(251,191,36,.4);margin-bottom:18px}
+.uni-disclaimer{position:relative;z-index:1;max-width:760px;margin:0 auto 40px;font-size:12.5px;color:var(--gray);line-height:1.7;font-style:italic}
+
+.nav-tiles{position:relative;z-index:1;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;max-width:1100px;margin:0 auto}
+@media(max-width:900px){.nav-tiles{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.nav-tiles{grid-template-columns:repeat(2,1fr)}}
+.nav-tile{display:flex;align-items:center;justify-content:center;text-align:center;padding:20px 14px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1608;font-weight:800;font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:.5px;text-transform:uppercase;box-shadow:0 8px 24px rgba(251,191,36,.25);transition:.3s;cursor:pointer;line-height:1.4;min-height:70px}
+.nav-tile:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(251,191,36,.4)}
+.lib-divider{position:relative;z-index:1;max-width:200px;height:1px;margin:50px auto 0;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+
+/* ============ SECTIONS ============ */
+.content{padding:60px 4%;position:relative}
+.section-label{display:flex;align-items:center;gap:12px;margin-bottom:40px}
+.section-dot{width:12px;height:12px;background:var(--gold);border-radius:50%;box-shadow:0 0 20px var(--gold)}
+.section-title{font-family:'Orbitron',sans-serif;font-size:30px;font-weight:800;color:var(--white);letter-spacing:1px}
+
+.history-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:70px}
+@media(max-width:900px){.history-grid{grid-template-columns:1fr}}
+.h-card{background:linear-gradient(135deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:30px 26px;transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;display:flex;flex-direction:column}
+.h-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--red),var(--brown));opacity:0;transition:opacity .3s}
+.h-card:hover::before{opacity:1}
+.h-card:hover{transform:translateY(-10px);border-color:var(--gold);box-shadow:0 20px 55px rgba(251,191,36,.16)}
+.h-date{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:800;color:var(--gold);letter-spacing:1px;margin-bottom:12px}
+.h-name{font-family:'Orbitron',sans-serif;font-size:19px;font-weight:800;color:var(--white);line-height:1.3;margin-bottom:10px}
+.h-action{font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:2px;color:var(--brown-light);text-transform:uppercase;margin-bottom:14px}
+.h-desc{font-size:14.5px;color:var(--light-gray);line-height:1.75;flex:1}
+
+.fac-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-bottom:24px}
+@media(max-width:800px){.fac-grid{grid-template-columns:1fr}}
+.fac-card{background:linear-gradient(135deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:32px;transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.fac-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--red),var(--brown));opacity:0;transition:opacity .3s}
+.fac-card:hover::before{opacity:1}
+.fac-card:hover{transform:translateY(-8px);border-color:var(--gold);box-shadow:0 20px 55px rgba(251,191,36,.16)}
+.fac-num{font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:2px;color:var(--brown-light);text-transform:uppercase;margin-bottom:10px}
+.fac-title{font-family:'Orbitron',sans-serif;font-size:19px;font-weight:800;color:var(--white);margin-bottom:14px;letter-spacing:.5px}
+.fac-desc{font-size:14.5px;color:var(--light-gray);line-height:1.75}
+.fac-card.wide{grid-column:1 / -1}
+.fac-card.wide .fac-title{color:var(--gold)}
+
+.footer{padding:50px 4%;border-top:1px solid var(--line);background:var(--bg2);position:relative;text-align:center}
+.footer-status{display:inline-flex;align-items:center;gap:12px;color:var(--gray);font-size:13px}
+.footer-dot{width:10px;height:10px;background:var(--gold);border-radius:50%;animation:pulse 2s ease-in-out infinite;box-shadow:0 0 20px var(--gold)}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.2)}}
+</style>
+</head>
+<body>
+<div class="background"></div>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="nav-logo">G</div>
+    <div class="nav-brand">G-Rock Corporation</div>
+  </div>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <a onclick="setLang('en')" id="lang-en" class="active">EN</a>
+      <a onclick="setLang('es')" id="lang-es">ES</a>
+      <a onclick="setLang('fr')" id="lang-fr">FR</a>
+      <a onclick="setLang('pl')" id="lang-pl">PL</a>
+      <a onclick="setLang('ru')" id="lang-ru">RU</a>
+      <a onclick="setLang('nl')" id="lang-nl">NL</a>
+    </div>
+    <a href="index.html" class="return-hub" id="return-hub">⬅ Return to Hub</a>
+  </div>
+</nav>
+
+<section class="uni-hero">
+  <div class="uni-hero-bg"></div>
+  <h1 class="uni-title">Monkeys University of Gibraltar</h1>
+  <p class="uni-disclaimer" id="uni-disclaimer">Monkeys University of Gibraltar (MUoG) is an independent educational and entertainment project created as part of the G-ROCK universe and is not a government institution, public authority, or officially accredited university.</p>
+
+  <div class="nav-tiles">
+    <div class="nav-tile" onclick="document.getElementById('history-section').scrollIntoView({behavior:'smooth'})" id="tile-history">History of University</div>
+    <div class="nav-tile" onclick="document.getElementById('faculties-section').scrollIntoView({behavior:'smooth'})" id="tile-faculties">Faculties</div>
+    <div class="nav-tile" onclick="location.href='ceuta.html'" id="tile-ceuta">Campus de Ceuta</div>
+    <div class="nav-tile" onclick="location.href='caraibian.html'" id="tile-caribbean">Caribbean Campus</div>
+    <div class="nav-tile" onclick="location.href='library.html'" id="tile-library">Library</div>
+  </div>
+
+  <div class="lib-divider"></div>
+</section>
+
+<section class="content" id="history-section">
+  <div class="section-label">
+    <div class="section-dot"></div>
+    <h2 class="section-title" id="history-title">UNIVERSITY HISTORY</h2>
+  </div>
+  <div class="history-grid">
+    <div class="h-card">
+      <div class="h-date" id="h1-date"></div>
+      <div class="h-name" id="h1-name"></div>
+      <div class="h-action" id="h1-action"></div>
+      <div class="h-desc" id="h1-desc"></div>
+    </div>
+    <div class="h-card">
+      <div class="h-date" id="h2-date"></div>
+      <div class="h-name" id="h2-name"></div>
+      <div class="h-action" id="h2-action"></div>
+      <div class="h-desc" id="h2-desc"></div>
+    </div>
+    <div class="h-card">
+      <div class="h-date" id="h3-date"></div>
+      <div class="h-name" id="h3-name"></div>
+      <div class="h-action" id="h3-action"></div>
+      <div class="h-desc" id="h3-desc"></div>
+    </div>
+  </div>
+</section>
+
+<section class="content" id="faculties-section">
+  <div class="section-label">
+    <div class="section-dot"></div>
+    <h2 class="section-title" id="faculties-title">FACULTIES</h2>
+  </div>
+  <div class="fac-grid">
+    <div class="fac-card">
+      <div class="fac-num" id="f1-num">FACULTY 01</div>
+      <div class="fac-title" id="f1-title">Humanities</div>
+      <div class="fac-desc" id="f1-desc"></div>
+    </div>
+    <div class="fac-card">
+      <div class="fac-num" id="f2-num">FACULTY 02</div>
+      <div class="fac-title" id="f2-title">Advanced Technologies</div>
+      <div class="fac-desc" id="f2-desc"></div>
+    </div>
+    <div class="fac-card">
+      <div class="fac-num" id="f3-num">FACULTY 03</div>
+      <div class="fac-title" id="f3-title">History</div>
+      <div class="fac-desc" id="f3-desc"></div>
+    </div>
+    <div class="fac-card">
+      <div class="fac-num" id="f4-num">FACULTY 04</div>
+      <div class="fac-title" id="f4-title">Political &amp; Constitutional Studies</div>
+      <div class="fac-desc" id="f4-desc"></div>
+    </div>
+    <div class="fac-card wide">
+      <div class="fac-num" id="f5-num">FACULTY 05</div>
+      <div class="fac-title" id="f5-title">History of Warfare</div>
+      <div class="fac-desc" id="f5-desc"></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-status">
+    <div class="footer-dot"></div>
+    <span id="footer-txt">MUoG ACADEMIC NODE — SYSTEM ACTIVE</span>
+  </div>
+</footer>
+
+<script>
+const dict = {
+en:{
+  returnHub:"⬅ Return to Hub",
+  disclaimer:"Monkeys University of Gibraltar (MUoG) is an independent educational and entertainment project created as part of the G-ROCK universe and is not a government institution, public authority, or officially accredited university.",
+  tileHistory:"History of University", tileFaculties:"Faculties", tileCeuta:"Campus de Ceuta", tileCaribbean:"Caribbean Campus", tileLibrary:"Library",
+  historyTitle:"UNIVERSITY HISTORY",
+  h1Date:"01 JANUARY 1964", h1Name:"MONKEYS COLLEGE OF GIBRALTAR", h1Action:"FOUNDED BY PROFESSOR SUGRIVA",
+  h1Desc:"The first institutional layer of the MUoG line, established as a focused academic node for research, cultural formation and early narrative systems.",
+  h2Date:"01 DECEMBER 1978", h2Name:"MONKEYS UNIVERSITY OF GIBRALTAR", h2Action:"THE COLLEGE IS TRANSFORMED INTO THE UNIVERSITY",
+  h2Desc:"The institution evolves into a broader academic structure, expanding its research identity into the modern G-ROCK configuration.",
+  h3Date:"21 JANUARY 2025", h3Name:"PROFESSOR SUGRIVA & MONKEYS UNIVERSITY OF GIBRALTAR", h3Action:"ACADEMIC RECOGNITION",
+  h3Desc:"Professor Sugriva and Monkeys University of Gibraltar enter a new chapter of academic history following his acceptance by the British academic environment.",
+  facultiesTitle:"FACULTIES",
+  f1Num:"FACULTY 01", f1Title:"Humanities",
+  f1Desc:"History and identity are not neutral — they are interpretive systems. They emerge through selection, interpretation and technologies of knowledge distribution, and their meaning changes with the development of digital media and algorithmic systems.",
+  f2Num:"FACULTY 02", f2Title:"Advanced Technologies",
+  f2Desc:"This project describes the transition from an era in which institutions shaped histories to an era in which artificial intelligence becomes one of the main architects and selectors of historical narratives. We study the consequences of this shift for truth, identity and human agency.",
+  f3Num:"FACULTY 03", f3Title:"History",
+  f3Desc:"The Faculty studies the effects of colonialism and their long-term impact on the societies, cultures, identities and political structures of the Caribbean and Africa. We analyse how colonial domination shaped social, economic and political relations, and how it influenced historical memory and the way the history of these regions has been represented. Particular attention is given to the study of decolonisation processes, revolutions, and the emergence of new states and political identities.",
+  f4Num:"FACULTY 04", f4Title:"Political &amp; Constitutional Studies",
+  f4Desc:"The Faculty studies constitutions, political systems and the ways citizenship and equality have been defined during periods of historical upheaval. Particular attention is given to the 1805 Constitution of Haiti as a document produced after the Haitian Revolution, which established a new model of statehood, citizenship and political belonging. The project also examines how the significance of this document and Haiti's experience have been represented, limited or marginalised in later systems of historical knowledge.",
+  f5Num:"FACULTY 05", f5Title:"History of Warfare",
+  f5Desc:"This faculty is led by Corporal Wojtek the Bear, a historical figure adopted by Polish soldiers in what is now Iran. He fought on the Allied side, and after the Battle of Monte Cassino was promoted to the rank of corporal. Upon arriving in Great Britain, he volunteered at Edinburgh Zoo to carry out a long-term covert intelligence operation. Today a monument to him stands in the zoo. On 2 December 1963, together with Professor Sugriva, he carried out a spectacular escape and subsequently arrived at Gibraltar Rock.",
+  footerTxt:"MUoG ACADEMIC NODE — SYSTEM ACTIVE"
+},
+pl:{
+  returnHub:"⬅ Powrót do Huba",
+  disclaimer:"Monkeys University of Gibraltar (MUoG) jest niezależnym projektem edukacyjno-rozrywkowym stworzonym w ramach uniwersum G-ROCK i nie jest instytucją rządową, organem publicznym ani oficjalnie akredytowaną uczelnią.",
+  tileHistory:"Historia Uniwersytetu", tileFaculties:"Fakultety", tileCeuta:"Campus de Ceuta", tileCaribbean:"Kampus Karaibski", tileLibrary:"Biblioteka",
+  historyTitle:"HISTORIA UNIWERSYTETU",
+  h1Date:"01 STYCZNIA 1964", h1Name:"MONKEYS COLLEGE OF GIBRALTAR", h1Action:"ZAŁOŻONY PRZEZ PROFESSOR SUGRIVA",
+  h1Desc:"Pierwsza warstwa instytucjonalna linii MUoG, utworzona jako wyspecjalizowany węzeł akademicki dla badań, formacji kulturowej i wczesnych systemów narracyjnych.",
+  h2Date:"01 GRUDNIA 1978", h2Name:"MONKEYS UNIVERSITY OF GIBRALTAR", h2Action:"KOLEGIUM ZOSTAJE PRZEKSZTAŁCONE W UNIWERSYTET",
+  h2Desc:"Instytucja ewoluuje w szerszą strukturę akademicką, rozszerzając swoją tożsamość badawczą w nowoczesną konfigurację G-ROCK.",
+  h3Date:"21 STYCZNIA 2025", h3Name:"PROFESSOR SUGRIVA I MONKEYS UNIVERSITY OF GIBRALTAR", h3Action:"UZNANIE AKADEMICKIE",
+  h3Desc:"Professor Sugriva oraz Monkeys University of Gibraltar wchodzą w nowy rozdział historii akademickiej po zaakceptowaniu przez brytyjskie środowisko akademickie.",
+  facultiesTitle:"FAKULTETY",
+  f1Num:"FAKULTET 01", f1Title:"Humanistyka",
+  f1Desc:"Historia i tożsamość nie są neutralne — są systemami interpretacyjnymi. Powstają poprzez selekcję, interpretację oraz technologie dystrybucji wiedzy, a ich znaczenie zmienia się wraz z rozwojem mediów cyfrowych i systemów algorytmicznych.",
+  f2Num:"FAKULTET 02", f2Title:"Zaawansowane Technologie",
+  f2Desc:"Projekt opisuje przejście od epoki, w której historie kształtowały instytucje, do ery, w której sztuczna inteligencja staje się jednym z głównych architektów i selekcjonerów narracji historycznych. Badamy konsekwencje tej zmiany dla prawdy, tożsamości i ludzkiej sprawczości.",
+  f3Num:"FAKULTET 03", f3Title:"Historia",
+  f3Desc:"Fakultet zajmuje się badaniem skutków kolonializmu oraz ich długofalowego wpływu na społeczeństwa, kultury, tożsamość i struktury polityczne Karaibów oraz Afryki. Analizujemy sposób, w jaki kolonialna dominacja kształtowała relacje społeczne, gospodarcze i polityczne, a także wpływała na pamięć historyczną i sposób przedstawiania historii tych regionów. Szczególne miejsce zajmuje badanie procesów dekolonizacji, rewolucji oraz powstawania nowych państw i tożsamości politycznych.",
+  f4Num:"FAKULTET 04", f4Title:"Studia Polityczne i Konstytucyjne",
+  f4Desc:"Fakultet zajmuje się badaniem konstytucji, systemów politycznych oraz sposobów definiowania obywatelstwa i równości w okresach przełomów historycznych. Szczególną uwagę poświęcamy Konstytucji Haiti z 1805 roku jako dokumentowi powstałemu po rewolucji haitańskiej, który ustanawiał nowy model państwa, obywatelstwa i przynależności politycznej. Projekt analizuje również sposób, w jaki znaczenie tego dokumentu oraz doświadczenie Haiti zostały przedstawione, ograniczone lub zmarginalizowane w późniejszych systemach wiedzy historycznej.",
+  f5Num:"FAKULTET 05", f5Title:"Historia Wojskowości",
+  f5Desc:"Fakultet prowadzony przez kaprala Niedźwiedzia Wojtka, historyczną postać, który został adoptowany przez polskich żołnierzy na terenie dzisiejszego Iranu. Walczył po stronie aliantów, a po stoczonej bitwie o Monte Cassino został awansowany na kaprala. Po przyjeździe do Wielkiej Brytanii zgłosił się do zoo w Edynburgu, aby przeprowadzić długoterminową tajną operację wywiadowczą. Dzisiaj w zoo stoi jego pomnik. 2 grudnia 1963 roku, razem z Profesorem Sugrivą, dokonał spektakularnej ucieczki, a następnie przybył na Gibraltar Rock.",
+  footerTxt:"MUoG WĘZEŁ AKADEMICKI — SYSTEM AKTYWNY"
+},
+es:{
+  returnHub:"⬅ Volver al Hub",
+  disclaimer:"Monkeys University of Gibraltar (MUoG) es un proyecto educativo y de entretenimiento independiente creado como parte del universo G-ROCK y no es una institución gubernamental, un organismo público ni una universidad oficialmente acreditada.",
+  tileHistory:"Historia de la Universidad", tileFaculties:"Facultades", tileCeuta:"Campus de Ceuta", tileCaribbean:"Campus del Caribe", tileLibrary:"Biblioteca",
+  historyTitle:"HISTORIA DE LA UNIVERSIDAD",
+  h1Date:"01 DE ENERO DE 1964", h1Name:"MONKEYS COLLEGE OF GIBRALTAR", h1Action:"FUNDADO POR PROFESSOR SUGRIVA",
+  h1Desc:"La primera capa institucional de la línea MUoG, creada como un nodo académico enfocado en la investigación, la formación cultural y los primeros sistemas narrativos.",
+  h2Date:"01 DE DICIEMBRE DE 1978", h2Name:"MONKEYS UNIVERSITY OF GIBRALTAR", h2Action:"EL COLEGIO SE TRANSFORMA EN UNIVERSIDAD",
+  h2Desc:"La institución evoluciona hacia una estructura académica más amplia, expandiendo su identidad investigadora dentro de la configuración moderna de G-ROCK.",
+  h3Date:"21 DE ENERO DE 2025", h3Name:"PROFESSOR SUGRIVA Y MONKEYS UNIVERSITY OF GIBRALTAR", h3Action:"RECONOCIMIENTO ACADÉMICO",
+  h3Desc:"Professor Sugriva y Monkeys University of Gibraltar entran en un nuevo capítulo de la historia académica tras su aceptación por el entorno académico británico.",
+  facultiesTitle:"FACULTADES",
+  f1Num:"FACULTAD 01", f1Title:"Humanidades",
+  f1Desc:"La historia y la identidad no son neutrales: son sistemas interpretativos. Surgen a través de la selección, la interpretación y las tecnologías de distribución del conocimiento, y su significado cambia con el desarrollo de los medios digitales y los sistemas algorítmicos.",
+  f2Num:"FACULTAD 02", f2Title:"Tecnologías Avanzadas",
+  f2Desc:"Este proyecto describe la transición desde una era en la que las instituciones moldeaban las historias hacia una era en la que la inteligencia artificial se convierte en uno de los principales arquitectos y selectores de los relatos históricos. Estudiamos las consecuencias de este cambio para la verdad, la identidad y la agencia humana.",
+  f3Num:"FACULTAD 03", f3Title:"Historia",
+  f3Desc:"La Facultad estudia los efectos del colonialismo y su impacto a largo plazo en las sociedades, culturas, identidades y estructuras políticas del Caribe y África. Analizamos cómo la dominación colonial moldeó las relaciones sociales, económicas y políticas, y cómo influyó en la memoria histórica y en la manera de representar la historia de estas regiones. Se presta especial atención al estudio de los procesos de descolonización, las revoluciones y el surgimiento de nuevos estados e identidades políticas.",
+  f4Num:"FACULTAD 04", f4Title:"Estudios Políticos y Constitucionales",
+  f4Desc:"La Facultad estudia las constituciones, los sistemas políticos y las formas en que se ha definido la ciudadanía y la igualdad en periodos de ruptura histórica. Se presta especial atención a la Constitución de Haití de 1805 como documento surgido tras la Revolución haitiana, que estableció un nuevo modelo de Estado, ciudadanía y pertenencia política. El proyecto examina también cómo el significado de este documento y la experiencia de Haití han sido representados, limitados o marginados en sistemas posteriores de conocimiento histórico.",
+  f5Num:"FACULTAD 05", f5Title:"Historia Militar",
+  f5Desc:"Esta facultad está dirigida por el Cabo Wojtek el Oso, una figura histórica adoptada por soldados polacos en el territorio del actual Irán. Luchó del lado de los Aliados y, tras la batalla de Monte Cassino, fue ascendido al rango de cabo. Al llegar a Gran Bretaña, se presentó voluntario en el Zoológico de Edimburgo para llevar a cabo una operación de inteligencia encubierta a largo plazo. Hoy en día hay un monumento a él en el zoológico. El 2 de diciembre de 1963, junto con el Professor Sugriva, protagonizó una espectacular fuga y llegó posteriormente al Peñón de Gibraltar.",
+  footerTxt:"MUoG NODO ACADÉMICO — SISTEMA ACTIVO"
+},
+fr:{
+  returnHub:"⬅ Retour au Hub",
+  disclaimer:"Monkeys University of Gibraltar (MUoG) est un projet éducatif et de divertissement indépendant créé dans le cadre de l'univers G-ROCK et n'est ni une institution gouvernementale, ni un organisme public, ni une université officiellement accréditée.",
+  tileHistory:"Histoire de l'Université", tileFaculties:"Facultés", tileCeuta:"Campus de Ceuta", tileCaribbean:"Campus des Caraïbes", tileLibrary:"Bibliothèque",
+  historyTitle:"HISTOIRE DE L'UNIVERSITÉ",
+  h1Date:"01 JANVIER 1964", h1Name:"MONKEYS COLLEGE OF GIBRALTAR", h1Action:"FONDÉ PAR PROFESSOR SUGRIVA",
+  h1Desc:"La première couche institutionnelle de la ligne MUoG, créée comme un nœud académique centré sur la recherche, la formation culturelle et les premiers systèmes narratifs.",
+  h2Date:"01 DÉCEMBRE 1978", h2Name:"MONKEYS UNIVERSITY OF GIBRALTAR", h2Action:"LE COLLÈGE EST TRANSFORMÉ EN UNIVERSITÉ",
+  h2Desc:"L'institution évolue vers une structure académique plus large, élargissant son identité de recherche dans la configuration moderne de G-ROCK.",
+  h3Date:"21 JANVIER 2025", h3Name:"PROFESSOR SUGRIVA ET MONKEYS UNIVERSITY OF GIBRALTAR", h3Action:"RECONNAISSANCE ACADÉMIQUE",
+  h3Desc:"Professor Sugriva et Monkeys University of Gibraltar entrent dans un nouveau chapitre de l'histoire académique après son acceptation par le milieu académique britannique.",
+  facultiesTitle:"FACULTÉS",
+  f1Num:"FACULTÉ 01", f1Title:"Sciences Humaines",
+  f1Desc:"L'histoire et l'identité ne sont pas neutres — ce sont des systèmes interprétatifs. Elles naissent de la sélection, de l'interprétation et des technologies de diffusion du savoir, et leur sens évolue avec le développement des médias numériques et des systèmes algorithmiques.",
+  f2Num:"FACULTÉ 02", f2Title:"Technologies Avancées",
+  f2Desc:"Ce projet décrit le passage d'une époque où les institutions façonnaient les histoires à une époque où l'intelligence artificielle devient l'un des principaux architectes et sélectionneurs des récits historiques. Nous étudions les conséquences de ce changement pour la vérité, l'identité et l'agence humaine.",
+  f3Num:"FACULTÉ 03", f3Title:"Histoire",
+  f3Desc:"La Faculté étudie les effets du colonialisme et leur impact à long terme sur les sociétés, les cultures, les identités et les structures politiques des Caraïbes et de l'Afrique. Nous analysons la manière dont la domination coloniale a façonné les relations sociales, économiques et politiques, et a influencé la mémoire historique ainsi que la façon dont l'histoire de ces régions a été représentée. Une attention particulière est accordée à l'étude des processus de décolonisation, des révolutions et de l'émergence de nouveaux États et identités politiques.",
+  f4Num:"FACULTÉ 04", f4Title:"Études Politiques et Constitutionnelles",
+  f4Desc:"La Faculté étudie les constitutions, les systèmes politiques et les manières dont la citoyenneté et l'égalité ont été définies lors de périodes de rupture historique. Une attention particulière est accordée à la Constitution haïtienne de 1805, document né de la Révolution haïtienne, qui a établi un nouveau modèle d'État, de citoyenneté et d'appartenance politique. Le projet examine également la manière dont la signification de ce document et l'expérience d'Haïti ont été représentées, limitées ou marginalisées dans les systèmes ultérieurs de connaissance historique.",
+  f5Num:"FACULTÉ 05", f5Title:"Histoire Militaire",
+  f5Desc:"Cette faculté est dirigée par le Caporal Wojtek l'Ours, une figure historique adoptée par des soldats polonais sur le territoire de l'actuel Iran. Il a combattu du côté allié et, après la bataille du Mont Cassin, a été promu au grade de caporal. À son arrivée en Grande-Bretagne, il s'est porté volontaire au zoo d'Édimbourg pour mener une opération de renseignement clandestine de longue durée. Un monument à sa mémoire se dresse aujourd'hui dans le zoo. Le 2 décembre 1963, avec le Professor Sugriva, il a réalisé une évasion spectaculaire avant d'arriver au Rocher de Gibraltar.",
+  footerTxt:"MUoG NŒUD ACADÉMIQUE — SYSTÈME ACTIF"
+},
+ru:{
+  returnHub:"⬅ Вернуться в Хаб",
+  disclaimer:"Monkeys University of Gibraltar (MUoG) — независимый образовательно-развлекательный проект, созданный в рамках вселенной G-ROCK, не являющийся государственным учреждением, органом публичной власти или официально аккредитованным университетом.",
+  tileHistory:"История Университета", tileFaculties:"Факультеты", tileCeuta:"Campus de Ceuta", tileCaribbean:"Карибский Кампус", tileLibrary:"Библиотека",
+  historyTitle:"ИСТОРИЯ УНИВЕРСИТЕТА",
+  h1Date:"01 ЯНВАРЯ 1964", h1Name:"MONKEYS COLLEGE OF GIBRALTAR", h1Action:"ОСНОВАН PROFESSOR SUGRIVA",
+  h1Desc:"Первая институциональная ступень линии MUoG, созданная как специализированный академический узел для исследований, культурного формирования и ранних нарративных систем.",
+  h2Date:"01 ДЕКАБРЯ 1978", h2Name:"MONKEYS UNIVERSITY OF GIBRALTAR", h2Action:"КОЛЛЕДЖ ПРЕОБРАЗОВАН В УНИВЕРСИТЕТ",
+  h2Desc:"Институт развивается в более широкую академическую структуру, расширяя свою исследовательскую идентичность в современной конфигурации G-ROCK.",
+  h3Date:"21 ЯНВАРЯ 2025", h3Name:"PROFESSOR SUGRIVA И MONKEYS UNIVERSITY OF GIBRALTAR", h3Action:"АКАДЕМИЧЕСКОЕ ПРИЗНАНИЕ",
+  h3Desc:"Professor Sugriva и Monkeys University of Gibraltar вступают в новую главу академической истории после его признания британской академической средой.",
+  facultiesTitle:"ФАКУЛЬТЕТЫ",
+  f1Num:"ФАКУЛЬТЕТ 01", f1Title:"Гуманитарные Науки",
+  f1Desc:"История и идентичность не нейтральны — это интерпретативные системы. Они возникают через отбор, интерпретацию и технологии распространения знания, а их значение меняется с развитием цифровых медиа и алгоритмических систем.",
+  f2Num:"ФАКУЛЬТЕТ 02", f2Title:"Передовые Технологии",
+  f2Desc:"Проект описывает переход от эпохи, в которой истории формировали институты, к эпохе, в которой искусственный интеллект становится одним из главных архитекторов и отборщиков исторических нарративов. Мы изучаем последствия этого сдвига для истины, идентичности и человеческой субъектности.",
+  f3Num:"ФАКУЛЬТЕТ 03", f3Title:"История",
+  f3Desc:"Факультет изучает последствия колониализма и их долгосрочное влияние на общества, культуры, идентичность и политические структуры стран Карибского бассейна и Африки. Мы анализируем, как колониальное господство формировало социальные, экономические и политические отношения, а также влияло на историческую память и способы представления истории этих регионов. Особое внимание уделяется изучению процессов деколонизации, революций и возникновения новых государств и политических идентичностей.",
+  f4Num:"ФАКУЛЬТЕТ 04", f4Title:"Политические и Конституционные Исследования",
+  f4Desc:"Факультет изучает конституции, политические системы и способы определения гражданства и равенства в периоды исторических переломов. Особое внимание уделяется Конституции Гаити 1805 года как документу, возникшему после Гаитянской революции, который установил новую модель государственности, гражданства и политической принадлежности. Проект также рассматривает, каким образом значение этого документа и опыт Гаити были представлены, ограничены или маргинализированы в последующих системах исторического знания.",
+  f5Num:"ФАКУЛЬТЕТ 05", f5Title:"История Войн",
+  f5Desc:"Этот факультет возглавляет капрал медведь Войтек — историческая личность, усыновлённая польскими солдатами на территории современного Ирана. Он сражался на стороне союзников, а после битвы за Монте-Кассино был произведён в звание капрала. По прибытии в Великобританию он добровольно поступил в Эдинбургский зоопарк для проведения долгосрочной секретной разведывательной операции. Сегодня в зоопарке стоит памятник ему. 2 декабря 1963 года вместе с профессором Сугривой он совершил впечатляющий побег, после чего прибыл на Гибралтарскую скалу.",
+  footerTxt:"MUoG АКАДЕМИЧЕСКИЙ УЗЕЛ — СИСТЕМА АКТИВНА"
+},
+nl:{
+  returnHub:"⬅ Terug naar Hub",
+  disclaimer:"Monkeys University of Gibraltar (MUoG) is een onafhankelijk educatief en entertainmentproject dat is gemaakt als onderdeel van het G-ROCK-universum en is geen overheidsinstelling, publiek orgaan of officieel geaccrediteerde universiteit.",
+  tileHistory:"Geschiedenis van de Universiteit", tileFaculties:"Faculteiten", tileCeuta:"Campus de Ceuta", tileCaribbean:"Caribische Campus", tileLibrary:"Bibliotheek",
+  historyTitle:"UNIVERSITEITSGESCHIEDENIS",
+  h1Date:"01 JANUARI 1964", h1Name:"MONKEYS COLLEGE OF GIBRALTAR", h1Action:"OPGERICHT DOOR PROFESSOR SUGRIVA",
+  h1Desc:"De eerste institutionele laag van de MUoG-lijn, opgezet als een gerichte academische knoop voor onderzoek, culturele vorming en vroege narratieve systemen.",
+  h2Date:"01 DECEMBER 1978", h2Name:"MONKEYS UNIVERSITY OF GIBRALTAR", h2Action:"HET COLLEGE WORDT OMGEVORMD TOT DE UNIVERSITEIT",
+  h2Desc:"De instelling ontwikkelt zich tot een bredere academische structuur en breidt haar onderzoeksidentiteit uit binnen de moderne G-ROCK-configuratie.",
+  h3Date:"21 JANUARI 2025", h3Name:"PROFESSOR SUGRIVA EN MONKEYS UNIVERSITY OF GIBRALTAR", h3Action:"ACADEMISCHE ERKENNING",
+  h3Desc:"Professor Sugriva en Monkeys University of Gibraltar betreden een nieuw hoofdstuk in de academische geschiedenis na zijn acceptatie door de Britse academische omgeving.",
+  facultiesTitle:"FACULTEITEN",
+  f1Num:"FACULTEIT 01", f1Title:"Geesteswetenschappen",
+  f1Desc:"Geschiedenis en identiteit zijn niet neutraal — het zijn interpretatieve systemen. Ze ontstaan door selectie, interpretatie en technologieën voor kennisverspreiding, en hun betekenis verandert met de ontwikkeling van digitale media en algoritmische systemen.",
+  f2Num:"FACULTEIT 02", f2Title:"Geavanceerde Technologieën",
+  f2Desc:"Dit project beschrijft de overgang van een tijdperk waarin instituties de geschiedenis vormgaven naar een tijdperk waarin kunstmatige intelligentie een van de belangrijkste architecten en selecteurs van historische narratieven wordt. We bestuderen de gevolgen van deze verschuiving voor waarheid, identiteit en menselijke handelingsvrijheid.",
+  f3Num:"FACULTEIT 03", f3Title:"Geschiedenis",
+  f3Desc:"De faculteit bestudeert de gevolgen van het kolonialisme en de langetermijnimpact ervan op de samenlevingen, culturen, identiteiten en politieke structuren van het Caribisch gebied en Afrika. We analyseren hoe koloniale overheersing sociale, economische en politieke verhoudingen vormgaf, en hoe zij het historisch geheugen en de manier waarop de geschiedenis van deze regio's wordt weergegeven beïnvloedde. Bijzondere aandacht gaat uit naar de studie van dekolonisatieprocessen, revoluties en het ontstaan van nieuwe staten en politieke identiteiten.",
+  f4Num:"FACULTEIT 04", f4Title:"Politieke en Constitutionele Studies",
+  f4Desc:"De faculteit bestudeert grondwetten, politieke systemen en de manieren waarop burgerschap en gelijkheid zijn gedefinieerd tijdens periodes van historische omwenteling. Bijzondere aandacht gaat uit naar de Haïtiaanse grondwet van 1805 als document dat na de Haïtiaanse Revolutie tot stand kwam en een nieuw model van staatsvorming, burgerschap en politieke verbondenheid vestigde. Het project onderzoekt ook hoe de betekenis van dit document en de ervaring van Haïti in latere systemen van historische kennis zijn weergegeven, beperkt of gemarginaliseerd.",
+  f5Num:"FACULTEIT 05", f5Title:"Krijgsgeschiedenis",
+  f5Desc:"Deze faculteit wordt geleid door Korporaal Wojtek de Beer, een historische figuur die werd geadopteerd door Poolse soldaten op het grondgebied van het huidige Iran. Hij vocht aan geallieerde zijde en werd na de Slag om Monte Cassino bevorderd tot korporaal. Bij aankomst in Groot-Brittannië meldde hij zich vrijwillig aan bij de dierentuin van Edinburgh om een langdurige geheime inlichtingenoperatie uit te voeren. Vandaag staat er een standbeeld van hem in de dierentuin. Op 2 december 1963 ontsnapte hij samen met Professor Sugriva op spectaculaire wijze en kwam vervolgens aan bij Gibraltar Rock.",
+  footerTxt:"MUoG ACADEMISCHE KNOOP — SYSTEEM ACTIEF"
+}
+};
+
+function applyLang(lang){
+  const t = dict[lang];
+  if(!t) return;
+  const setText = (id, val) => { const el=document.getElementById(id); if(el && val!==undefined) el.textContent = val; };
+
+  setText('return-hub', t.returnHub);
+  setText('uni-disclaimer', t.disclaimer);
+  setText('tile-history', t.tileHistory);
+  setText('tile-faculties', t.tileFaculties);
+  setText('tile-ceuta', t.tileCeuta);
+  setText('tile-caribbean', t.tileCaribbean);
+  setText('tile-library', t.tileLibrary);
+
+  setText('history-title', t.historyTitle);
+  setText('h1-date', t.h1Date); setText('h1-name', t.h1Name); setText('h1-action', t.h1Action); setText('h1-desc', t.h1Desc);
+  setText('h2-date', t.h2Date); setText('h2-name', t.h2Name); setText('h2-action', t.h2Action); setText('h2-desc', t.h2Desc);
+  setText('h3-date', t.h3Date); setText('h3-name', t.h3Name); setText('h3-action', t.h3Action); setText('h3-desc', t.h3Desc);
+
+  setText('faculties-title', t.facultiesTitle);
+  setText('f1-num', t.f1Num); setText('f1-title', t.f1Title); setText('f1-desc', t.f1Desc);
+  setText('f2-num', t.f2Num); setText('f2-title', t.f2Title); setText('f2-desc', t.f2Desc);
+  setText('f3-num', t.f3Num); setText('f3-title', t.f3Title); setText('f3-desc', t.f3Desc);
+  setText('f4-num', t.f4Num); setText('f4-title', t.f4Title); setText('f4-desc', t.f4Desc);
+  setText('f5-num', t.f5Num); setText('f5-title', t.f5Title); setText('f5-desc', t.f5Desc);
+
+  setText('footer-txt', t.footerTxt);
+
+  document.querySelectorAll('.lang-switch a').forEach(a=>a.classList.remove('active'));
+  const btn = document.getElementById('lang-'+lang);
+  if(btn) btn.classList.add('active');
+  document.documentElement.lang = lang;
+}
+
+function setLang(lang){
+  applyLang(lang);
+  try{ localStorage.setItem('grock_lang', lang); }catch(e){}
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  let saved = 'en';
+  try{ saved = localStorage.getItem('grock_lang') || 'en'; }catch(e){}
+  applyLang(saved);
+});
+</script>
+</body>
+</html>

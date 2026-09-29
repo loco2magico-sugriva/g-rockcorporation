@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#02050a" />
+<title>G-Rock Corporation // Mission Control v2</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#02050a;
+  --bg2:#050b14;
+  --bg3:#08111e;
+  --panel:rgba(8,14,24,.82);
+  --panel2:rgba(7,12,20,.92);
+  --line:rgba(40,78,120,.45);
+  --line2:rgba(74,163,255,.58);
+  --text:#eef5fc;
+  --muted:#9eb2c7;
+  --blue:#4aa3ff;
+  --cyan:#25e8ff;
+  --green:#48ff9a;
+  --gold:#ffd166;
+  --amber:#ff9f43;
+  --red:#ff4d6d;
+  --shadow:0 18px 60px rgba(0,0,0,.58);
+  --blur:blur(18px);
+  --radius:22px;
+  --gap:18px;
+  --topbar:76px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter,sans-serif;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(74,163,255,.16), transparent 28%),
+    radial-gradient(circle at 85% 18%, rgba(37,232,255,.10), transparent 20%),
+    radial-gradient(circle at 50% 80%, rgba(255,77,109,.06), transparent 26%),
+    linear-gradient(180deg, #02050a 0%, #040912 45%, #02050a 100%);
+  color:var(--text);
+  overflow:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(transparent 49%, rgba(255,255,255,.045) 50%, transparent 51%),
+    linear-gradient(90deg, transparent 49%, rgba(255,255,255,.025) 50%, transparent 51%);
+  background-size:100% 4px, 40px 100%;
+  opacity:.38;
+  mix-blend-mode:screen;
+  animation:scanlines 12s linear infinite;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at center, transparent 0 30%, rgba(0,0,0,.08) 31%, rgba(0,0,0,.24) 100%);
+}
+
+@keyframes scanlines{
+  to{background-position:0 420px, 420px 0}
+}
+
+.wrap{
+  position:relative;
+  z-index:1;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+header{
+  height:var(--topbar);
+  padding:0 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:linear-gradient(180deg, rgba(8,14,24,.98), rgba(6,10,18,.82));
+  backdrop-filter:var(--blur);
+  border-bottom:1px solid rgba(33,70,111,.5);
+  box-shadow:var(--shadow);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  min-width:0;
+}
+
+.brand-mark{
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  background:
+    radial-gradient(circle at 30% 28%, #84c7ff 0%, #2d70b5 45%, #07111d 100%);
+  box-shadow:
+    0 0 0 1px rgba(74,163,255,.18),
+    0 0 24px rgba(74,163,255,.24);
+  flex:0 0 auto;
+}
+
+.brand-title{
+  min-width:0;
+}
+
+.brand-title h1{
+  margin:0;
+  font-family:Orbitron,sans-serif;
+  font-weight:900;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  font-size:14px;
+  line-height:1.05;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.brand-title span{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+}
+
+.topnav{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.pill{
+  padding:9px 12px;
+  border-radius:999px;
+  border:1px solid rgba(40,78,120,.6);
+  background:rgba(8,14,24,.62);
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+.pill strong{color:var(--text)}
+
+.btn{
+  border:1px solid rgba(74,163,255,.7);
+  background:linear-gradient(180deg, rgba(74,163,255,.2), rgba(74,163,255,.08));
+  color:#fff;
+  border-radius:12px;
+  padding:11px 14px;
+  font:700 11px/1 Inter,sans-serif;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:.22s ease;
+  box-shadow:0 0 0 1px rgba(74,163,255,.05) inset;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 0 24px rgba(74,163,255,.22);
+}
+
+.btn:focus-visible{
+  outline:2px solid var(--cyan);
+  outline-offset:2px;
+}
+
+.btn.red{
+  border-color:rgba(255,77,109,.7);
+  background:linear-gradient(180deg, rgba(255,77,109,.2), rgba(255,77,109,.07));
+}
+
+.main{
+  position:relative;
+  flex:1;
+  min-height:0;
+  display:grid;
+  grid-template-columns:340px 1fr 340px;
+  gap:var(--gap);
+  padding:18px;
+}
+
+.panel{
+  min-height:0;
+  background:var(--panel);
+  backdrop-filter:var(--blur);
+  border:1px solid rgba(33,70,111,.42);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  position:relative;
+}
+
+.panel::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:var(--radius);
+  background:linear-gradient(135deg, rgba(74,163,255,.12), transparent 25%, transparent 72%, rgba(37,232,255,.08));
+  pointer-events:none;
+  opacity:.55;
+}
+
+.section{
+  padding:18px;
+  border-bottom:1px solid rgba(33,70,111,.32);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.section h2{
+  margin:0;
+  font-family:Orbitron,sans-serif;
+  font-size:12px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+}
+
+.section small{
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.stack{
+  height:calc(100% - 58px);
+  overflow:auto;
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.card{
+  position:relative;
+  border:1px solid rgba(33,70,120,.6);
+  background:linear-gradient(180deg, rgba(10,18,31,.98), rgba(7,12,20,.94));
+  border-radius:18px;
+  padding:16px;
+  cursor:pointer;
+  transition:.22s ease;
+  overflow:hidden;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(74,163,255,.82);
+  box-shadow:0 18px 35px rgba(0,0,0,.35);
+}
+
+.card:focus-visible{
+  outline:2px solid var(--cyan);
+  outline-offset:2px;
+}
+
+.card::after{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  background:linear-gradient(135deg, transparent, rgba(74,163,255,.14), transparent);
+  opacity:0;
+  transition:.22s ease;
+}
+
+.card:hover::after{opacity:1}
+
+.card-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.tag{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 8px;
+  border-radius:999px;
+  border:1px solid rgba(33,70,111,.6);
+  background:rgba(255,255,255,.02);
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.tag .dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--blue);
+  box-shadow:0 0 10px rgba(74,163,255,.75);
+}
+
+.tag.stable{color:var(--green);border-color:rgba(72,255,154,.25)}
+.tag.stable .dot{background:var(--green);box-shadow:0 0 10px rgba(72,255,154,.75)}
+.tag.active{color:var(--gold);border-color:rgba(255,209,102,.28)}
+.tag.active .dot{background:var(--gold);box-shadow:0 0 10px rgba(255,209,102,.75)}
+.tag.anomaly{color:#fff;border-color:rgba(255,77,109,.55);background:rgba(255,77,109,.12)}
+.tag.anomaly .dot{background:var(--red);box-shadow:0 0 10px rgba(255,77,109,.75)}
+
+.card h3{
+  margin:0;
+  font-family:Orbitron,sans-serif;
+  font-size:15px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.card p{
+  margin:8px 0 0;
+  color:#b2c2d3;
+  font-size:12px;
+  line-height:1.55;
+}
+
+.card-foot{
+  margin-top:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:#91aac2;
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+
+.center{
+  position:relative;
+  min-height:0;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.core{
+  position:relative;
+  width:min(56vw, 900px);
+  height:100%;
+  min-height:0;
+  background:linear-gradient(180deg, rgba(8,14,24,.9), rgba(6,10,18,.76));
+  border:1px solid rgba(33,70,111,.42);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  padding:18px;
+}
+
+.core::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 44%, rgba(74,163,255,.08), transparent 28%),
+    radial-gradient(circle at 50% 44%, rgba(37,232,255,.04), transparent 45%);
+  pointer-events:none;
+}
+
+.core-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.core-title{
+  margin:0;
+  font-family:Orbitron,sans-serif;
+  font-size:18px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+}
+
+.core-title span{
+  display:block;
+  margin-top:6px;
+  color:var(--blue);
+  font-size:11px;
+  letter-spacing:5px;
+}
+
+.core-status{
+  white-space:nowrap;
+}
+
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.metric{
+  border:1px solid rgba(33,70,111,.46);
+  background:rgba(4,9,16,.76);
+  border-radius:16px;
+  padding:14px;
+  min-height:92px;
+}
+
+.metric b{
+  display:block;
+  font-family:Orbitron,sans-serif;
+  font-size:22px;
+  letter-spacing:1px;
+  color:#fff;
+}
+
+.metric span{
+  display:block;
+  margin-top:7px;
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+}
+
+.radar-box{
+  margin-top:14px;
+  height:calc(100% - 144px);
+  min-height:420px;
+  border-radius:24px;
+  border:1px solid rgba(33,70,111,.34);
+  background:
+    radial-gradient(circle at center, rgba(74,163,255,.08), transparent 28%),
+    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(11,19,32,.84), rgba(5,9,16,.96));
+  background-size:auto, 42px 42px, 42px 42px, auto;
+  position:relative;
+  overflow:hidden;
+}
+
+.radar-box::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 46%, rgba(74,163,255,.06) 47%, transparent 48%),
+    conic-gradient(from 0deg, transparent 0 24%, rgba(74,163,255,.12) 26%, transparent 30% 100%);
+  animation:spin 16s linear infinite;
+  opacity:.84;
+}
+
+.radar-box::after{
+  content:"";
+  position:absolute;
+  left:-20%;
+  right:-20%;
+  height:2px;
+  top:0;
+  background:linear-gradient(90deg, transparent, rgba(37,232,255,.95), transparent);
+  box-shadow:0 0 18px rgba(37,232,255,.9);
+  animation:sweep 5.5s linear infinite;
+}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes sweep{to{top:100%}}
+
+.pin{
+  position:absolute;
+  min-width:195px;
+  max-width:245px;
+  padding:13px 14px;
+  border-radius:16px;
+  border:1px solid rgba(33,70,111,.58);
+  background:rgba(6,11,19,.94);
+  backdrop-filter:var(--blur);
+  cursor:pointer;
+  transform:translate(-50%, -50%);
+  transition:.22s ease;
+  box-shadow:0 10px 25px rgba(0,0,0,.35);
+  z-index:2;
+}
+
+.pin:hover{
+  transform:translate(-50%, -52%) scale(1.03);
+  border-color:rgba(74,163,255,.86);
+}
+
+.pin:focus-visible{
+  outline:2px solid var(--cyan);
+  outline-offset:2px;
+}
+
+.pin h4{
+  margin:7px 0 0;
+  font-family:Orbitron,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-size:12px;
+}
+
+.pin .k{
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.pin .s{
+  margin-top:7px;
+  font-size:11px;
+  color:#c7d6e5;
+  line-height:1.5;
+}
+
+.pin .foot{
+  margin-top:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:#91aac2;
+  font-size:10px;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+}
+
+.pin.stable{
+  border-color:rgba(72,255,154,.45);
+  box-shadow:0 0 0 1px rgba(72,255,154,.12),0 0 22px rgba(72,255,154,.12),0 10px 28px rgba(0,0,0,.35);
+}
+
+.pin.active{
+  border-color:rgba(255,209,102,.58);
+  box-shadow:0 0 0 1px rgba(255,209,102,.16),0 0 28px rgba(255,209,102,.16),0 10px 28px rgba(0,0,0,.35);
+}
+
+.pin.anomaly{
+  border-color:rgba(255,77,109,.82);
+  background:linear-gradient(180deg, rgba(35,8,16,.98), rgba(18,4,9,.96));
+  box-shadow:0 0 0 1px rgba(255,77,109,.22),0 0 32px rgba(255,77,109,.18),0 10px 28px rgba(0,0,0,.35);
+}
+
+.pin.anomaly h4{color:#fff}
+.pin.anomaly .s{color:#ffd1d8}
+
+.pin.archive{
+  border-color:rgba(255,209,102,.9);
+  border-width:2px;
+  background:linear-gradient(180deg, rgba(36,27,5,.98), rgba(20,14,3,.96));
+  box-shadow:0 0 0 1px rgba(255,209,102,.35),0 0 30px rgba(255,209,102,.4),0 10px 28px rgba(0,0,0,.35);
+  overflow:hidden;
+}
+
+.pin.archive h4{color:#ffe9b0}
+.pin.archive .s{color:#ffe4ad;font-weight:700;letter-spacing:1px}
+
+.pin.archive::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:16px;
+  pointer-events:none;
+  background:linear-gradient(120deg, transparent 30%, rgba(255,236,170,.6) 50%, transparent 70%);
+  background-size:250% 250%;
+  animation:goldshine 3.2s linear infinite;
+  opacity:.95;
+}
+
+@keyframes goldshine{
+  0%{background-position:200% 200%}
+  100%{background-position:-60% -60%}
+}
+
+.pin[data-zone="africa"],
+.pin[data-zone="caribbean"]{
+  border-width:2px;
+}
+
+.pin[data-zone="africa"] h4,
+.pin[data-zone="caribbean"] h4{
+  color:#ffffff;
+}
+
+.pin[data-zone="africa"] .s,
+.pin[data-zone="caribbean"] .s{
+  color:#e2edf8;
+}
+
+.pin[data-zone="africa"]::before,
+.pin[data-zone="caribbean"]::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:16px;
+  pointer-events:none;
+  background:linear-gradient(135deg, rgba(74,163,255,.22), transparent 60%);
+  opacity:.95;
+}
+
+.log{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  overflow:auto;
+  padding:16px;
+}
+
+.logbox{
+  border:1px solid rgba(33,70,111,.44);
+  background:rgba(4,9,16,.76);
+  border-radius:16px;
+  padding:14px;
+}
+
+.logbox h5{
+  margin:0 0 10px;
+  font-family:Orbitron,sans-serif;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  font-size:11px;
+  color:var(--blue);
+}
+
+.logline{
+  font-size:12px;
+  line-height:1.65;
+  color:#9cb0c8;
+  margin:0 0 8px;
+}
+
+.bar{
+  height:10px;
+  border-radius:999px;
+  background:#0b1525;
+  border:1px solid rgba(33,70,111,.5);
+  overflow:hidden;
+}
+
+.bar i{
+  display:block;
+  height:100%;
+  width:62%;
+  background:linear-gradient(90deg, var(--blue), var(--cyan));
+  box-shadow:0 0 18px rgba(74,163,255,.5);
+  transition:width .25s ease;
+}
+
+.timeline{
+  display:grid;
+  gap:10px;
+}
+
+.t{
+  padding:12px 12px;
+  border-left:3px solid rgba(74,163,255,.8);
+  background:rgba(6,11,19,.72);
+  border-radius:0 14px 14px 0;
+  font-size:12px;
+  color:#afc1d6;
+}
+
+.t strong{color:#fff}
+
+.alert{
+  position:fixed;
+  inset:0;
+  display:none;
+  z-index:1000;
+  background:rgba(45,0,10,.18);
+  backdrop-filter:blur(8px);
+}
+
+.alert.on{
+  display:block;
+  animation:pulse 1.1s infinite;
+}
+
+@keyframes pulse{
+  50%{background:rgba(255,0,30,.2)}
+}
+
+.alert-card{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
+  width:min(700px, 92vw);
+  padding:28px;
+  border-radius:22px;
+  background:linear-gradient(180deg, rgba(22,6,12,.98), rgba(8,8,12,.96));
+  border:1px solid rgba(255,77,109,.7);
+  box-shadow:0 0 50px rgba(255,77,109,.18);
+}
+
+.alert-card h2{
+  margin:0 0 12px;
+  font-family:Orbitron,sans-serif;
+  color:#fff;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  font-size:26px;
+}
+
+.alert-card p{
+  color:#ffd1d8;
+  line-height:1.75;
+  margin:0 0 18px;
+}
+
+.footer{
+  height:28px;
+  padding:0 24px 12px;
+  color:#7c93ac;
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.glitch{animation:glitch .18s infinite linear alternate-reverse}
+
+@keyframes glitch{
+  0%{transform:translate(0)}
+  20%{transform:translate(-1px,1px)}
+  40%{transform:translate(-2px,-1px)}
+  60%{transform:translate(1px,1px)}
+  80%{transform:translate(2px,-1px)}
+  100%{transform:translate(0)}
+}
+
+.hidden{display:none !important}
+
+@media (max-width: 1280px){
+  body{overflow:auto}
+  .main{
+    grid-template-columns:320px 1fr;
+    min-height:calc(100% - var(--topbar));
+  }
+  .right{display:none}
+  .core{width:100%}
+}
+
+@media (max-width: 960px){
+  body{overflow:auto}
+  header{
+    height:auto;
+    padding:14px 16px;
+    gap:14px;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .topnav{justify-content:flex-start}
+  .main{
+    grid-template-columns:1fr;
+    height:auto;
+    overflow:auto;
+  }
+  .left{order:2}
+  .center{order:1}
+  .core{
+    height:auto;
+    min-height:0;
+  }
+  .radar-box{
+    height:520px;
+    min-height:520px;
+  }
+  .metrics{
+    grid-template-columns:1fr 1fr;
+  }
+  .footer{
+    height:auto;
+    gap:10px;
+    padding:0 16px 12px;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,
+  *::before,
+  *::after{
+    animation:none !important;
+    transition:none !important;
+    scroll-behavior:auto !important;
+  }
+}
+</style>
+  </head><body>
+<div class="wrap" id="app">
+
+<header>
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true"></div>
+    <div class="brand-title">
+      <h1>G-Rock Systems</h1>
+      <span>Global Tactical Matrix v2</span>
+    </div>
+  </div>
+
+  <div class="topnav">
+    <div class="pill">Mode: <strong id="modeTxt">Normal</strong></div>
+    <div class="pill">Radar: <strong id="radarTxt">1.0x</strong></div>
+    <div class="pill">Alerts: <strong id="alertTxt">0</strong></div>
+    <button class="btn" id="scanBtn">Run Global Scan</button>
+    <button class="btn red" id="resetBtn">Reset Alert</button>
+  </div>
+</header>
+
+<main class="main">
+  <aside class="panel left" aria-label="Academic and core nodes">
+    <div class="section">
+      <h2>Academic Core</h2>
+      <small>stable layer</small>
+    </div>
+    <div class="stack" id="leftStack"></div>
+  </aside>
+
+  <section class="center" aria-label="Mission control core">
+    <div class="core">
+      <div class="core-head">
+        <div>
+          <h2 class="core-title">G-System Core<span>live monitoring / mission console</span></h2>
+        </div>
+        <div class="pill core-status">Status: <strong id="coreStatus">Online</strong></div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <b id="mNodes">11</b>
+          <span>nodes online</span>
+        </div>
+        <div class="metric">
+          <b id="mZone">EU / AFR</b>
+          <span>active zones</span>
+        </div>
+        <div class="metric">
+          <b id="mScan">READY</b>
+          <span>scan protocol</span>
+        </div>
+        <div class="metric">
+          <b id="mAlert">0</b>
+          <span>alert events</span>
+        </div>
+      </div>
+
+      <div class="radar-box" id="radarBox" aria-label="Radar map"></div>
+    </div>
+  </section>
+
+  <aside class="panel right" aria-label="System log and timeline">
+    <div class="section">
+      <h2>System Log</h2>
+      <small>telemetry feed</small>
+    </div>
+    <div class="log">
+      <div class="logbox">
+        <h5>Telemetry</h5>
+        <div class="bar"><i id="progress"></i></div>
+        <p class="logline" id="telemetry">Awaiting scan sequence.</p>
+      </div>
+      <div class="logbox">
+        <h5>Timeline</h5>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="footer">
+  <div>G-Rock / Mission Control UI</div>
+  <div id="clock">--:--:--</div>
+</div>
+
+<div class="alert" id="alert">
+  <div class="alert-card">
+    <h2 class="glitch">Warning — Anomaly Detected</h2>
+    <p>
+      <strong>British Higher Education System</strong><br>
+      <strong>Academic Compliance Issue</strong><br><br>
+      A verification issue has occurred.<br>
+      External rules and requirements from the British higher education system caused a data error. The radar scan has been stopped.
+    </p>
+    <button class="btn red" id="closeAlert">Acknowledge &amp; Close</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+const radarBox = document.getElementById('radarBox');
+const leftStack = document.getElementById('leftStack');
+const timeline = document.getElementById('timeline');
+const alertBox = document.getElementById('alert');
+const app = document.getElementById('app');
+
+const state = {
+  mode: 'Normal',
+  alerts: 0,
+  scanTimer: null,
+  scanProgress: 0
+};
+
+const nodes = [
+  {id:'uni', x:'16%', y:'26%', zone:'europe', type:'institution', status:'stable', title:'Monkeys University of Gibraltar', sub:'Academic core matrix', desc:'Institutional learning node and research anchor.', link:'university.html'},
+  {id:'library', x:'20%', y:'58%', zone:'europe', type:'core', status:'stable', title:'G-Rock Library', sub:'Knowledge vault', desc:'Reference archive and media repository.', link:'library.html'},
+  {id:'bank', x:'26%', y:'80%', zone:'core', type:'finance', status:'active', title:'Bank of the Monkeys', sub:'Economic layer // MP£', desc:'Monetary protocol, liquidity and transaction logic.', link:'bank.html'},
+  {id:'parliament', x:'50%', y:'23%', zone:'core', type:'core', status:'active', title:'Parliament of the Monkeys from Gibraltar', sub:'Legislative / control hub', desc:'Political and governance node for the G-Rock system.', link:'parliament.html'},
+  {id:'gcore', x:'51%', y:'48%', zone:'core', type:'core', status:'active', title:'G-System Global Core', sub:'Command intelligence', desc:'Primary command and simulation oversight.', link:'core.html'},
+  {id:'ceuta', x:'77%', y:'66%', zone:'africa', type:'region', status:'stable', title:'Campus de Ceuta', sub:'Africa extension node', desc:'Regional academic connector and logistics node.', link:'ceuta.html'},
+  {id:'haiti', x:'74%', y:'24%', zone:'caribbean', type:'region', status:'stable', title:'Haiti Campus', sub:'Caribbean node', desc:'Opens the shared Caribbean repository.', link:'caraibian.html?campus=haiti'},
+  {id:'jamaica', x:'84%', y:'44%', zone:'caribbean', type:'region', status:'stable', title:'Jamaica Campus', sub:'Caribbean node', desc:'Opens the shared Caribbean repository.', link:'caraibian.html?campus=jamaica'},
+  {id:'domrep', x:'89%', y:'79%', zone:'caribbean', type:'region', status:'stable', title:'Dominican Republic Campus', sub:'Caribbean node', desc:'Opens the shared Caribbean repository.', link:'caraibian.html?campus=dominican_republic'},
+  {id:'anomaly1', x:'86%', y:'18%', zone:'external', type:'anomaly', status:'anomaly', title:'External Node', sub:'External trigger zone', desc:'Anomaly source linked to academic compliance divergence.', link:'external.html'},
+  {id:'archive', x:'55%', y:'90%', zone:'archive', type:'vault', status:'archive', title:'G-Rock Archive', sub:'Restricted vault', desc:'EXCLUSIVE CONTENT', link:'archive.html'}
+];
+
+const timelineItems = [
+  ['2024', 'Academic core validated as a live research layer.'],
+  ['2025', 'Global tactical matrix architecture deployed.'],
+  ['2026', 'Media, archive, and anomaly logic integrated.']
+];
+
+function statusChip(status){
+  return `<span class="tag ${status}"><span class="dot"></span>${status}</span>`;
+}
+
+function createCard(node, compact = false){
+  const el = document.createElement('article');
+  el.className = `card ${node.status}`;
+  el.tabIndex = 0;
+  el.setAttribute('role', 'button');
+  el.setAttribute('aria-label', node.title);
+  el.innerHTML = `
+    <div class="card-top">
+      <div class="k">${node.zone} / ${node.type}</div>
+      ${statusChip(node.status)}
+    </div>
+    <h3>${node.title}</h3>
+    <p>${compact ? node.desc : `${node.sub}<br>${node.desc}`}</p>
+    <div class="card-foot">
+      <span>${node.id}</span>
+      <span>${node.status === 'anomaly' ? 'interrupt' : 'inspect'}</span>
+    </div>
+  `;
+  el.addEventListener('click', () => handleNode(node));
+  el.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleNode(node);
+    }
+  });
+  el.addEventListener('mouseenter', () => setTelemetry(`${node.title} locked. Status ${node.status.toUpperCase()}.`));
+  el.addEventListener('mouseleave', () => setTelemetry(state.mode === 'Alert' ? 'Alert state active.' : 'Hover a node to lock telemetry.'));
+  return el;
+}
+
+function createPin(node){
+  const el = document.createElement('div');
+  el.className = `pin ${node.status}`;
+  el.dataset.zone = node.zone;
+  el.style.left = node.x;
+  el.style.top = node.y;
+  el.tabIndex = 0;
+  el.setAttribute('role', 'button');
+  el.setAttribute('aria-label', node.title);
+  el.innerHTML = `
+    <div class="k">${node.zone} / ${node.type}</div>
+    <h4>${node.title}</h4>
+    <div class="s">${node.sub}<br>${node.desc}</div>
+    <div class="foot">
+      <span>${node.id}</span>
+      <span>${node.status === 'anomaly' ? 'alert' : 'open'}</span>
+    </div>
+  `;
+  el.addEventListener('click', () => handleNode(node));
+  el.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleNode(node);
+    }
+  });
+  el.addEventListener('mouseenter', () => focusNode(node, true));
+  el.addEventListener('mouseleave', () => focusNode(node, false));
+  return el;
+}
+
+function focusNode(node, on){
+  document.getElementById('telemetry').textContent = on
+    ? `${node.title} locked. Status ${node.status.toUpperCase()}.`
+    : (state.mode === 'Alert' ? 'Alert state active.' : 'Hover a node to lock telemetry.');
+}
+
+function handleNode(node){
+  if (node.status === 'anomaly') {
+    triggerAnomaly(node);
+    return;
+  }
+  window.location.href = node.link;
+}
+
+function setTelemetry(text){
+  document.getElementById('telemetry').textContent = text;
+}
+
+function triggerAnomaly(node){
+  state.mode = 'Alert';
+  state.alerts += 1;
+
+  document.getElementById('modeTxt').textContent = 'Alert';
+  document.getElementById('radarTxt').textContent = '0.4x';
+  document.getElementById('coreStatus').textContent = 'Override';
+  document.getElementById('mAlert').textContent = String(state.alerts);
+  document.getElementById('alertTxt').textContent = String(state.alerts);
+  document.getElementById('mScan').textContent = 'INTERRUPT';
+  document.body.classList.add('glitch');
+  alertBox.classList.add('on');
+  app.style.filter = 'saturate(1.18) contrast(1.06)';
+  setTelemetry(`Anomaly interrupt: ${node.title}.`);
+
+  radarBox.style.animationDuration = '18s';
+  radarBox.style.filter = 'drop-shadow(0 0 28px rgba(255,77,109,.22)) hue-rotate(-15deg)';
+}
+
+function resetAlert(){
+  state.mode = 'Normal';
+  document.getElementById('modeTxt').textContent = 'Normal';
+  document.getElementById('radarTxt').textContent = '1.0x';
+  document.getElementById('coreStatus').textContent = 'Online';
+  document.getElementById('mScan').textContent = 'READY';
+  document.body.classList.remove('glitch');
+  alertBox.classList.remove('on');
+  app.style.filter = 'none';
+  radarBox.style.animationDuration = '16s';
+  radarBox.style.filter = 'none';
+  setTelemetry('Alert cleared. System normal.');
+}
+
+function runScan(){
+  if (state.scanTimer) clearInterval(state.scanTimer);
+  state.scanProgress = 0;
+  state.mode = 'Scan';
+  document.getElementById('mScan').textContent = 'RUNNING';
+  document.getElementById('modeTxt').textContent = 'Scan';
+  document.getElementById('radarTxt').textContent = '1.4x';
+  setTelemetry('Global scan initiated...');
+
+  const order = [...radarBox.querySelectorAll('.pin')].filter(p => !p.classList.contains('anomaly'));
+  let idx = 0;
+
+  state.scanTimer = setInterval(() => {
+    if (state.mode === 'Alert') {
+      clearInterval(state.scanTimer);
+      return;
+    }
+
+    if (idx < order.length) {
+      const el = order[idx];
+      el.animate(
+        [{transform:'translate(-50%, -50%) scale(1)'},{transform:'translate(-50%, -50%) scale(1.04)'},{transform:'translate(-50%, -50%) scale(1)'}],
+        {duration:540, easing:'ease-out'}
+      );
+      state.scanProgress = Math.min(100, state.scanProgress + 17);
+      document.getElementById('progress').style.width = state.scanProgress + '%';
+      setTelemetry(`Scanning ${el.querySelector('h4').textContent}...`);
+      idx += 1;
+    } else {
+      clearInterval(state.scanTimer);
+      document.getElementById('mScan').textContent = 'READY';
+      document.getElementById('modeTxt').textContent = 'Normal';
+      document.getElementById('radarTxt').textContent = '1.0x';
+      setTelemetry('Scan complete. Anomaly nodes remain priority override.');
+    }
+  }, 700);
+}
+
+function clock(){
+  const d = new Date();
+  document.getElementById('clock').textContent = d.toLocaleTimeString([], {
+    hour:'2-digit',
+    minute:'2-digit',
+    second:'2-digit'
+  });
+}
+
+function build(){
+  const leftNodes = nodes.filter(n => ['stable','active'].includes(n.status) && ['europe','core'].includes(n.zone));
+  leftNodes.forEach(n => leftStack.appendChild(createCard(n, true)));
+
+  nodes.forEach(n => radarBox.appendChild(createPin(n)));
+
+  timelineItems.forEach(([date, text]) => {
+    const div = document.createElement('div');
+    div.className = 't';
+    div.innerHTML = `<strong>${date}</strong><br>${text}`;
+    timeline.appendChild(div);
+  });
+
+  document.getElementById('mNodes').textContent = String(nodes.length).padStart(2, '0');
+  document.getElementById('mZone').textContent = 'EU / AFR';
+  document.getElementById('progress').style.width = '62%';
+}
+
+build();
+
+document.getElementById('scanBtn').addEventListener('click', runScan);
+document.getElementById('resetBtn').addEventListener('click', resetAlert);
+document.getElementById('closeAlert').addEventListener('click', resetAlert);
+
+setInterval(() => {
+  clock();
+  if (state.mode !== 'Alert') {
+    const current = parseInt(document.getElementById('progress').style.width || '62', 10) || 62;
+    const next = current >= 100 ? 12 : current + 1;
+    document.getElementById('progress').style.width = next + '%';
+  }
+}, 1000);
+
+clock();
+</script>
+</body>
+  </html>

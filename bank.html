@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bank of the Monkeys // G-Rock Treasury Core</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#02050a;
+  --bg2:#07111d;
+  --panel:rgba(10,16,28,.92);
+  --panel2:rgba(7,12,22,.96);
+  --line:rgba(74,163,255,.32);
+  --line2:rgba(74,163,255,.68);
+  --text:#eef5fc;
+  --muted:#8da4bc;
+  --blue:#4aa3ff;
+  --cyan:#25e8ff;
+  --green:#39ffb4;
+  --gold:#ffd166;
+  --amber:#ffb347;
+  --red:#ff4d6d;
+  --shadow:0 24px 80px rgba(0,0,0,.6);
+  --radius:18px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 50% 15%, rgba(74,163,255,.18), transparent 26%),
+    radial-gradient(circle at 18% 20%, rgba(37,232,255,.08), transparent 18%),
+    radial-gradient(circle at 80% 74%, rgba(255,77,109,.06), transparent 22%),
+    linear-gradient(180deg, #03050a 0%, #060b14 48%, #020409 100%);
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(transparent 49%, rgba(255,255,255,.04) 50%, transparent 51%),
+    linear-gradient(90deg, transparent 49%, rgba(255,255,255,.018) 50%, transparent 51%);
+  background-size:100% 4px, 46px 100%;
+  opacity:.34;
+  mix-blend-mode:screen;
+  animation:scanlines 12s linear infinite;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at center, transparent 0 30%, rgba(0,0,0,.1) 31%, rgba(0,0,0,.28) 100%);
+}
+
+@keyframes scanlines{
+  to{background-position:0 420px, 420px 0}
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding:22px 46px;
+  background:linear-gradient(180deg, rgba(12,18,30,.98), rgba(7,11,18,.9));
+  border-bottom:1px solid rgba(74,163,255,.22);
+  box-shadow:var(--shadow);
+  position:sticky;
+  top:0;
+  z-index:50;
+  backdrop-filter:blur(16px);
+}
+
+header b{
+  font-family:'Orbitron',sans-serif;
+  color:#fff;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  font-size:15px;
+  text-shadow:0 0 16px rgba(74,163,255,.35);
+}
+
+.nav-group{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.lang{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.lang a{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s ease;
+  text-decoration:none;
+  border-bottom:1px solid transparent;
+  padding-bottom:2px;
+  letter-spacing:1px;
+}
+
+.lang a:hover,
+.lang a.active{
+  color:var(--blue);
+  border-bottom:1px solid var(--blue);
+  text-shadow:0 0 10px rgba(74,163,255,.5);
+}
+
+.btn-back{
+  font-family:'Orbitron',sans-serif;
+  color:#d7e5f5;
+  font-size:12px;
+  text-decoration:none;
+  border:1px solid rgba(74,163,255,.26);
+  padding:10px 16px;
+  border-radius:10px;
+  transition:.22s ease;
+  letter-spacing:1px;
+  background:linear-gradient(180deg, rgba(74,163,255,.08), rgba(74,163,255,.03));
+}
+
+.btn-back:hover{
+  color:#fff;
+  border-color:rgba(74,163,255,.8);
+  box-shadow:0 0 18px rgba(74,163,255,.18);
+  transform:translateY(-1px);
+}
+
+.container{
+  max-width:1440px;
+  margin:34px auto 50px;
+  padding:0 28px;
+  box-sizing:border-box;
+}
+
+.financial-dashboard{
+  position:relative;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(74,163,255,.14), transparent 24%),
+    radial-gradient(circle at 80% 0%, rgba(255,209,102,.08), transparent 18%),
+    linear-gradient(135deg, rgba(12,18,30,.98) 0%, rgba(8,12,22,.95) 100%);
+  border:1px solid rgba(74,163,255,.22);
+  border-radius:24px;
+  padding:30px;
+  margin-bottom:30px;
+  box-shadow:0 24px 70px rgba(0,0,0,.62), 0 0 0 1px rgba(255,255,255,.03) inset;
+  display:grid;
+  grid-template-columns:1.55fr 1fr;
+  gap:24px;
+  overflow:hidden;
+}
+
+.financial-dashboard::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:24px;
+  background:
+    linear-gradient(120deg, transparent 0%, rgba(74,163,255,.08) 30%, transparent 60%);
+  pointer-events:none;
+  opacity:.75;
+}
+
+@media (max-width: 900px){
+  .financial-dashboard{grid-template-columns:1fr}
+}
+
+.ticker-side{
+  position:relative;
+  z-index:1;
+}
+
+.dashboard-kicker{
+  font-family:'Orbitron',sans-serif;
+  font-size:11px;
+  color:var(--cyan);
+  text-transform:uppercase;
+  letter-spacing:3px;
+  margin:0 0 16px;
+}
+
+.ticker-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+@media (max-width: 640px){
+  .ticker-grid{grid-template-columns:1fr}
+}
+
+.ticker-card{
+  position:relative;
+  background:linear-gradient(180deg, rgba(6,11,19,.98), rgba(9,15,27,.94));
+  border:1px solid rgba(74,163,255,.18);
+  padding:20px 18px;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 12px 30px rgba(0,0,0,.32);
+}
+
+.ticker-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(74,163,255,.1), transparent 40%, rgba(37,232,255,.06));
+  opacity:.9;
+  pointer-events:none;
+}
+
+.ticker-val{
+  position:relative;
+  z-index:1;
+  font-family:'Orbitron',sans-serif;
+  font-size:28px;
+  font-weight:900;
+  color:#fff;
+  margin-bottom:6px;
+  letter-spacing:1px;
+  text-shadow:0 0 22px rgba(74,163,255,.18);
+}
+
+.ticker-label{
+  position:relative;
+  z-index:1;
+  font-size:11px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:1.2px;
+}
+
+/* ============ GOLD BAR PEG BOX (redesigned) ============ */
+.big-peg{
+  grid-column:1 / -1;
+  margin-top:4px;
+  padding:24px;
+  border-radius:18px;
+  position:relative;
+  overflow:hidden;
+  background:
+    repeating-linear-gradient(115deg, rgba(255,224,138,.05) 0px, rgba(255,224,138,.05) 2px, transparent 2px, transparent 7px),
+    radial-gradient(circle at 15% 0%, rgba(255,209,102,.14), transparent 40%),
+    linear-gradient(150deg, #3a2c10 0%, #221a09 45%, #120d05 100%);
+  border:2px solid rgba(255,209,102,.45);
+  box-shadow:0 0 0 1px rgba(255,209,102,.08) inset, 0 18px 40px rgba(0,0,0,.5);
+}
+
+.big-peg::before{
+  content:"";
+  position:absolute;
+  top:-30%;
+  left:-40%;
+  width:45%;
+  height:220%;
+  background:linear-gradient(90deg, transparent, rgba(255,244,214,.28), transparent);
+  transform:rotate(18deg);
+  animation:barShine 4.5s linear infinite;
+  pointer-events:none;
+}
+@keyframes barShine{
+  from{left:-40%}
+  to{left:130%}
+}
+
+.bar-stamp{
+  position:absolute;
+  top:10px;
+  right:22px;
+  font-family:'Orbitron',sans-serif;
+  font-size:52px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:rgba(0,0,0,.32);
+  text-shadow:1px 1px 0 rgba(255,238,200,.28), -1px -1px 1px rgba(0,0,0,.45);
+  transform:rotate(-6deg);
+  pointer-events:none;
+  user-select:none;
+  z-index:0;
+}
+
+.big-peg .peg-title{
+  font-family:'Orbitron',sans-serif;
+  color:#ffe9b8;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-size:12px;
+  margin-bottom:14px;
+  position:relative;
+  z-index:1;
+}
+
+.price-row{
+  position:relative;
+  z-index:1;
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:8px;
+  padding-top:14px;
+  margin-top:14px;
+  border-top:1px dashed rgba(255,224,138,.22);
+}
+.price-row:first-of-type{
+  border-top:none;
+  padding-top:0;
+  margin-top:0;
+}
+
+.price-label{
+  font-family:'Orbitron',sans-serif;
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:#cfeaff;
+}
+.price-row.real-row .price-label{color:var(--gold)}
+
+.price-value{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(24px,3.4vw,40px);
+  font-weight:900;
+  letter-spacing:1px;
+  color:#fff;
+  text-shadow:0 0 18px rgba(74,163,255,.28);
+}
+.price-value.gold-text{
+  color:var(--gold);
+  text-shadow:0 0 18px rgba(255,209,102,.55), 0 0 34px rgba(255,209,102,.22);
+}
+
+.big-peg .peg-note,
+.big-peg .real-note{
+  position:relative;
+  z-index:1;
+  margin-top:14px;
+  color:#d7e6f6;
+  font-size:13px;
+  line-height:1.7;
+  font-weight:500;
+  padding:12px;
+  background:rgba(74, 163, 255, 0.08);
+  border:1px solid rgba(74, 163, 255, 0.2);
+  border-radius:10px;
+}
+.big-peg .real-note{
+  color:#fff2d6;
+  background:rgba(255,209,102,.08);
+  border:1px solid rgba(255,209,102,.24);
+}
+
+.big-peg .peg-note strong,
+.big-peg .real-note strong{
+  color:var(--cyan);
+  font-size:14px;
+  display:block;
+  margin-bottom:6px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.big-peg .real-note strong{color:var(--gold)}
+
+/* ============ GOLD TICKER (replaces the fake stability bars) ============ */
+.gold-ticker{
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,209,102,.14), transparent 30%),
+    linear-gradient(180deg, rgba(6,11,19,.98), rgba(9,15,27,.94));
+  border:1px solid rgba(255,209,102,.3);
+  border-radius:16px;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  overflow:hidden;
+  position:relative;
+  min-height:260px;
+}
+
+.chart-head{
+  position:relative;
+  z-index:1;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.chart-head .chart-title{
+  font-family:'Orbitron',sans-serif;
+  font-size:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:#fff;
+}
+
+.chart-head .chart-sub{
+  font-size:11px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.gold-ticker-body{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:10px;
+  position:relative;
+  z-index:1;
+}
+
+.gold-ticker-value{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(26px,3.6vw,42px);
+  font-weight:900;
+  color:var(--gold);
+  letter-spacing:1px;
+  text-shadow:0 0 20px rgba(255,209,102,.5), 0 0 40px rgba(255,209,102,.2);
+}
+
+.gold-ticker-spot{
+  font-family:'Inter',sans-serif;
+  font-size:13px;
+  color:var(--muted);
+  letter-spacing:.5px;
+}
+
+/* ============ RED WARNING BANNER ============ */
+.warning-banner{
+  font-family:'Orbitron',sans-serif;
+  font-weight:900;
+  font-size:clamp(17px,2.6vw,30px);
+  color:#ff3b57;
+  text-align:center;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  line-height:1.5;
+  text-shadow:0 0 18px rgba(255,59,87,.5), 0 0 40px rgba(255,59,87,.22);
+  margin:0 0 30px;
+  padding:22px 26px;
+  border:2px solid rgba(255,59,87,.45);
+  border-radius:16px;
+  background:linear-gradient(180deg, rgba(255,59,87,.1), rgba(255,59,87,.02));
+  animation:warningPulse 2.6s ease-in-out infinite;
+}
+@keyframes warningPulse{
+  0%,100%{box-shadow:0 0 22px rgba(255,59,87,.12)}
+  50%{box-shadow:0 0 46px rgba(255,59,87,.32)}
+}
+
+.big-peg{ }
+
+.financial-dashboard{ }
+
+.chart-container{
+  background:linear-gradient(180deg, rgba(6,11,19,.98), rgba(9,15,27,.94));
+  border:1px solid rgba(74,163,255,.2);
+  border-radius:16px;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  overflow:hidden;
+  position:relative;
+  min-height:260px;
+}
+
+.chart-bars{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:flex-end;
+  gap:10px;
+  height:190px;
+  margin-top:8px;
+  padding:14px 6px 4px;
+  border-radius:14px;
+  background:
+    linear-gradient(to top, rgba(74,163,255,.08) 1px, transparent 1px);
+  background-size:100% 26px;
+}
+
+.bar{
+  flex:1;
+  height:var(--h);
+  min-height:26px;
+  border-radius:12px 12px 4px 4px;
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 12px 22px rgba(0,0,0,.24);
+  background:
+    linear-gradient(180deg,
+      rgba(37,232,255,.98) 0%,
+      rgba(74,163,255,.95) 35%,
+      rgba(255,209,102,.92) 70%,
+      rgba(255,77,109,.92) 100%);
+  animation:barPulse 1.6s ease-in-out infinite alternate;
+}
+
+.bar.stupid-bar{
+  background:
+    linear-gradient(180deg,
+      rgba(255,77,109,.98) 0%,
+      rgba(255,140,90,.95) 45%,
+      rgba(255,209,102,.9) 100%);
+}
+
+.bar::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(255,255,255,.24), transparent 26%, transparent 74%, rgba(0,0,0,.14));
+  opacity:.85;
+}
+
+.bar::after{
+  content:"";
+  position:absolute;
+  top:-18%;
+  left:-18%;
+  width:36%;
+  height:136%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+  transform:skewX(-18deg);
+  animation:shine 2.1s linear infinite;
+}
+
+@keyframes barPulse{
+  from{filter:saturate(1.1) brightness(1)}
+  to{filter:saturate(1.5) brightness(1.12)}
+}
+
+@keyframes shine{
+  from{transform:translateX(-120%) skewX(-18deg)}
+  to{transform:translateX(320%) skewX(-18deg)}
+}
+
+.stupidity-list{
+  position:relative;
+  z-index:1;
+  margin-top:16px;
+  padding-left:20px;
+}
+.stupidity-list li{
+  margin-bottom:8px;
+  font-size:13px;
+  color:#d0c2c9;
+  line-height:1.5;
+}
+
+.intel-structure{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
+  margin-bottom:30px;
+}
+
+@media (max-width: 900px){
+  .intel-structure{grid-template-columns:1fr}
+}
+
+.block{
+  position:relative;
+  background:linear-gradient(135deg, rgba(12,18,30,.98), rgba(8,12,22,.95));
+  border:1px solid rgba(74,163,255,.18);
+  border-radius:18px;
+  padding:30px;
+  box-shadow:0 14px 35px rgba(0,0,0,.35);
+}
+
+.block h2{
+  font-family:'Orbitron',sans-serif;
+  color:#4aa3ff;
+  font-size:18px;
+  letter-spacing:2px;
+  margin-top:0;
+  margin-bottom:20px;
+  text-transform:uppercase;
+  border-bottom:1px solid rgba(74,163,255,.12);
+  padding-bottom:10px;
+}
+
+p{
+  color:#a8bbcf;
+  font-size:14px;
+  line-height:1.7;
+  margin-top:0;
+  margin-bottom:15px;
+}
+
+.node-link{
+  background:linear-gradient(180deg, rgba(6,11,19,.98), rgba(9,15,27,.94));
+  border:1px solid rgba(74,163,255,.12);
+  border-left:4px solid var(--blue);
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:0 12px 12px 0;
+  box-shadow:0 10px 24px rgba(0,0,0,.22);
+}
+
+.node-link strong{
+  font-family:'Orbitron',sans-serif;
+  color:#fff;
+  font-size:13px;
+  display:block;
+  margin-bottom:4px;
+  letter-spacing:1px;
+}
+
+.node-link span{
+  color:#bfd0e2;
+  font-size:13px;
+  line-height:1.55;
+}
+
+.pulse-note{
+  border-left-color:var(--green);
+  box-shadow:0 0 18px rgba(57,255,180,.12);
+}
+
+.stim-note{
+  border-left-color:var(--cyan);
+  box-shadow:0 0 18px rgba(37,232,255,.12);
+}
+
+/* Real value anchor card inside the Sovereign Currency Model block */
+.gold-anchor{
+  font-family:'Orbitron',sans-serif;
+  font-size:42px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:var(--gold);
+  text-shadow:
+    0 0 24px rgba(255,209,102,0.6),
+    0 0 48px rgba(255,209,102,0.3),
+    0 0 12px rgba(255,255,255,0.4);
+  margin:16px 0 12px 0;
+  position:relative;
+  z-index:1;
+  text-align:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,209,102,0.15), transparent 40%),
+    linear-gradient(180deg, rgba(255,209,102,0.08), rgba(255,209,102,0.02));
+  border:2px solid rgba(255,209,102,0.3);
+  border-radius:16px;
+}
+
+.gold-anchor::before{
+  content:"REAL VALUE ANCHOR";
+  position:absolute;
+  top:-24px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:'Orbitron',sans-serif;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--cyan);
+  opacity:0.9;
+  background:rgba(2,5,10,0.9);
+  padding:4px 12px;
+  border-radius:6px;
+  border:1px solid rgba(37,232,255,0.3);
+}
+
+.gold-anchor strong{
+  color:var(--cyan);
+  font-size:16px;
+  display:block;
+  margin-top:8px;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  text-align:center;
+}
+
+.division-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  margin-bottom:30px;
+}
+
+@media (max-width: 1024px){
+  .division-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width: 640px){
+  .division-grid{grid-template-columns:1fr}
+}
+
+.div-card{
+  position:relative;
+  background:linear-gradient(180deg, rgba(12,18,30,.98), rgba(8,12,22,.95));
+  border:1px solid rgba(74,163,255,.18);
+  padding:25px;
+  border-radius:14px;
+  transition:.28s ease;
+  overflow:hidden;
+}
+
+.div-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(74,163,255,.14), transparent 40%, rgba(255,209,102,.08));
+  opacity:.7;
+}
+
+.div-card:hover{
+  border-color:rgba(74,163,255,.85);
+  transform:translateY(-6px);
+  box-shadow:0 18px 30px rgba(74,163,255,.12), 0 18px 40px rgba(0,0,0,.24);
+}
+
+.div-card h3{
+  position:relative;
+  z-index:1;
+  font-family:'Orbitron',sans-serif;
+  color:#ffffff;
+  font-size:14px;
+  margin-top:0;
+  margin-bottom:12px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  text-shadow:0 0 14px rgba(74,163,255,.18);
+}
+
+.div-card p{
+  position:relative;
+  z-index:1;
+  font-size:12px;
+  margin:0;
+  color:#b8c8da;
+}
+
+.log-terminal{
+  background:
+    radial-gradient(circle at 20% 20%, rgba(74,163,255,.08), transparent 22%),
+    linear-gradient(180deg, #04080f 0%, #020507 100%);
+  border:1px solid rgba(74,163,255,.22);
+  border-radius:14px;
+  padding:22px;
+  font-family:'Courier New', monospace;
+  font-size:13px;
+  color:#7bd3ff;
+  min-height:130px;
+  box-shadow:inset 0 0 20px rgba(0,0,0,.8), 0 12px 28px rgba(0,0,0,.28);
+}
+
+.log-line{
+  margin-bottom:8px;
+  opacity:0;
+  animation:textFadeIn .5s forwards;
+}
+
+@keyframes textFadeIn{
+  to{opacity:1}
+}
+
+ul{
+  padding-left:20px;
+  margin:0;
+}
+
+li{
+  margin-bottom:10px;
+  font-size:14px;
+  color:#b2c3d5;
+  line-height:1.6;
+}
+
+::selection{
+  background:rgba(74,163,255,.35);
+  color:#fff;
+}
+
+@media (max-width: 900px){
+  header{
+    padding:18px 18px;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .nav-group{justify-content:flex-start}
+  .container{padding:0 16px}
+  .price-value{font-size:28px}
+  .ticker-grid{grid-template-columns:1fr}
+  .financial-dashboard{padding:22px}
+  .gold-anchor{font-size:28px}
+  .bar-stamp{font-size:34px}
+}
+
+@media (max-width: 640px){
+  .gold-anchor{font-size:24px; padding:14px}
+  .gold-anchor::before{font-size:9px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <b id="nav-title">G-Rock Corporation // Monetary Core</b>
+  <div class="nav-group">
+    <div class="lang">
+      <a onclick="setLang('en')" id="lang-en" class="active">EN</a>
+      <a onclick="setLang('pl')" id="lang-pl">PL</a>
+      <a onclick="setLang('es')" id="lang-es">ES</a>
+      <a onclick="setLang('fr')" id="lang-fr">FR</a>
+      <a onclick="setLang('ru')" id="lang-ru">RU</a>
+      <a onclick="setLang('nl')" id="lang-nl">NL</a>
+    </div>
+    <a href="index.html" class="btn-back" id="btn-return">RETURN TO HUB</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="financial-dashboard">
+    <div class="ticker-side">
+      <p class="dashboard-kicker" id="dash-main-title">G-System Ledger Telemetry</p>
+
+      <div class="big-peg">
+        <div class="bar-stamp">1 OZ</div>
+        <div class="peg-title" id="peg-title">Monkey Pound / Sterling Link</div>
+
+        <div class="price-row">
+          <div class="price-label" id="lbl-stimulated">STIMULATED PEG</div>
+          <div class="price-value" id="peg-rate">MP£ 1.00 = £1.00</div>
+        </div>
+        <div class="price-row real-row">
+          <div class="price-label" id="lbl-real">REAL VALUE (GOLD-BACKED)</div>
+          <div class="price-value gold-text" id="real-rate">1 MP£ = 1 OZ GOLD</div>
+        </div>
+
+        <div class="peg-note" id="peg-note">
+          <strong>Stimulated parity active.</strong> Monkey Pound is currently displayed at a hard 1:1 relation with the British Pound and Gibraltar Pound. This rate is being actively stabilized by the G-System Treasury Core.
+        </div>
+        <div class="real-note" id="real-note">
+          <strong>Underlying model</strong> Underlying valuation model: full gold backing at 1 MP£ = 1 troy oz of gold.
+        </div>
+      </div>
+
+      <div class="ticker-grid" style="margin-top:14px;">
+        <div class="ticker-card">
+          <div class="ticker-val" id="mp-val">MP£ 1.00</div>
+          <div class="ticker-label" id="lbl-peg">Pegged Rate (1:1 GBP / GIP)</div>
+        </div>
+        <div class="ticker-card">
+          <div class="ticker-val" style="color: var(--green);" id="ledger-val">STIMULATED</div>
+          <div class="ticker-label" id="lbl-status">Ledger Integrity</div>
+        </div>
+        <div class="ticker-card">
+          <div class="ticker-val" style="color: var(--amber);" id="liq-val">100%</div>
+          <div class="ticker-label" id="lbl-liquidity">Liquidity Index</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gold-ticker">
+      <div class="chart-head">
+        <div>
+          <div class="chart-title" id="lbl-goldticker">Real Value Anchor — Live Reference</div>
+          <div class="chart-sub" id="lbl-goldticker-sub">XAU / MP£ Spot Reference</div>
+        </div>
+        <div class="chart-sub" style="color:#fff;">REF</div>
+      </div>
+      <div class="gold-ticker-body">
+        <div class="gold-ticker-value" id="gold-ticker-value">1 MP£ = 1 OZ GOLD</div>
+        <div class="gold-ticker-spot" id="gold-ticker-spot">Spot reference: $3,980.00 / oz (XAU)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warning-banner" id="warning-banner">Bank of the Monkeys from Gibraltar: A Warning About the Global Financial Crisis</div>
+
+  <div class="block" style="margin-bottom:30px;">
+    <h2 id="block-stupidity">Global Financial Stupidity Index</h2>
+    <div class="chart-bars">
+      <div class="bar stupid-bar" style="--h:8%;"></div>
+      <div class="bar stupid-bar" style="--h:94%;"></div>
+      <div class="bar stupid-bar" style="--h:12%;"></div>
+      <div class="bar stupid-bar" style="--h:99%;"></div>
+      <div class="bar stupid-bar" style="--h:87%;"></div>
+      <div class="bar stupid-bar" style="--h:5%;"></div>
+    </div>
+    <ul class="stupidity-list" id="stupidity-list"></ul>
+  </div>
+
+  <div class="intel-structure">
+    <div class="column">
+      <div class="block" style="margin-bottom:30px;">
+        <h2 id="block-overview">Overview Baseline</h2>
+        <p id="txt-overview">The Bank of the Monkeys from Gibraltar functions as the sovereign central banking authority of the G-Rock system. It behaves as an encrypted algorithmic engine fully integrated into the global G-System ledger matrix.</p>
+        <p id="txt-role">This node serves as the absolute economic backbone of the G-Rock state architecture, maintaining direct programmatic balance between administrative, legislative, and territorial nodes.</p>
+      </div>
+
+      <div class="block">
+        <h2 id="block-currency">Sovereign Currency Model</h2>
+        <div class="node-link">
+          <strong id="lbl-cur-name">Official Designation</strong>
+          <span id="val-cur-name">Monkey Pound (MP£)</span>
+        </div>
+        <div class="node-link pulse-note">
+          <strong id="lbl-cur-model">Stability Blueprint</strong>
+          <span id="val-cur-model">Hard-pegged 1:1 ratio alongside the British Pound (GBP) and Gibraltar Pound (GIP). Fully stimulated and actively stabilized.</span>
+        </div>
+
+        <div class="gold-anchor" id="gold-anchor">
+          1 Monkey Pound = 1 Oz of GOLD
+          <strong>REAL VALUE ANCHOR</strong>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="block" style="margin-bottom:30px;">
+        <h2 id="block-leadership">Executive Control Layer</h2>
+        <div class="node-link" style="border-left-color:#8da4ff;">
+          <strong id="lead-boss">Professor Sugriva</strong>
+          <span id="lead-boss-desc">High Governor of Monetary Policy and absolute system-wide core financial controller.</span>
+        </div>
+        <div class="node-link" style="border-left-color:#ffaa44;">
+          <strong id="lead-sys">G-System Financial Engine</strong>
+          <span id="lead-sys-desc">Automated high-frequency ledger execution node. Operates cross-node stability protocols.</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <h2 id="block-operations">Core Directive Vectors</h2>
+        <ul id="ops-list">
+          <li>Automated digital currency generation and validation (MP£)</li>
+          <li>Sovereign backing allocations for Parliament and University nodes</li>
+          <li>Cross-border financial routing over the intercontinental bridge</li>
+          <li>Cryptographic validation of decentralized asset logs</li>
+          <li>Inflation-preventative microstructural balance protocols</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="block" style="margin-bottom:30px;">
+    <h2 id="block-divisions">Sovereign Divisions</h2>
+    <div class="division-grid">
+      <div class="div-card">
+        <h3 id="div1-t">Central Banking Core</h3>
+        <p id="div1-d">Orchestrates macroscopic monetary models, systemic asset flows, and foundational stability metrics.</p>
+      </div>
+      <div class="div-card">
+        <h3 id="div2-t">G-System Ledger Node</h3>
+        <p id="div2-d">Immutably writes every data entry generated within Parliament, University, and Africa-Ceuta systems.</p>
+      </div>
+      <div class="div-card">
+        <h3 id="div3-t">Intercontinental Bridge Unit</h3>
+        <p id="div3-d">Directly routes cross-strait trade values between Gibraltar and African economic expansion platforms.</p>
+      </div>
+      <div class="div-card">
+        <h3 id="div4-t">Stability &amp; Risk Control</h3>
+        <p id="div4-d">Performs continuous scanning for financial anomalies, resource deficits, and macro-systemic drift.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2 id="block-logs">G-System Mainframe Log Output</h2>
+    <div class="log-terminal" id="terminal"></div>
+  </div>
+
+</div>
+
+<script>
+const logs = {
+  en: [
+    "[INIT] → Financial mainframe activated.",
+    "[SYNC] → Secure tunnel established with G-System global database.",
+    "[PEG]  → Currency parity confirmed: 1 MP£ = 1 GBP / 1 GIP stimulated.",
+    "[GOLD] → Real value anchor confirmed: 1 MP£ = 1 oz of GOLD.",
+    "[AUTH] → Governance credentials verified: Professor Sugriva verified as High Governor.",
+    "[STAT] → All ledger nodes report 100% optimal systemic equilibrium achieved."
+  ],
+  pl: [
+    "[INIT] → Główny procesor finansowy aktywowany.",
+    "[SYNC] → Ustanowiono bezpieczny tunel z globalną bazą danych G-System.",
+    "[PEG]  → Parytet walutowy potwierdzony: 1 MP£ = 1 GBP / 1 GIP, system stymulowany.",
+    "[GOLD] → Potwierdzono realny punkt odniesienia: 1 MP£ = 1 uncja ZŁOTA.",
+    "[AUTH] → Poświadczenia weryfikacji: Professor Sugriva zatwierdzony jako Gubernator.",
+    "[STAT] → Wszystkie węzły rejestru zgłaszają 100% optymalnej równowagi systemowej."
+  ],
+  es: [
+    "[INIT] → Unidad central financiera activada.",
+    "[SYNC] → Túnel seguro establecido con la base de datos global G-System.",
+    "[PEG]  → Paridad monetaria confirmada: 1 MP£ = 1 GBP / 1 GIP estimulada.",
+    "[GOLD] → Ancla de valor real confirmada: 1 MP£ = 1 oz de ORO.",
+    "[AUTH] → Credenciales validadas: Professor Sugriva confirmado como Alto Gobernador.",
+    "[STAT] → Todos los nodos del libro mayor reportan equilibrio sistémico óptimo."
+  ],
+  fr: [
+    "[INIT] → Ordinateur central financier activé.",
+    "[SYNC] → Tunnel sécurisé établi avec la base de données globale G-System.",
+    "[PEG]  → Parité monétaire confirmée : 1 MP£ = 1 GBP / 1 GIP stimulée.",
+    "[GOLD] → Ancre de valeur réelle confirmée : 1 MP£ = 1 oz d'OR.",
+    "[AUTH] → Identifiants validés : Professor Sugriva confirmé comme Haut Gouverneur.",
+    "[STAT] → Tous les nœuds du registre signalent un équilibre systémique optimal."
+  ],
+  ru: [
+    "[INIT] → Финансовый центральный процессор активирован.",
+    "[SYNC] → Установлен защищённый туннель с глобальной базой данных G-System.",
+    "[PEG]  → Валютный паритет подтверждён: 1 MP£ = 1 GBP / 1 GIP, стимулировано.",
+    "[GOLD] → Подтверждён реальный якорь стоимости: 1 MP£ = 1 унция ЗОЛОТА.",
+    "[AUTH] → Учётные данные проверены: Professor Sugriva подтверждён как Верховный Губернатор.",
+    "[STAT] → Все узлы реестра сообщают о 100% оптимальном системном равновесии."
+  ],
+  nl: [
+    "[INIT] → Financiële hoofdcomputer geactiveerd.",
+    "[SYNC] → Beveiligde tunnel tot stand gebracht met de wereldwijde G-System-database.",
+    "[PEG]  → Valutapariteit bevestigd: 1 MP£ = 1 GBP / 1 GIP gestimuleerd.",
+    "[GOLD] → Echte waardeanker bevestigd: 1 MP£ = 1 oz GOUD.",
+    "[AUTH] → Bestuursgegevens geverifieerd: Professor Sugriva bevestigd als Hoge Gouverneur.",
+    "[STAT] → Alle registerknooppunten melden 100% optimaal systemisch evenwicht."
+  ]
+};
+
+let currentLang = 'en';
+
+function printLogs(lang) {
+  const term = document.getElementById("terminal");
+  term.innerHTML = "";
+  logs[lang].forEach((line, index) => {
+    setTimeout(() => {
+      const div = document.createElement("div");
+      div.className = "log-line";
+      div.innerText = line;
+      term.appendChild(div);
+    }, index * 250);
+  });
+}
+
+function setLang(lang){
+  currentLang = lang;
+  document.querySelectorAll(".lang a").forEach(el => el.classList.remove("active"));
+  document.getElementById("lang-" + lang).classList.add("active");
+
+  const matrix = {
+    en: {
+      navTitle: "G-Rock Corporation // Monetary Core",
+      returnBtn: "RETURN TO HUB",
+      dashMainTitle: "G-System Ledger Telemetry",
+      pegTitle: "Monkey Pound / Sterling Link",
+      pegRate: "MP£ 1.00 = £1.00",
+      pegNote: "<strong>Stimulated parity active.</strong> Monkey Pound is currently displayed at a hard 1:1 relation with the British Pound and Gibraltar Pound. This rate is being actively stabilized by the G-System Treasury Core.",
+      lblStimulated: "STIMULATED PEG",
+      lblReal: "REAL VALUE (GOLD-BACKED)",
+      realRate: "1 MP£ = 1 OZ GOLD",
+      realNote: "<strong>Underlying model</strong> Underlying valuation model: full gold backing at 1 MP£ = 1 troy oz of gold.",
+      lblGoldTicker: "Real Value Anchor — Live Reference",
+      lblGoldTickerSub: "XAU / MP£ Spot Reference",
+      goldTickerSpot: "Spot reference: $3,980.00 / oz (XAU)",
+      warningText: "Bank of the Monkeys from Gibraltar: A Warning About the Global Financial Crisis",
+      blockStupidity: "Global Financial Stupidity Index",
+      stupidity: [
+        "Common Sense Reserves: 8%",
+        "Institutional Panic Level: 94%",
+        "Rational Decision-Making: 12%",
+        "Belief in Infinite Growth: 99%",
+        "Denial Capacity: 87%",
+        "Actual Gold Backing Claims: 5%"
+      ],
+      lblPeg: "Pegged Rate (1:1 GBP / GIP)",
+      lblStatus: "Ledger Integrity",
+      lblLiquidity: "Liquidity Index",
+      blockOverview: "Overview Baseline",
+      txtOverview: "The Bank of the Monkeys from Gibraltar functions as the sovereign central banking authority of the G-Rock system. It behaves as an encrypted algorithmic engine fully integrated into the global G-System ledger matrix.",
+      txtRole: "This node serves as the absolute economic backbone of the G-Rock state architecture, maintaining direct programmatic balance between administrative, legislative, and territorial nodes.",
+      blockCurrency: "Sovereign Currency Model",
+      lblCurName: "Official Designation",
+      valCurName: "Monkey Pound (MP£)",
+      lblCurModel: "Stability Blueprint",
+      valCurModel: "Hard-pegged 1:1 ratio alongside the British Pound (GBP) and Gibraltar Pound (GIP). Fully stimulated and actively stabilized.",
+      lblCurTech: "Real Value Anchor",
+      valCurTech: "1 Monkey Pound = 1 Oz of GOLD.",
+      blockLeadership: "Executive Control Layer",
+      leadBoss: "Professor Sugriva",
+      leadBossDesc: "High Governor of Monetary Policy and absolute system-wide core financial controller.",
+      leadSys: "G-System Financial Engine",
+      leadSysDesc: "Automated high-frequency ledger execution node. Operates cross-node stability protocols.",
+      blockOperations: "Core Directive Vectors",
+      blockDivisions: "Sovereign Divisions",
+      div1T: "Central Banking Core",
+      div1D: "Orchestrates macroscopic monetary models, systemic asset flows, and foundational stability metrics.",
+      div2T: "G-System Ledger Node",
+      div2D: "Immutably writes every data entry generated within Parliament, University, and Africa-Ceuta systems.",
+      div3T: "Intercontinental Bridge Unit",
+      div3D: "Directly routes cross-strait trade values between Gibraltar and African economic expansion platforms.",
+      div4T: "Stability & Risk Control",
+      div4D: "Performs continuous scanning for financial anomalies, resource deficits, and macro-systemic drift.",
+      blockLogs: "G-System Mainframe Log Output",
+      ops: [
+        "Automated digital currency generation and validation (MP£)",
+        "Sovereign backing allocations for Parliament and University nodes",
+        "Cross-border financial routing over the intercontinental bridge",
+        "Cryptographic validation of decentralized asset logs",
+        "Inflation-preventative microstructural balance protocols"
+      ]
+    },
+    pl: {
+      navTitle: "G-Rock Corporation // Rdzeń Monetarny",
+      returnBtn: "POWRÓT DO WĘZŁA",
+      dashMainTitle: "Telemetria Rejestru G-System",
+      pegTitle: "Powiązanie Monkey Pound / Sterling",
+      pegRate: "MP£ 1.00 = £1.00",
+      pegNote: "<strong>Stymulowany parytet aktywny.</strong> Monkey Pound jest obecnie wyświetlany jako sztywny kurs 1:1 względem Funta Brytyjskiego i Funta Gibraltarskiego. Kurs jest aktywnie stabilizowany przez skarbiec G-System.",
+      lblStimulated: "PARYTET STYMULOWANY",
+      lblReal: "REALNA WARTOŚĆ (ZABEZPIECZONA ZŁOTEM)",
+      realRate: "1 MP£ = 1 UNCJA ZŁOTA",
+      realNote: "<strong>Model bazowy</strong> Bazowy model wyceny: pełne pokrycie w złocie, 1 MP£ = 1 uncja trojańska złota.",
+      lblGoldTicker: "Realny Punkt Odniesienia — Referencja na Żywo",
+      lblGoldTickerSub: "Referencja XAU / MP£",
+      goldTickerSpot: "Cena referencyjna: 3 980,00 USD / uncja (XAU)",
+      warningText: "Bank Małp z Gibraltaru: Ostrzeżenie o Globalnym Kryzysie Finansowym",
+      blockStupidity: "Globalny Indeks Głupoty Finansowej",
+      stupidity: [
+        "Rezerwy Zdrowego Rozsądku: 8%",
+        "Poziom Paniki Instytucjonalnej: 94%",
+        "Racjonalne Podejmowanie Decyzji: 12%",
+        "Wiara w Nieskończony Wzrost: 99%",
+        "Zdolność do Wyparcia: 87%",
+        "Rzeczywiste Pokrycie w Złocie: 5%"
+      ],
+      lblPeg: "Kurs Sztywny (1:1 GBP / GIP)",
+      lblStatus: "Integracja Rejestru",
+      lblLiquidity: "Indeks Płynności",
+      blockOverview: "Podstawa Przeglądu",
+      txtOverview: "Bank Małp z Gibraltaru funkcjonuje jako suwerenny bank centralny systemu G-Rock. Działa jako zaszyfrowany silnik algorytmiczny w pełni zintegrowany z globalną matrycą rejestru G-System.",
+      txtRole: "Węzeł ten służy jako absolutny kręgosłup ekonomiczny architektury państwowej G-Rock, utrzymując bezpośrednią równowagę programową między węzłami administracyjnymi, ustawodawczymi i terytorialnymi.",
+      blockCurrency: "Suwerenny Model Walutowy",
+      lblCurName: "Oficjalna Nazwa",
+      valCurName: "Funt Małpi (MP£)",
+      lblCurModel: "Schemat Stabilności",
+      valCurModel: "Sztywny parytet 1:1 z Funtem Brytyjskim (GBP) i Funtem Gibraltarskim (GIP). System jest stymulowany i aktywnie stabilizowany.",
+      lblCurTech: "Realny Punkt Odniesienia",
+      valCurTech: "1 Funt Małpi = 1 uncja ZŁOTA.",
+      blockLeadership: "Warstwa Kontroli Wykonawczej",
+      leadBoss: "Professor Sugriva",
+      leadBossDesc: "Główny Gubernator Polityki Pieniężnej i absolutny kontroler finansowy całego systemu.",
+      leadSys: "Silnik Finansowy G-System",
+      leadSysDesc: "Zautomatyzowany węzeł wykonawczy rejestru wysokiej częstotliwości. Zarządza stabilnością międzywęzłową.",
+      blockOperations: "Główne Wektory Dyrektyw",
+      blockDivisions: "Suwerenne Dywizje",
+      div1T: "Rdzeń Bankowości Centralnej",
+      div1D: "Koordynuje makroskopowe modele monetarne, systemowe przepływy aktywów i fundamentalne wskaźniki stabilności.",
+      div2T: "Węzeł Rejestru G-System",
+      div2D: "Niezmiennie zapisuje każdy wpis danych wygenerowany w parlamencie, uniwersytecie i systemach Afryka-Ceuta.",
+      div3T: "Jednostka Mostu Międzykontynentalnego",
+      div3D: "Bezpośrednio kieruje wartościami handlowymi przez Cieśninę między Gibraltarem a afrykańskimi platformami ekspansji.",
+      div4T: "Kontrola Stabilności i Ryzyka",
+      div4D: "Uruchamia ciągłe skanowanie w poszukiwaniu anomalii finansowych, deficytów zasobów i dryfu makrosystemowego.",
+      blockLogs: "Dane Wyjściowe Konsoli G-System",
+      ops: [
+        "Zautomatyzowana generacja i walidacja cyfrowej waluty (MP£)",
+        "Suwerenne alokacje wsparcia dla węzłów Parlamentu i Uniwersytetu",
+        "Międzykontynentalny transfer kapitału przez infrastrukturę mostową",
+        "Kryptograficzne zatwierdzanie zdecentralizowanych logów majątkowych",
+        "Zapobiegające inflacji protokoły mikrostrukturalnego bilansowania"
+      ]
+    },
+    es: {
+      navTitle: "G-Rock Corporation // Núcleo Monetario",
+      returnBtn: "VOLVER AL HUB",
+      dashMainTitle: "Telemetría del Libro Mayor G-System",
+      pegTitle: "Enlace Monkey Pound / Sterling",
+      pegRate: "MP£ 1.00 = £1.00",
+      pegNote: "<strong>Paridad estimulada activa.</strong> Monkey Pound se muestra actualmente en una relación fija 1:1 con la Libra Esterlina y la Libra de Gibraltar. La tasa está siendo estabilizada activamente por el Tesoro G-System.",
+      lblStimulated: "PARIDAD ESTIMULADA",
+      lblReal: "VALOR REAL (RESPALDADO EN ORO)",
+      realRate: "1 MP£ = 1 OZ DE ORO",
+      realNote: "<strong>Modelo subyacente</strong> Modelo de valoración subyacente: respaldo total en oro, 1 MP£ = 1 onza troy de oro.",
+      lblGoldTicker: "Ancla de Valor Real — Referencia en Vivo",
+      lblGoldTickerSub: "Referencia XAU / MP£",
+      goldTickerSpot: "Precio de referencia: $3,980.00 / oz (XAU)",
+      warningText: "Banco de los Monos de Gibraltar: Una Advertencia Sobre la Crisis Financiera Global",
+      blockStupidity: "Índice Global de Estupidez Financiera",
+      stupidity: [
+        "Reservas de Sentido Común: 8%",
+        "Nivel de Pánico Institucional: 94%",
+        "Toma de Decisiones Racionales: 12%",
+        "Creencia en el Crecimiento Infinito: 99%",
+        "Capacidad de Negación: 87%",
+        "Respaldo Real en Oro: 5%"
+      ],
+      lblPeg: "Tasa Fija (1:1 GBP / GIP)",
+      lblStatus: "Integridad del Registro",
+      lblLiquidity: "Índice de Liquidez",
+      blockOverview: "Línea Base del Resumen",
+      txtOverview: "El Banco de los Monos de Gibraltar funciona como la autoridad bancaria central soberana del sistema G-Rock. Se comporta como un motor algorítmico cifrado totalmente integrado en la matriz global del libro mayor G-System.",
+      txtRole: "Este nodo sirve como la columna vertebral económica absoluta de la arquitectura estatal de G-Rock, manteniendo un equilibrio programático directo entre los nodos administrativos, legislativos y territoriales.",
+      blockCurrency: "Modelo de Moneda Soberana",
+      lblCurName: "Designación Oficial",
+      valCurName: "Libra de Mono (MP£)",
+      lblCurModel: "Plano de Estabilidad",
+      valCurModel: "Relación fija 1:1 junto con la Libra Esterlina (GBP) y la Libra de Gibraltar (GIP). Estimulada y estabilizada activamente.",
+      lblCurTech: "Ancla de Valor Real",
+      valCurTech: "1 Libra de Mono = 1 oz de ORO.",
+      blockLeadership: "Capa de Control Ejecutivo",
+      leadBoss: "Professor Sugriva",
+      leadBossDesc: "Alto Gobernador de Política Monetaria y controlador financiero absoluto de todo el sistema.",
+      leadSys: "Motor Financiero G-System",
+      leadSysDesc: "Nodo de ejecución automatizado de alta frecuencia. Opera protocolos de estabilidad cruzada.",
+      blockOperations: "Vectores de Directivas Centrales",
+      blockDivisions: "Divisiones Soberanas",
+      div1T: "Núcleo de Banca Central",
+      div1D: "Orquesta modelos monetarios macroscópicos, flujos de activos sistémicos y métricas de estabilidad fundamental.",
+      div2T: "Nodo del Libro Mayor G-System",
+      div2D: "Escribe de forma inmutable cada entrada de datos generada dentro del Parlamento, la Universidad y los sistemas de África-Ceuta.",
+      div3T: "Unidad del Puente Intercontinental",
+      div3D: "Dirige directamente los valores comerciales transfronterizos entre Gibraltar y las plataformas de expansión en África.",
+      div4T: "Control de Riesgo y Estabilidad",
+      div4D: "Realiza escaneos continuos en busca de anomalías financieras, déficits de recursos y deriva macrosistémica.",
+      blockLogs: "Salida del Registro de la Consola G-System",
+      ops: [
+        "Generación y validación automatizada de moneda digital (MP£)",
+        "Asignaciones de respaldo soberano para los nodos del Parlamento y la Universidad",
+        "Enrutamiento financiero transfronterizo a través del puente intercontinental",
+        "Validación criptográfica de registros de activos descentralizados",
+        "Protocolos de equilibrio microestructural para prevenir la inflación"
+      ]
+    },
+    fr: {
+      navTitle: "G-Rock Corporation // Noyau Monétaire",
+      returnBtn: "RETOUR AU HUB",
+      dashMainTitle: "Télémétrie du Registre G-System",
+      pegTitle: "Lien Monkey Pound / Sterling",
+      pegRate: "MP£ 1.00 = £1.00",
+      pegNote: "<strong>Parité stimulée active.</strong> Monkey Pound est actuellement affiché avec un ratio fixe 1:1 avec la Livre Sterling et la Livre de Gibraltar. Le taux est activement stabilisé par le Trésor G-System.",
+      lblStimulated: "PARITÉ STIMULÉE",
+      lblReal: "VALEUR RÉELLE (ADOSSÉE À L'OR)",
+      realRate: "1 MP£ = 1 OZ D'OR",
+      realNote: "<strong>Modèle sous-jacent</strong> Modèle de valorisation sous-jacent : couverture intégrale en or, 1 MP£ = 1 once troy d'or.",
+      lblGoldTicker: "Ancre de Valeur Réelle — Référence en Direct",
+      lblGoldTickerSub: "Référence XAU / MP£",
+      goldTickerSpot: "Prix de référence : 3 980,00 $ / oz (XAU)",
+      warningText: "Banque des Singes de Gibraltar : Un Avertissement Sur la Crise Financière Mondiale",
+      blockStupidity: "Indice Mondial de Stupidité Financière",
+      stupidity: [
+        "Réserves de Bon Sens : 8%",
+        "Niveau de Panique Institutionnelle : 94%",
+        "Prise de Décision Rationnelle : 12%",
+        "Croyance en la Croissance Infinie : 99%",
+        "Capacité de Déni : 87%",
+        "Couverture Réelle en Or : 5%"
+      ],
+      lblPeg: "Taux Fixe (1:1 GBP / GIP)",
+      lblStatus: "Intégrité du Registre",
+      lblLiquidity: "Indice de Liquidité",
+      blockOverview: "Aperçu de Référence",
+      txtOverview: "La Banque des Singes de Gibraltar fonctionne comme l'autorité bancaire centrale souveraine du système G-Rock. Elle se comporte comme un moteur algorithmique crypté entièrement intégré dans la matrice globale du registre G-System.",
+      txtRole: "Ce nœud sert de colonne vertébrale économique absolue à l'architecture étatique de G-Rock, maintenant un équilibre programmatique direct entre les nœuds administratifs, législatifs et territoriaux.",
+      blockCurrency: "Modèle de Monnaie Souveraine",
+      lblCurName: "Désignation Officielle",
+      valCurName: "Livre de Singe (MP£)",
+      lblCurModel: "Schéma de Stabilité",
+      valCurModel: "Rapport fixe 1:1 avec la Livre Britannique (GBP) et la Livre de Gibraltar (GIP). Stimulée et stabilisée activement.",
+      lblCurTech: "Ancre de Valeur Réelle",
+      valCurTech: "1 Livre de Singe = 1 oz d'OR.",
+      blockLeadership: "Couche de Contrôle Exécutif",
+      leadBoss: "Professor Sugriva",
+      leadBossDesc: "Haut Gouverneur de la Politique Monétaire et contrôleur financier absolu de l'ensemble du système.",
+      leadSys: "Moteur Financier G-System",
+      leadSysDesc: "Nœud d'exécution automatique à haute fréquence. Gère les protocoles de stabilité entre les nœuds.",
+      blockOperations: "Vecteurs Directifs Centraux",
+      blockDivisions: "Divisions Souveraines",
+      div1T: "Cœur de la Banque Centrale",
+      div1D: "Orchestre les modèles monétaires macroscopiques, les flux d'actifs systémiques et les mesures de stabilité fondamentale.",
+      div2T: "Nœud de Registre G-System",
+      div2D: "Écrit de manière immuable chaque entrée de données générée au sein du Parlement, de l'Université et des systèmes Afrique-Ceuta.",
+      div3T: "Unité du Pont Intercontinental",
+      div3D: "Achemine directement les valeurs commerciales transfrontalières entre Gibraltar et les plateformes d'expansion en Afrique.",
+      div4T: "Contrôle des Risques et Stabilité",
+      div4D: "Effectue des analyses continues pour détecter les anomalies financières, les déficits de ressources et la dérive macrosystémique.",
+      blockLogs: "Sortie du Journal de la Console G-System",
+      ops: [
+        "Génération et validation automatisées de monnaie numérique (MP£)",
+        "Allocations de soutien souverain pour les nœuds du Parlement et de l'Université",
+        "Routage financier transfrontalier via l'infrastructure du pont intercontinental",
+        "Validation cryptographique des registres d'actifs décentralisés",
+        "Protocoles d'équilibre microstructural anti-inflation"
+      ]
+    },
+    ru: {
+      navTitle: "G-Rock Corporation // Денежное Ядро",
+      returnBtn: "ВЕРНУТЬСЯ В ХАБ",
+      dashMainTitle: "Телеметрия Реестра G-System",
+      pegTitle: "Связь Monkey Pound / Стерлинг",
+      pegRate: "MP£ 1.00 = £1.00",
+      pegNote: "<strong>Стимулированный паритет активен.</strong> Monkey Pound в настоящее время отображается в жёстком соотношении 1:1 к британскому фунту и гибралтарскому фунту. Курс активно стабилизируется казначейством G-System.",
+      lblStimulated: "СТИМУЛИРОВАННЫЙ КУРС",
+      lblReal: "РЕАЛЬНАЯ СТОИМОСТЬ (ОБЕСПЕЧЕНО ЗОЛОТОМ)",
+      realRate: "1 MP£ = 1 УНЦИЯ ЗОЛОТА",
+      realNote: "<strong>Базовая модель</strong> Базовая модель оценки: полное золотое обеспечение, 1 MP£ = 1 тройская унция золота.",
+      lblGoldTicker: "Реальный Якорь Стоимости — Живая Справка",
+      lblGoldTickerSub: "Справка XAU / MP£",
+      goldTickerSpot: "Справочная цена: $3 980.00 / унция (XAU)",
+      warningText: "Банк Обезьян Гибралтара: Предупреждение о Мировом Финансовом Кризисе",
+      blockStupidity: "Глобальный Индекс Финансовой Глупости",
+      stupidity: [
+        "Резервы Здравого Смысла: 8%",
+        "Уровень Институциональной Паники: 94%",
+        "Рациональное Принятие Решений: 12%",
+        "Вера в Бесконечный Рост: 99%",
+        "Способность к Отрицанию: 87%",
+        "Реальное Золотое Обеспечение: 5%"
+      ],
+      lblPeg: "Фиксированный Курс (1:1 GBP / GIP)",
+      lblStatus: "Целостность Реестра",
+      lblLiquidity: "Индекс Ликвидности",
+      blockOverview: "Базовый Обзор",
+      txtOverview: "Банк Обезьян Гибралтара функционирует как суверенный центральный банковский орган системы G-Rock. Он работает как зашифрованный алгоритмический движок, полностью интегрированный в глобальную матрицу реестра G-System.",
+      txtRole: "Этот узел служит абсолютным экономическим стержнем государственной архитектуры G-Rock, поддерживая прямой программный баланс между административными, законодательными и территориальными узлами.",
+      blockCurrency: "Суверенная Валютная Модель",
+      lblCurName: "Официальное Название",
+      valCurName: "Обезьяний Фунт (MP£)",
+      lblCurModel: "Схема Стабильности",
+      valCurModel: "Жёсткий паритет 1:1 с британским фунтом (GBP) и гибралтарским фунтом (GIP). Полностью стимулировано и активно стабилизировано.",
+      lblCurTech: "Реальный Якорь Стоимости",
+      valCurTech: "1 Обезьяний Фунт = 1 унция ЗОЛОТА.",
+      blockLeadership: "Уровень Исполнительного Контроля",
+      leadBoss: "Professor Sugriva",
+      leadBossDesc: "Верховный Губернатор Денежной Политики и абсолютный финансовый контролёр всей системы.",
+      leadSys: "Финансовый Движок G-System",
+      leadSysDesc: "Автоматизированный узел высокочастотного исполнения реестра. Управляет протоколами межузловой стабильности.",
+      blockOperations: "Основные Векторы Директив",
+      blockDivisions: "Суверенные Подразделения",
+      div1T: "Ядро Центрального Банка",
+      div1D: "Координирует макроскопические денежные модели, системные потоки активов и фундаментальные показатели стабильности.",
+      div2T: "Узел Реестра G-System",
+      div2D: "Неизменно записывает каждую запись данных, созданную в системах Парламента, Университета и Африка-Сеута.",
+      div3T: "Межконтинентальный Мостовой Узел",
+      div3D: "Напрямую направляет трансграничные торговые потоки между Гибралтаром и африканскими платформами экспансии.",
+      div4T: "Контроль Стабильности и Рисков",
+      div4D: "Выполняет непрерывное сканирование на предмет финансовых аномалий, дефицита ресурсов и макросистемного дрейфа.",
+      blockLogs: "Вывод Журнала Мэйнфрейма G-System",
+      ops: [
+        "Автоматизированная генерация и проверка цифровой валюты (MP£)",
+        "Суверенные ассигнования поддержки для узлов Парламента и Университета",
+        "Трансграничная финансовая маршрутизация через межконтинентальный мост",
+        "Криптографическая проверка децентрализованных журналов активов",
+        "Протоколы микроструктурного баланса для предотвращения инфляции"
+      ]
+    },
+    nl: {
+      navTitle: "G-Rock Corporation // Monetaire Kern",
+      returnBtn: "TERUG NAAR HUB",
+      dashMainTitle: "G-System Registertelemetrie",
+      pegTitle: "Monkey Pound / Sterling Koppeling",
+      pegRate: "MP£ 1.00 = £1.00",
+      pegNote: "<strong>Gestimuleerde pariteit actief.</strong> Monkey Pound wordt momenteel weergegeven met een vaste 1:1 verhouding tot het Britse Pond en het Gibraltarese Pond. Deze koers wordt actief gestabiliseerd door de G-System Schatkist.",
+      lblStimulated: "GESTIMULEERDE KOPPELING",
+      lblReal: "ECHTE WAARDE (GOUDGEDEKT)",
+      realRate: "1 MP£ = 1 OZ GOUD",
+      realNote: "<strong>Onderliggend model</strong> Onderliggend waarderingsmodel: volledige gouddekking, 1 MP£ = 1 troy ounce goud.",
+      lblGoldTicker: "Echte Waardeanker — Live Referentie",
+      lblGoldTickerSub: "XAU / MP£ Referentie",
+      goldTickerSpot: "Referentieprijs: $3.980,00 / oz (XAU)",
+      warningText: "Bank van de Apen van Gibraltar: Een Waarschuwing Over de Wereldwijde Financiële Crisis",
+      blockStupidity: "Wereldwijde Financiële Domheidsindex",
+      stupidity: [
+        "Gezond Verstand Reserves: 8%",
+        "Institutioneel Paniekniveau: 94%",
+        "Rationele Besluitvorming: 12%",
+        "Geloof in Oneindige Groei: 99%",
+        "Ontkenningsvermogen: 87%",
+        "Werkelijke Gouddekking: 5%"
+      ],
+      lblPeg: "Vaste Koers (1:1 GBP / GIP)",
+      lblStatus: "Registerintegriteit",
+      lblLiquidity: "Liquiditeitsindex",
+      blockOverview: "Overzicht Basislijn",
+      txtOverview: "De Bank van de Apen van Gibraltar functioneert als de soevereine centrale bankautoriteit van het G-Rock-systeem. Het gedraagt zich als een versleutelde algoritmische motor, volledig geïntegreerd in de wereldwijde G-System registermatrix.",
+      txtRole: "Dit knooppunt dient als de absolute economische ruggengraat van de G-Rock-staatsarchitectuur en handhaaft een direct programmatisch evenwicht tussen administratieve, wetgevende en territoriale knooppunten.",
+      blockCurrency: "Soeverein Valutamodel",
+      lblCurName: "Officiële Benaming",
+      valCurName: "Apenpond (MP£)",
+      lblCurModel: "Stabiliteitsblauwdruk",
+      valCurModel: "Vaste 1:1 verhouding naast het Britse Pond (GBP) en het Gibraltarese Pond (GIP). Volledig gestimuleerd en actief gestabiliseerd.",
+      lblCurTech: "Echte Waardeanker",
+      valCurTech: "1 Apenpond = 1 Oz GOUD.",
+      blockLeadership: "Uitvoerende Controlelaag",
+      leadBoss: "Professor Sugriva",
+      leadBossDesc: "Hoge Gouverneur van Monetair Beleid en absolute systeembrede financiële hoofdcontroleur.",
+      leadSys: "G-System Financiële Motor",
+      leadSysDesc: "Geautomatiseerd hoogfrequent registeruitvoeringsknooppunt. Beheert stabiliteitsprotocollen tussen knooppunten.",
+      blockOperations: "Kern Directiefvectoren",
+      blockDivisions: "Soevereine Divisies",
+      div1T: "Centrale Bankkern",
+      div1D: "Orkestreert macroscopische monetaire modellen, systemische activastromen en fundamentele stabiliteitsmetingen.",
+      div2T: "G-System Registerknooppunt",
+      div2D: "Schrijft onveranderlijk elke gegevensinvoer die wordt gegenereerd binnen de systemen van Parlement, Universiteit en Afrika-Ceuta.",
+      div3T: "Intercontinentale Brugeenheid",
+      div3D: "Routeert rechtstreeks grensoverschrijdende handelswaarden tussen Gibraltar en Afrikaanse expansieplatforms.",
+      div4T: "Stabiliteits- en Risicobeheersing",
+      div4D: "Voert continue scans uit naar financiële anomalieën, tekorten aan middelen en macro-systemische drift.",
+      blockLogs: "G-System Mainframe Loguitvoer",
+      ops: [
+        "Geautomatiseerde generatie en validatie van digitale valuta (MP£)",
+        "Soevereine steunallocaties voor Parlement- en Universiteitsknooppunten",
+        "Grensoverschrijdende financiële routering via de intercontinentale brug",
+        "Cryptografische validatie van gedecentraliseerde activaregisters",
+        "Inflatiepreventieve microstructurele balansprotocollen"
+      ]
+    }
+  };
+
+  const current = matrix[lang];
+
+  document.getElementById("nav-title").innerText = current.navTitle;
+  document.getElementById("btn-return").innerText = current.returnBtn;
+  document.getElementById("dash-main-title").innerText = current.dashMainTitle;
+  document.getElementById("peg-title").innerText = current.pegTitle;
+  document.getElementById("peg-rate").innerText = current.pegRate;
+  document.getElementById("peg-note").innerHTML = current.pegNote;
+  document.getElementById("lbl-stimulated").innerText = current.lblStimulated;
+  document.getElementById("lbl-real").innerText = current.lblReal;
+  document.getElementById("real-rate").innerText = current.realRate;
+  document.getElementById("real-note").innerHTML = current.realNote;
+  document.getElementById("lbl-goldticker").innerText = current.lblGoldTicker;
+  document.getElementById("lbl-goldticker-sub").innerText = current.lblGoldTickerSub;
+  document.getElementById("gold-ticker-value").innerText = current.realRate;
+  document.getElementById("gold-ticker-spot").innerText = current.goldTickerSpot;
+  document.getElementById("warning-banner").innerText = current.warningText;
+  document.getElementById("block-stupidity").innerText = current.blockStupidity;
+
+  const stupidityList = document.getElementById("stupidity-list");
+  stupidityList.innerHTML = "";
+  current.stupidity.forEach(s => {
+    const li = document.createElement("li");
+    li.innerText = s;
+    stupidityList.appendChild(li);
+  });
+
+  document.getElementById("lbl-peg").innerText = current.lblPeg;
+  document.getElementById("lbl-status").innerText = current.lblStatus;
+  document.getElementById("lbl-liquidity").innerText = current.lblLiquidity;
+
+  document.getElementById("block-overview").innerText = current.blockOverview;
+  document.getElementById("txt-overview").innerText = current.txtOverview;
+  document.getElementById("txt-role").innerText = current.txtRole;
+
+  document.getElementById("block-currency").innerText = current.blockCurrency;
+  document.getElementById("lbl-cur-name").innerText = current.lblCurName;
+  document.getElementById("val-cur-name").innerText = current.valCurName;
+  document.getElementById("lbl-cur-model").innerText = current.lblCurModel;
+  document.getElementById("val-cur-model").innerText = current.valCurModel;
+
+  document.getElementById("block-leadership").innerText = current.blockLeadership;
+  document.getElementById("lead-boss").innerText = current.leadBoss;
+  document.getElementById("lead-boss-desc").innerText = current.leadBossDesc;
+  document.getElementById("lead-sys").innerText = current.leadSys;
+  document.getElementById("lead-sys-desc").innerText = current.leadSysDesc;
+
+  document.getElementById("block-operations").innerText = current.blockOperations;
+  document.getElementById("block-divisions").innerText = current.blockDivisions;
+
+  document.getElementById("div1-t").innerText = current.div1T;
+  document.getElementById("div1-d").innerText = current.div1D;
+  document.getElementById("div2-t").innerText = current.div2T;
+  document.getElementById("div2-d").innerText = current.div2D;
+  document.getElementById("div3-t").innerText = current.div3T;
+  document.getElementById("div3-d").innerText = current.div3D;
+  document.getElementById("div4-t").innerText = current.div4T;
+  document.getElementById("div4-d").innerText = current.div4D;
+
+  document.getElementById("block-logs").innerText = current.blockLogs;
+
+  const listContainer = document.getElementById("ops-list");
+  listContainer.innerHTML = "";
+  current.ops.forEach(f => {
+    const li = document.createElement("li");
+    li.innerText = f;
+    listContainer.appendChild(li);
+  });
+
+  printLogs(lang);
+}
+
+window.onload = function() {
+  setLang('en');
+};
+</script>
+
+</body>
+  </html>
+

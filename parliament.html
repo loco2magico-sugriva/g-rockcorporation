@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parliament of the Monkeys // G-Rock Constitutional Core</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg1:#04060a;
+  --bg2:#0a1324;
+  --panel:linear-gradient(135deg, #0f1626 0%, #0a0e1a 100%);
+  --line:#1b263b;
+  --text:#e6e6e6;
+  --muted:#8a97ab;
+  --blue:#4aa3ff;
+  --gold:#fbbf24;
+  --gold2:#ffd166;
+  --yellow:#ffe066;
+  --shadow:0 10px 30px rgba(0,0,0,.5);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'Inter', sans-serif;
+  color:var(--text);
+  min-height:100vh;
+  background: radial-gradient(circle at center, var(--bg2) 0%, var(--bg1) 100%);
+}
+
+/* HEADER */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+  padding:18px 40px;
+  background:#090c14;
+  border-bottom:1px solid var(--line);
+  box-shadow:0 6px 25px rgba(0,0,0,.6);
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.brand-back{
+  font-family:'Orbitron', sans-serif;
+  color:var(--muted);
+  font-size:11px;
+  text-decoration:none;
+  border:1px solid var(--line);
+  padding:9px 16px;
+  border-radius:6px;
+  letter-spacing:1px;
+  transition:.25s ease;
+  white-space:nowrap;
+}
+
+.brand-back:hover{
+  color:var(--blue);
+  border-color:var(--blue);
+  box-shadow:0 0 12px rgba(74,163,255,.25);
+  background:rgba(74,163,255,.05);
+}
+
+.main-nav{
+  display:flex;
+  align-items:center;
+  gap:34px;
+  flex-wrap:wrap;
+}
+
+.main-nav a{
+  font-family:'Orbitron', sans-serif;
+  color:#c9d4e2;
+  font-size:12px;
+  letter-spacing:1.5px;
+  text-decoration:none;
+  text-transform:uppercase;
+  border-bottom:1px solid transparent;
+  padding-bottom:3px;
+  transition:.2s ease;
+}
+
+.main-nav a:hover{
+  color:var(--yellow);
+  border-bottom-color:var(--yellow);
+  text-shadow:0 0 10px rgba(255,224,102,.5);
+}
+
+.lang-switch{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  background:#0d1424;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:5px;
+}
+
+.lang-switch button{
+  font-family:'Orbitron', sans-serif;
+  border:none;
+  background:transparent;
+  color:#7b8aa0;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1px;
+  padding:7px 12px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.lang-switch button:hover{
+  color:#fff;
+}
+
+.lang-switch button.active{
+  background:var(--yellow);
+  color:#0a0e1a;
+  box-shadow:0 0 14px rgba(255,224,102,.45);
+}
+
+/* HERO */
+.hero{
+  max-width:1200px;
+  margin:44px auto 0;
+  padding:0 30px;
+  text-align:center;
+}
+
+.main-title{
+  font-family:'Orbitron', sans-serif;
+  font-weight:900;
+  font-size:clamp(20px, 3.4vw, 34px);
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:#fff;
+  text-shadow:0 0 22px rgba(74,163,255,.35);
+  margin:0 0 30px;
+}
+
+.gold-bar{
+  position:relative;
+  max-width:900px;
+  margin:0 auto;
+  padding:26px 20px;
+  border-radius:14px;
+  overflow:hidden;
+  background:linear-gradient(180deg, #d9b46a 0%, #8a6d3b 45%, #4a3818 100%);
+  box-shadow:0 12px 30px rgba(0,0,0,.55), 0 0 30px rgba(251,191,36,.15);
+}
+
+.gold-bar::after{
+  content:"";
+  position:absolute;
+  top:-50%;
+  left:-60%;
+  width:60%;
+  height:200%;
+  background:linear-gradient(75deg, transparent 0%, rgba(255,255,255,.55) 50%, transparent 100%);
+  animation:shine 3.6s ease-in-out infinite;
+}
+
+@keyframes shine{
+  0%{transform:translateX(-40%) rotate(0deg)}
+  100%{transform:translateX(340%) rotate(0deg)}
+}
+
+.gold-bar span{
+  position:relative;
+  z-index:1;
+  font-family:'Orbitron', sans-serif;
+  font-weight:900;
+  font-size:clamp(16px, 2.6vw, 26px);
+  letter-spacing:6px;
+  color:#fff8e6;
+  text-shadow:0 0 14px rgba(255,244,214,.85), 0 0 30px rgba(251,191,36,.4);
+}
+
+.bar-sub{
+  margin:16px 0 0;
+  font-size:13px;
+  letter-spacing:1px;
+  color:#9fd8ff;
+  font-style:italic;
+}
+
+/* MAIN LAYOUT */
+.container{
+  max-width:1200px;
+  margin:40px auto;
+  padding:0 30px;
+}
+
+.layout-grid{
+  display:grid;
+  grid-template-columns:1.7fr 1fr;
+  gap:26px;
+  align-items:stretch;
+}
+
+@media (max-width:900px){
+  .layout-grid{grid-template-columns:1fr}
+}
+
+/* VOTE MATRIX (GOLD) */
+.vote-matrix{
+  position:relative;
+  overflow:hidden;
+  border-radius:16px;
+  padding:32px;
+  background:linear-gradient(150deg, rgba(251,191,36,.14) 0%, rgba(10,14,26,.94) 55%);
+  border:1px solid rgba(251,191,36,.55);
+  box-shadow:0 0 0 1px rgba(251,191,36,.15), 0 0 40px rgba(251,191,36,.12), var(--shadow);
+}
+
+.watermark{
+  position:absolute;
+  top:18px;
+  right:26px;
+  font-family:'Orbitron', sans-serif;
+  font-size:14px;
+  letter-spacing:3px;
+  color:rgba(251,191,36,.35);
+  font-weight:700;
+}
+
+.main-result{
+  font-family:'Orbitron', sans-serif;
+  font-weight:900;
+  font-size:clamp(28px, 4.6vw, 46px);
+  letter-spacing:2px;
+  text-align:center;
+  color:#fff;
+  text-shadow:0 0 26px rgba(251,191,36,.55);
+  margin:6px 0 26px;
+}
+
+.glass-panel{
+  background:rgba(6,9,19,.72);
+  border:1px solid rgba(251,191,36,.22);
+  border-radius:10px;
+  padding:16px 18px;
+  margin-bottom:14px;
+  backdrop-filter:blur(6px);
+}
+
+.status-line{
+  font-family:'Orbitron', sans-serif;
+  font-size:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  text-align:center;
+  color:var(--gold2);
+}
+
+.comp-line{
+  font-size:13.5px;
+  color:#dbe6f2;
+  line-height:1.9;
+}
+
+.comp-line b{color:#fff}
+
+.vote-split{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  font-family:'Orbitron', sans-serif;
+  font-size:12px;
+  letter-spacing:1px;
+  text-align:center;
+}
+
+.vote-split div{flex:1; min-width:100px}
+.vote-split .for{color:#59ffa0}
+.vote-split .against{color:#ff6b7d}
+.vote-split .abstain{color:#8a97ab}
+
+.telemetry-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:20px;
+}
+
+.telemetry-tile{
+  background:#060913;
+  border:1px solid rgba(251,191,36,.25);
+  border-radius:10px;
+  padding:14px 10px;
+  text-align:center;
+}
+
+.telemetry-tile b{
+  display:block;
+  font-family:'Orbitron', sans-serif;
+  font-size:15px;
+  color:#fff;
+}
+
+.telemetry-tile span{
+  display:block;
+  margin-top:5px;
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* QUICK JUMP CARDS */
+.quick-jump{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.jump-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-left:4px solid var(--yellow);
+  border-radius:10px;
+  padding:22px 20px;
+  text-decoration:none;
+  color:#fff;
+  font-family:'Orbitron', sans-serif;
+  font-size:13px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  transition:.25s ease;
+  box-shadow:0 4px 15px rgba(0,0,0,.4);
+}
+
+.jump-card:hover{
+  transform:translateX(4px);
+  border-left-color:#fff2b0;
+  box-shadow:0 4px 20px rgba(255,224,102,.2);
+}
+
+.jump-card .arrow{color:var(--yellow); font-size:16px}
+
+/* BOTTOM SECTIONS */
+.section-block{
+  scroll-margin-top:100px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:34px;
+  margin-top:26px;
+  box-shadow:0 4px 18px rgba(0,0,0,.4);
+}
+
+.section-block h2{
+  font-family:'Orbitron', sans-serif;
+  color:var(--blue);
+  font-size:20px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin:0 0 22px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:12px;
+}
+
+.section-block p{
+  color:#9fb0c6;
+  font-size:14.5px;
+  line-height:1.75;
+  margin:0 0 14px;
+}
+
+.sub-block{margin-bottom:24px}
+.sub-block:last-child{margin-bottom:0}
+
+.sub-block h3{
+  font-family:'Orbitron', sans-serif;
+  color:var(--gold2);
+  font-size:14px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin:0 0 12px;
+}
+
+.highlight{
+  background:#060913;
+  border-left:4px solid var(--blue);
+  padding:16px;
+  margin:16px 0;
+  border-radius:0 8px 8px 0;
+  font-size:13.5px;
+  color:#e2e8f0;
+  font-weight:600;
+}
+
+.highlight.gold{border-left-color:var(--gold2)}
+
+.min-list{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+@media (max-width:700px){
+  .min-list{grid-template-columns:1fr}
+}
+
+.min-row{
+  background:#060913;
+  border:1px solid var(--line);
+  border-left:3px solid var(--blue);
+  border-radius:8px;
+  padding:14px 16px;
+}
+
+.min-row .m-label{
+  font-family:'Orbitron', sans-serif;
+  font-size:11px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--blue);
+  margin-bottom:6px;
+}
+
+.min-row .m-value{
+  font-size:13.5px;
+  color:#e2e8f0;
+}
+
+footer{
+  text-align:center;
+  padding:30px;
+  color:#4a5568;
+  font-size:11px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+</style>
+</head><body>
+
+<header>
+  <a href="index.html" class="brand-back" id="nav-back">RETURN TO HUB</a>
+
+  <nav class="main-nav">
+    <a href="university.html">MUoG</a>
+    <a href="archive.html">G-Rock Archive</a>
+    <a href="bank.html" id="nav-bank">Bank</a>
+  </nav>
+
+  <div class="lang-switch">
+    <button onclick="setLang('en')" id="lang-en" class="active">EN</button>
+    <button onclick="setLang('pl')" id="lang-pl">PL</button>
+    <button onclick="setLang('es')" id="lang-es">ES</button>
+    <button onclick="setLang('fr')" id="lang-fr">FR</button>
+    <button onclick="setLang('ru')" id="lang-ru">RU</button>
+    <button onclick="setLang('nl')" id="lang-nl">NL</button>
+  </div>
+</header>
+
+<div class="hero">
+  <h1 class="main-title" id="main-title">Parliament of the Monkeys from Gibraltar</h1>
+
+  <div class="gold-bar">
+    <span>PRO BONO PUBLICO</span>
+  </div>
+  <p class="bar-sub" id="bar-sub">— For the public good</p>
+</div>
+
+<div class="container">
+
+  <div class="layout-grid">
+
+    <!-- LEFT: GOLD VOTE MATRIX -->
+    <div class="vote-matrix">
+      <div class="watermark" id="watermark">267 SEATS</div>
+
+      <div class="main-result" id="main-result">100% UNANIMOUS</div>
+
+      <div class="glass-panel">
+        <div class="status-line" id="resolution-status">Parliamentary Resolution Active</div>
+      </div>
+
+      <div class="glass-panel comp-line">
+        <div><b id="comp-chair">Chairman of Parliament: Professor Sugriva</b></div>
+        <div><b id="comp-veto">Absolute Veto Power Holder: Corporal Vojtek</b></div>
+        <div><b id="comp-remaining">Remaining Members: 265 Monkeys</b></div>
+      </div>
+
+      <div class="glass-panel vote-split">
+        <div class="for" id="vote-for">FOR: 100% (267/267)</div>
+        <div class="against" id="vote-against">AGAINST: 0%</div>
+        <div class="abstain" id="vote-abstain">ABSTAIN: 0%</div>
+      </div>
+
+      <div class="telemetry-row">
+        <div class="telemetry-tile">
+          <b id="tele-votes">267 VOTES</b>
+          <span>Assembly</span>
+        </div>
+        <div class="telemetry-tile">
+          <b id="tele-unanimous">UNANIMOUS</b>
+          <span>Result</span>
+        </div>
+        <div class="telemetry-tile">
+          <b id="tele-sync">100% G-SYSTEM SYNC</b>
+          <span>Status</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: QUICK JUMP CARDS -->
+    <div class="quick-jump">
+      <a href="#section-history" class="jump-card">
+        <span id="jump-history">Go to: History</span>
+        <span class="arrow">→</span>
+      </a>
+      <a href="#section-constitution" class="jump-card">
+        <span id="jump-constitution">Go to: Constitution</span>
+        <span class="arrow">→</span>
+      </a>
+      <a href="#section-ministries" class="jump-card">
+        <span id="jump-ministries">Go to: Ministries</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- SECTION 1: HISTORY -->
+  <div class="section-block" id="section-history">
+    <h2 id="sec-history-title">History of the G-ROCK Parliament</h2>
+    <p id="hist-p1">The Parliament of the Monkeys from Gibraltar was established in 1943, following the takeover of Gibraltar Rock by the Ape population.</p>
+    <p id="hist-p2">The first Constitution laid the foundation for direct self-governance and independence.</p>
+    <p id="hist-p3">The December 1963 amendment formally incorporated the strategic leaders — Chairman Professor Sugriva and Corporal Vojtek.</p>
+  </div>
+
+  <!-- SECTION 2: CONSTITUTION -->
+  <div class="section-block" id="section-constitution">
+    <h2 id="sec-constitution-title">G-ROCK Constitution</h2>
+
+    <div class="sub-block">
+      <h3 id="const-dd-title">Principles of Direct Democracy</h3>
+      <p id="const-dd-text">Every member of the population has the right to vote and to propose legislation. The rights of the Apes form the foundation of Gibraltar Rock's independence.</p>
+      <div class="highlight" id="const-dd-highlight">Every Ape has the right to vote, to propose legislative frameworks, and to directly shape constitutional decisions.</div>
+    </div>
+
+    <div class="sub-block">
+      <h3 id="const-veto-title">December 1963 Amendment (Veto Clause)</h3>
+      <div class="highlight gold" id="const-veto-text">Corporal Vojtek was granted the Absolute Right of Veto. The amendment was passed because the Ape population placed unconditional trust in him and wished to guarantee that Vojtek would never feel discriminated against or excluded within Ape society as the only bear in the entire structure.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: MINISTRIES -->
+  <div class="section-block" id="section-ministries">
+    <h2 id="sec-ministries-title">G-ROCK Ministries</h2>
+    <div class="min-list">
+      <div class="min-row">
+        <div class="m-label" id="min-edu-label">Ministry of Education</div>
+        <div class="m-value" id="min-edu-value">Professor Sugriva</div>
+      </div>
+      <div class="min-row">
+        <div class="m-label" id="min-fin-label">Ministry of Finance</div>
+        <div class="m-value" id="min-fin-value">Professor Sugriva (also serving as President of the Bank of the Monkeys from Gibraltar)</div>
+      </div>
+      <div class="min-row">
+        <div class="m-label" id="min-home-label">Home Office, MoD &amp; Special Services</div>
+        <div class="m-value" id="min-home-value">Corporal Vojtek</div>
+      </div>
+      <div class="min-row">
+        <div class="m-label" id="min-propaganda-label">Ministry of Propaganda</div>
+        <div class="m-value" id="min-propaganda-value">Autonomous G-System</div>
+      </div>
+      <div class="min-row">
+        <div class="m-label" id="min-foreign-label">Ministry of Foreign Affairs</div>
+        <div class="m-value" id="min-foreign-value">Professor Sugriva</div>
+      </div>
+      <div class="min-row">
+        <div class="m-label" id="min-health-label">Ministry of Health &amp; Veterinary Care</div>
+        <div class="m-value" id="min-health-value">Autonomous G-System</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>G-Rock Corporation // Constitutional Core</footer><script>
+const dict = {
+  en:{
+    navBack:"RETURN TO HUB", navBank:"Bank",
+    mainTitle:"Parliament of the Monkeys from Gibraltar",
+    barSub:"— For the public good",
+    watermark:"267 SEATS",
+    mainResult:"100% UNANIMOUS",
+    resolutionStatus:"Parliamentary Resolution Active",
+    compChair:"Chairman of Parliament: Professor Sugriva",
+    compVeto:"Absolute Veto Power Holder: Corporal Vojtek",
+    compRemaining:"Remaining Members: 265 Monkeys",
+    voteFor:"FOR: 100% (267/267)", voteAgainst:"AGAINST: 0%", voteAbstain:"ABSTAIN: 0%",
+    teleVotes:"267 VOTES", teleUnanimous:"UNANIMOUS", teleSync:"100% G-SYSTEM SYNC",
+    jumpHistory:"Go to: History", jumpConstitution:"Go to: Constitution", jumpMinistries:"Go to: Ministries",
+    secHistoryTitle:"History of the G-ROCK Parliament",
+    histP1:"The Parliament of the Monkeys from Gibraltar was established in 1943, following the takeover of Gibraltar Rock by the Ape population.",
+    histP2:"The first Constitution laid the foundation for direct self-governance and independence.",
+    histP3:"The December 1963 amendment formally incorporated the strategic leaders — Chairman Professor Sugriva and Corporal Vojtek.",
+    secConstitutionTitle:"G-ROCK Constitution",
+    constDdTitle:"Principles of Direct Democracy",
+    constDdText:"Every member of the population has the right to vote and to propose legislation. The rights of the Apes form the foundation of Gibraltar Rock's independence.",
+    constDdHighlight:"Every Ape has the right to vote, to propose legislative frameworks, and to directly shape constitutional decisions.",
+    constVetoTitle:"December 1963 Amendment (Veto Clause)",
+    constVetoText:"Corporal Vojtek was granted the Absolute Right of Veto. The amendment was passed because the Ape population placed unconditional trust in him and wished to guarantee that Vojtek would never feel discriminated against or excluded within Ape society as the only bear in the entire structure.",
+    secMinistriesTitle:"G-ROCK Ministries",
+    minEduLabel:"Ministry of Education", minEduValue:"Professor Sugriva",
+    minFinLabel:"Ministry of Finance", minFinValue:"Professor Sugriva (also serving as President of the Bank of the Monkeys from Gibraltar)",
+    minHomeLabel:"Home Office, MoD & Special Services", minHomeValue:"Corporal Vojtek",
+    minPropagandaLabel:"Ministry of Propaganda", minPropagandaValue:"Autonomous G-System",
+    minForeignLabel:"Ministry of Foreign Affairs", minForeignValue:"Professor Sugriva",
+    minHealthLabel:"Ministry of Health & Veterinary Care", minHealthValue:"Autonomous G-System"
+  },
+  pl:{
+    navBack:"POWRÓT DO WĘZŁA", navBank:"Bank",
+    mainTitle:"Parlament Małp z Gibraltaru",
+    barSub:"— Dla dobra publicznego",
+    watermark:"267 MIEJSC",
+    mainResult:"100% JEDNOMYŚLNIE",
+    resolutionStatus:"Uchwała Parlamentarna Aktywna",
+    compChair:"Przewodniczący Parlamentu: Profesor Sugriva",
+    compVeto:"Posiadacz Bezwzględnego Prawa Veto: Kapral Vojtek",
+    compRemaining:"Pozostali Członkowie: 265 Małp",
+    voteFor:"ZA: 100% (267/267)", voteAgainst:"PRZECIW: 0%", voteAbstain:"WSTRZYMANI: 0%",
+    teleVotes:"267 GŁOSÓW", teleUnanimous:"JEDNOMYŚLNIE", teleSync:"100% SYNCHRONIZACJA G-SYSTEM",
+    jumpHistory:"Przejdź do: Historia", jumpConstitution:"Przejdź do: Konstytucja", jumpMinistries:"Przejdź do: Ministerstwa",
+    secHistoryTitle:"Historia Parlamentu G-ROCK",
+    histP1:"Parlament Małp z Gibraltaru został ustanowiony w 1943 roku, po przejęciu Skały Gibraltarskiej przez populację Małp.",
+    histP2:"Pierwsza Konstytucja stworzyła fundament pod bezpośrednią samorządność i niezależność.",
+    histP3:"Nowelizacja z grudnia 1963 roku formalnie włączyła strategicznych liderów — Przewodniczącego Profesora Sugrivę i Kaprala Vojtka.",
+    secConstitutionTitle:"Konstytucja G-ROCK",
+    constDdTitle:"Zasady Demokracji Bezpośredniej",
+    constDdText:"Każdy członek populacji ma prawo do głosu i inicjatywy uchwałodawczej. Prawa Małp stanowią fundament niepodległości Skały Gibraltarskiej.",
+    constDdHighlight:"Każda Małpa ma prawo głosować, zgłaszać projekty ustaw i bezpośrednio kształtować decyzje konstytucyjne.",
+    constVetoTitle:"Nowelizacja z Grudnia 1963 Roku (Klauzula Veto)",
+    constVetoText:"Kapralowi Vojtkowi przyznano Bezwzględne Prawo Veto. Nowelizacja wynikała z faktu, że populacja Małp obdarzyła go bezgranicznym zaufaniem i pragnęła zagwarantować, aby Vojtek nie czuł się w żaden sposób dyskryminowany ani wykluczony w małpiej społeczności jako jedyny niedźwiedź w całej strukturze.",
+    secMinistriesTitle:"Ministerstwa G-ROCK",
+    minEduLabel:"Ministerstwo Edukacji", minEduValue:"Profesor Sugriva",
+    minFinLabel:"Ministerstwo Finansów", minFinValue:"Profesor Sugriva (pełniący równolegle funkcję Prezesa Bank of the Monkeys from Gibraltar)",
+    minHomeLabel:"Home Office, MoD i Służby Specjalne", minHomeValue:"Kapral Vojtek",
+    minPropagandaLabel:"Ministerstwo Propagandy", minPropagandaValue:"Autonomiczny G-System",
+    minForeignLabel:"Ministerstwo Spraw Zagranicznych", minForeignValue:"Profesor Sugriva",
+    minHealthLabel:"Ministerstwo Zdrowia i Opieki Weterynaryjnej", minHealthValue:"Autonomiczny G-System"
+  },
+  es:{
+    navBack:"VOLVER AL HUB", navBank:"Banco",
+    mainTitle:"Parlamento de los Monos de Gibraltar",
+    barSub:"— Por el bien público",
+    watermark:"267 ESCAÑOS",
+    mainResult:"100% UNÁNIME",
+    resolutionStatus:"Resolución Parlamentaria Activa",
+    compChair:"Presidente del Parlamento: Profesor Sugriva",
+    compVeto:"Titular del Veto Absoluto: Cabo Vojtek",
+    compRemaining:"Miembros Restantes: 265 Monos",
+    voteFor:"A FAVOR: 100% (267/267)", voteAgainst:"EN CONTRA: 0%", voteAbstain:"ABSTENCIONES: 0%",
+    teleVotes:"267 VOTOS", teleUnanimous:"UNÁNIME", teleSync:"100% SINCRONIZACIÓN G-SYSTEM",
+    jumpHistory:"Ir a: Historia", jumpConstitution:"Ir a: Constitución", jumpMinistries:"Ir a: Ministerios",
+    secHistoryTitle:"Historia del Parlamento G-ROCK",
+    histP1:"El Parlamento de los Monos de Gibraltar se estableció en 1943, tras la toma de la Roca de Gibraltar por la población de simios.",
+    histP2:"La primera Constitución sentó las bases de la autogestión directa y la independencia.",
+    histP3:"La enmienda de diciembre de 1963 incorporó formalmente a los líderes estratégicos: el Presidente, Profesor Sugriva, y el Cabo Vojtek.",
+    secConstitutionTitle:"Constitución G-ROCK",
+    constDdTitle:"Principios de la Democracia Directa",
+    constDdText:"Todo miembro de la población tiene derecho a votar y a proponer legislación. Los derechos de los simios constituyen la base de la independencia de la Roca de Gibraltar.",
+    constDdHighlight:"Cada simio tiene derecho a votar, a proponer marcos legislativos y a dar forma directa a las decisiones constitucionales.",
+    constVetoTitle:"Enmienda de Diciembre de 1963 (Cláusula de Veto)",
+    constVetoText:"Se concede al Cabo Vojtek el Derecho Absoluto de Veto. La enmienda se aprobó porque la población de simios depositó en él una confianza incondicional y deseaba garantizar que Vojtek nunca se sintiera discriminado ni excluido en la sociedad de los simios, siendo el único oso de toda la estructura.",
+    secMinistriesTitle:"Ministerios G-ROCK",
+    minEduLabel:"Ministerio de Educación", minEduValue:"Profesor Sugriva",
+    minFinLabel:"Ministerio de Finanzas", minFinValue:"Profesor Sugriva (que ejerce a su vez como Presidente del Bank of the Monkeys from Gibraltar)",
+    minHomeLabel:"Ministerio del Interior, Defensa y Servicios Especiales", minHomeValue:"Cabo Vojtek",
+    minPropagandaLabel:"Ministerio de Propaganda", minPropagandaValue:"G-System Autónomo",
+    minForeignLabel:"Ministerio de Asuntos Exteriores", minForeignValue:"Profesor Sugriva",
+    minHealthLabel:"Ministerio de Salud y Atención Veterinaria", minHealthValue:"G-System Autónomo"
+  },
+  fr:{
+    navBack:"RETOUR AU HUB", navBank:"Banque",
+    mainTitle:"Parlement des Singes de Gibraltar",
+    barSub:"— Pour le bien public",
+    watermark:"267 SIÈGES",
+    mainResult:"100% À L'UNANIMITÉ",
+    resolutionStatus:"Résolution Parlementaire Active",
+    compChair:"Président du Parlement : Professeur Sugriva",
+    compVeto:"Titulaire du Veto Absolu : Caporal Vojtek",
+    compRemaining:"Membres Restants : 265 Singes",
+    voteFor:"POUR : 100% (267/267)", voteAgainst:"CONTRE : 0%", voteAbstain:"ABSTENTIONS : 0%",
+    teleVotes:"267 VOTES", teleUnanimous:"UNANIME", teleSync:"100% SYNCHRONISATION G-SYSTEM",
+    jumpHistory:"Aller à : Histoire", jumpConstitution:"Aller à : Constitution", jumpMinistries:"Aller à : Ministères",
+    secHistoryTitle:"Histoire du Parlement G-ROCK",
+    histP1:"Le Parlement des Singes de Gibraltar a été créé en 1943, après la prise du Rocher de Gibraltar par la population de singes.",
+    histP2:"La première Constitution a posé les bases de l'autogouvernance directe et de l'indépendance.",
+    histP3:"L'amendement de décembre 1963 a formellement intégré les dirigeants stratégiques — le Président, Professeur Sugriva, et le Caporal Vojtek.",
+    secConstitutionTitle:"Constitution G-ROCK",
+    constDdTitle:"Principes de la Démocratie Directe",
+    constDdText:"Chaque membre de la population a le droit de voter et de proposer des lois. Les droits des singes constituent le fondement de l'indépendance du Rocher de Gibraltar.",
+    constDdHighlight:"Chaque singe a le droit de voter, de proposer des cadres législatifs et de façonner directement les décisions constitutionnelles.",
+    constVetoTitle:"Amendement de Décembre 1963 (Clause de Veto)",
+    constVetoText:"Le Caporal Vojtek s'est vu octroyer le Droit Absolu de Veto. L'amendement a été adopté car la population de singes lui accordait une confiance inconditionnelle et souhaitait garantir que Vojtek ne se sente jamais discriminé ni exclu au sein de la société des singes, étant le seul ours de toute la structure.",
+    secMinistriesTitle:"Ministères G-ROCK",
+    minEduLabel:"Ministère de l'Éducation", minEduValue:"Professeur Sugriva",
+    minFinLabel:"Ministère des Finances", minFinValue:"Professeur Sugriva (exerçant également la fonction de Président de la Bank of the Monkeys from Gibraltar)",
+    minHomeLabel:"Ministère de l'Intérieur, de la Défense et des Services Spéciaux", minHomeValue:"Caporal Vojtek",
+    minPropagandaLabel:"Ministère de la Propagande", minPropagandaValue:"G-System Autonome",
+    minForeignLabel:"Ministère des Affaires Étrangères", minForeignValue:"Professeur Sugriva",
+    minHealthLabel:"Ministère de la Santé et des Soins Vétérinaires", minHealthValue:"G-System Autonome"
+  },
+  ru:{
+    navBack:"ВЕРНУТЬСЯ В ХАБ", navBank:"Банк",
+    mainTitle:"Парламент Обезьян Гибралтара",
+    barSub:"— Ради общего блага",
+    watermark:"267 МЕСТ",
+    mainResult:"100% ЕДИНОГЛАСНО",
+    resolutionStatus:"Парламентская Резолюция Действует",
+    compChair:"Председатель Парламента: Профессор Сугрива",
+    compVeto:"Обладатель Абсолютного Права Вето: Капрал Войтек",
+    compRemaining:"Остальные Члены: 265 Обезьян",
+    voteFor:"ЗА: 100% (267/267)", voteAgainst:"ПРОТИВ: 0%", voteAbstain:"ВОЗДЕРЖАЛИСЬ: 0%",
+    teleVotes:"267 ГОЛОСОВ", teleUnanimous:"ЕДИНОГЛАСНО", teleSync:"100% СИНХРОНИЗАЦИЯ G-SYSTEM",
+    jumpHistory:"Перейти: История", jumpConstitution:"Перейти: Конституция", jumpMinistries:"Перейти: Министерства",
+    secHistoryTitle:"История Парламента G-ROCK",
+    histP1:"Парламент Обезьян Гибралтара был учреждён в 1943 году после захвата Гибралтарской Скалы популяцией обезьян.",
+    histP2:"Первая Конституция заложила основу прямого самоуправления и независимости.",
+    histP3:"Поправка декабря 1963 года официально включила стратегических лидеров — Председателя Профессора Сугриву и Капрала Войтека.",
+    secConstitutionTitle:"Конституция G-ROCK",
+    constDdTitle:"Принципы Прямой Демократии",
+    constDdText:"Каждый член популяции имеет право голоса и право законодательной инициативы. Права обезьян составляют основу независимости Гибралтарской Скалы.",
+    constDdHighlight:"Каждая обезьяна имеет право голосовать, предлагать законопроекты и напрямую формировать конституционные решения.",
+    constVetoTitle:"Поправка Декабря 1963 Года (Пункт о Вето)",
+    constVetoText:"Капралу Войтеку предоставлено Абсолютное Право Вето. Поправка была принята потому, что популяция обезьян оказала ему безграничное доверие и стремилась гарантировать, что Войтек никогда не почувствует себя дискриминированным или исключённым в обезьяньем обществе как единственный медведь во всей структуре.",
+    secMinistriesTitle:"Министерства G-ROCK",
+    minEduLabel:"Министерство Образования", minEduValue:"Профессор Сугрива",
+    minFinLabel:"Министерство Финансов", minFinValue:"Профессор Сугрива (одновременно занимающий пост Президента Bank of the Monkeys from Gibraltar)",
+    minHomeLabel:"МВД, Министерство Обороны и Спецслужбы", minHomeValue:"Капрал Войтек",
+    minPropagandaLabel:"Министерство Пропаганды", minPropagandaValue:"Автономная G-System",
+    minForeignLabel:"Министерство Иностранных Дел", minForeignValue:"Профессор Сугрива",
+    minHealthLabel:"Министерство Здравоохранения и Ветеринарной Помощи", minHealthValue:"Автономная G-System"
+  },
+  nl:{
+    navBack:"TERUG NAAR HUB", navBank:"Bank",
+    mainTitle:"Parlement van de Apen van Gibraltar",
+    barSub:"— Voor het algemeen belang",
+    watermark:"267 ZETELS",
+    mainResult:"100% UNANIEM",
+    resolutionStatus:"Parlementaire Resolutie Actief",
+    compChair:"Voorzitter van het Parlement: Professor Sugriva",
+    compVeto:"Houder van het Absolute Vetorecht: Korporaal Vojtek",
+    compRemaining:"Overige Leden: 265 Apen",
+    voteFor:"VOOR: 100% (267/267)", voteAgainst:"TEGEN: 0%", voteAbstain:"ONTHOUDINGEN: 0%",
+    teleVotes:"267 STEMMEN", teleUnanimous:"UNANIEM", teleSync:"100% G-SYSTEM SYNCHRONISATIE",
+    jumpHistory:"Ga naar: Geschiedenis", jumpConstitution:"Ga naar: Grondwet", jumpMinistries:"Ga naar: Ministeries",
+    secHistoryTitle:"Geschiedenis van het G-ROCK Parlement",
+    histP1:"Het Parlement van de Apen van Gibraltar werd in 1943 opgericht, na de overname van de Rots van Gibraltar door de apenpopulatie.",
+    histP2:"De eerste Grondwet legde de basis voor directe zelfbestuur en onafhankelijkheid.",
+    histP3:"Het amendement van december 1963 nam de strategische leiders formeel op — Voorzitter Professor Sugriva en Korporaal Vojtek.",
+    secConstitutionTitle:"G-ROCK Grondwet",
+    constDdTitle:"Beginselen van de Directe Democratie",
+    constDdText:"Elk lid van de populatie heeft stemrecht en het recht om wetgeving voor te stellen. De rechten van de apen vormen de basis van de onafhankelijkheid van de Rots van Gibraltar.",
+    constDdHighlight:"Elke aap heeft het recht om te stemmen, wetgevende kaders voor te stellen en grondwettelijke besluiten rechtstreeks vorm te geven.",
+    constVetoTitle:"Amendement van December 1963 (Vetoclausule)",
+    constVetoText:"Korporaal Vojtek kreeg het Absolute Vetorecht toegekend. Het amendement werd aangenomen omdat de apenpopulatie hem onvoorwaardelijk vertrouwde en wilde garanderen dat Vojtek zich als enige beer in de gehele structuur nooit gediscrimineerd of uitgesloten zou voelen binnen de apengemeenschap.",
+    secMinistriesTitle:"G-ROCK Ministeries",
+    minEduLabel:"Ministerie van Onderwijs", minEduValue:"Professor Sugriva",
+    minFinLabel:"Ministerie van Financiën", minFinValue:"Professor Sugriva (tevens Voorzitter van de Bank of the Monkeys from Gibraltar)",
+    minHomeLabel:"Binnenlandse Zaken, Defensie en Speciale Diensten", minHomeValue:"Korporaal Vojtek",
+    minPropagandaLabel:"Ministerie van Propaganda", minPropagandaValue:"Autonoom G-System",
+    minForeignLabel:"Ministerie van Buitenlandse Zaken", minForeignValue:"Professor Sugriva",
+    minHealthLabel:"Ministerie van Volksgezondheid en Diergeneeskundige Zorg", minHealthValue:"Autonoom G-System"
+  }
+};
+
+const idMap = {
+  navBack:'nav-back', navBank:'nav-bank', mainTitle:'main-title', barSub:'bar-sub',
+  watermark:'watermark', mainResult:'main-result', resolutionStatus:'resolution-status',
+  compChair:'comp-chair', compVeto:'comp-veto', compRemaining:'comp-remaining',
+  voteFor:'vote-for', voteAgainst:'vote-against', voteAbstain:'vote-abstain',
+  teleVotes:'tele-votes', teleUnanimous:'tele-unanimous', teleSync:'tele-sync',
+  jumpHistory:'jump-history', jumpConstitution:'jump-constitution', jumpMinistries:'jump-ministries',
+  secHistoryTitle:'sec-history-title', histP1:'hist-p1', histP2:'hist-p2', histP3:'hist-p3',
+  secConstitutionTitle:'sec-constitution-title',
+  constDdTitle:'const-dd-title', constDdText:'const-dd-text', constDdHighlight:'const-dd-highlight',
+  constVetoTitle:'const-veto-title', constVetoText:'const-veto-text',
+  secMinistriesTitle:'sec-ministries-title',
+  minEduLabel:'min-edu-label', minEduValue:'min-edu-value',
+  minFinLabel:'min-fin-label', minFinValue:'min-fin-value',
+  minHomeLabel:'min-home-label', minHomeValue:'min-home-value',
+  minPropagandaLabel:'min-propaganda-label', minPropagandaValue:'min-propaganda-value',
+  minForeignLabel:'min-foreign-label', minForeignValue:'min-foreign-value',
+  minHealthLabel:'min-health-label', minHealthValue:'min-health-value'
+};
+
+function setLang(lang){
+  document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+  document.getElementById('lang-' + lang).classList.add('active');
+
+  const t = dict[lang];
+  Object.keys(idMap).forEach(key => {
+    const el = document.getElementById(idMap[key]);
+    if (el && t[key] !== undefined) el.textContent = t[key];
+  });
+
+  document.documentElement.lang = lang;
+}
+
+setLang('en');
+</script>
+
+</body>
+</html>
+
+
