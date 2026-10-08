@@ -138,23 +138,26 @@ body {
   transition: all 0.2s ease;
 }
 .index-link:hover { border-color: var(--brass-bright); box-shadow: 0 0 10px rgba(163,112,44,0.4); }
-.container { max-width: 1300px; margin: 0 auto; padding: 40px 4%; }
+.container { max-width: 1400px; margin: 0 auto; padding: 40px 4%; }
 .timeline-era { margin-bottom: 50px; }
 .era-header { border-left: 4px solid var(--brass-bright); padding-left: 16px; margin-bottom: 25px; }
 .era-label { font-family: 'Orbitron', sans-serif; font-size: 11px; letter-spacing: 2px; color: var(--cyan); text-transform: uppercase; }
 .era-header h2 { font-family: 'Orbitron', sans-serif; font-size: clamp(20px, 3vw, 26px); color: #fff; margin: 4px 0; }
 .era-period { font-family: 'Orbitron', sans-serif; font-size: 12px; color: var(--brass-bright); letter-spacing: 1px; }
-.timeline-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
-@media(max-width: 900px) { .timeline-grid { grid-template-columns: 1fr; } }
+.timeline-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: stretch; }
+@media(max-width: 1100px) { .timeline-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media(max-width: 700px) { .timeline-grid { grid-template-columns: 1fr; } }
 article.timeline-card {
   background: var(--panel);
   backdrop-filter: blur(14px);
   border: 1px solid var(--line);
   border-radius: 14px;
-  padding: 28px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-width: 0;
+  overflow-wrap: anywhere;
   transition: all 0.35s cubic-bezier(.25,.8,.25,1);
   box-shadow: 0 4px 18px rgba(0,0,0,.4);
 }
@@ -165,7 +168,6 @@ article.timeline-card:hover {
   box-shadow: 0 14px 34px rgba(0,240,255,0.15);
 }
 article.timeline-card.timeline-card--featured {
-  grid-column: 1 / -1;
   border-color: var(--brass1);
   background: linear-gradient(135deg, rgba(15,23,42,0.7) 0%, rgba(11,17,32,0.85) 100%);
   box-shadow: 0 6px 24px rgba(163,112,44,0.2);
@@ -188,7 +190,7 @@ article.timeline-card.is-active {
 .layer-fiction { border-color: #00f0ff; background: rgba(0, 240, 255, 0.08); color: #00f0ff; }
 .layer-fact { border-color: #39FF14; background: rgba(57, 255, 20, 0.08); color: #39FF14; }
 .layer-folklore { border-color: #C9A227; background: rgba(201, 162, 39, 0.08); color: #C9A227; }
-.layer-anomaly { border-color: #7A201B; background: #240D0D; color: #E05A4F; }
+.layer-anomaly { border-color: #FF1A1A; background: #2a0808; color: #FF2E2E; box-shadow: inset 0 0 12px rgba(255,26,26,0.18); }
 .info-panel {
   margin-top: 50px;
   background: var(--panel);
@@ -223,7 +225,9 @@ article.timeline-card.is-active {
 .label-fiction { background: rgba(0, 240, 255, 0.15); color: #00f0ff; }
 .label-fact { background: rgba(57, 255, 20, 0.18); color: #39FF14; }
 .label-folklore { background: rgba(201, 162, 39, 0.18); color: #C9A227; }
-.label-anomaly { background: #7A201B; color: #E05A4F; }
+.label-anomaly { background: rgba(255,26,26,0.22); color: #FF1A1A; border: 1px solid #FF1A1A; }
+article.timeline-card[data-categories="anomaly"] { border-color: rgba(255,26,26,0.55); }
+article.timeline-card[data-categories="anomaly"] .event-year, article.timeline-card[data-categories="anomaly"] .event-title { color: #FF1A1A; }
 .copyright-notice {
   max-width: 850px;
   margin: 30px auto 0;
@@ -258,12 +262,35 @@ footer {
 .footer-nav { margin-top: 25px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
 .footer-link { font-family: 'Orbitron', sans-serif; color: var(--brass-bright); text-decoration: none; font-size: 11px; letter-spacing: 1px; transition: 0.2s; }
 .footer-link:hover { color: var(--cyan); text-shadow: 0 0 10px rgba(0,240,255,0.6); }
+.archive-hub {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  background: linear-gradient(135deg, var(--brass-bright), var(--brass1));
+  border: 1px solid var(--brass-bright);
+  border-radius: 8px;
+  color: #1c1300;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 1px;
+  box-shadow: 0 0 14px rgba(201,146,42,.45);
+  transition: .3s;
+}
+.archive-hub:hover { filter: brightness(1.15); box-shadow: 0 0 20px rgba(201,146,42,.75); }
+@media(max-width: 600px) {
+  .navbar { padding: 12px 4%; gap: 10px; }
+  .nav-left { gap: 8px; }
+  .return-hub, .archive-hub { padding: 8px 12px; font-size: 11px; }
+}
 </style>
-</head>
 <body>
 <div class="navbar">
   <div class="nav-left">
-    <a class="return-hub" href="#">← RETURN TO ARCHIVE</a>
+    <a class="return-hub" id="hubLink" href="index.html">← RETURN TO HUB</a>
+    <a class="archive-hub" id="archiveLink" href="archive.html">ARCHIVE</a>
   </div>
   <div class="nav-right">
     <div class="lang-switch" id="langSwitch">
@@ -278,16 +305,16 @@ footer {
 </div>
 
 <header class="main-header">
-  <h1 class="premium-header">G-ROCK STORY TIMELINE</h1>
+  <h1 class="premium-header" id="mainTitle">G-ROCK STORY TIMELINE</h1>
   <p id="mainSub" style="color:var(--muted); font-size:13px; letter-spacing:1px;">Canonical chronology and intelligence framework</p>
 </header>
 
 <div class="container" id="timeline-container"></div>
 
 <footer>
-  <div class="footer-notice">G-ROCK Archive — data preserved from original source notes.</div>
-  <div class="footer-status">ARCHIVE INTEGRITY: OK</div>
-  <div class="copyright-notice">
+  <div class="footer-notice" id="footerNotice">G-ROCK Archive — data preserved from original source notes.</div>
+  <div class="footer-status" id="footerStatus">ARCHIVE INTEGRITY: OK</div>
+  <div class="copyright-notice" id="copyrightNotice">
     © G-ROCK STORY TIMELINE. All original G-ROCK narrative content, classification system and archive material are the property of their creator.
     This timeline distinguishes documented HISTORY / FACT, REAL FOLKLORE / LEGEND, and AUTHOR FICTION content by color; an ANOMALY
     status may apply independently of these classifications. No third-party copyrighted material is used or claimed as original G-ROCK content;
@@ -297,19 +324,23 @@ footer {
 
 <script>
 const uiText = {
-  "en": { "sub": "Canonical chronology and intelligence framework" },
-  "pl": { "sub": "Kanoniczna chronologia i ramy wywiadowcze" },
-  "es": { "sub": "Cronologia canonica y marco de inteligencia" },
-  "fr": { "sub": "Chronologie canonique et cadre de renseignement" },
-  "nl": { "sub": "Canonieke chronologie en inlichtingenkader" },
-  "ru": { "sub": "RU: do uzupelnienia" }
+  "en": { "title": "G-ROCK STORY TIMELINE", "sub": "Canonical chronology and intelligence framework", "hub": "← RETURN TO HUB", "archive": "ARCHIVE",
+          "footerNotice": "G-ROCK Archive — data preserved from original source notes.", "footerStatus": "ARCHIVE INTEGRITY: OK",
+          "copyright": "© G-ROCK STORY TIMELINE. All original G-ROCK narrative content, classification system and archive material are the property of their creator. This timeline distinguishes documented HISTORY / FACT, REAL FOLKLORE / LEGEND, and AUTHOR FICTION content by color; an ANOMALY status may apply independently of these classifications. No third-party copyrighted material is used or claimed as original G-ROCK content; historical references reflect public-domain facts. Copyright status does not alter the canonical classification of any event." },
+  "pl": { "sub": "Kanoniczna chronologia i ramy wywiadowcze", "hub": "← POWRÓT DO HUB", "archive": "ARCHIWUM" },
+  "es": { "sub": "Cronologia canonica y marco de inteligencia", "hub": "← VOLVER AL HUB", "archive": "ARCHIVO" },
+  "fr": { "sub": "Chronologie canonique et cadre de renseignement", "hub": "← RETOUR AU HUB", "archive": "ARCHIVES" },
+  "nl": { "sub": "Canonieke chronologie en inlichtingenkader", "hub": "← TERUG NAAR HUB", "archive": "ARCHIEF" },
+  "ru": { "title": "ХРОНОЛОГИЯ ИСТОРИИ G-ROCK", "sub": "Каноническая хронология и разведывательная структура", "hub": "← ВЕРНУТЬСЯ В ХАБ", "archive": "АРХИВ",
+          "footerNotice": "Архив G-ROCK — данные сохранены из исходных заметок.", "footerStatus": "ЦЕЛОСТНОСТЬ АРХИВА: ОК",
+          "copyright": "© G-ROCK STORY TIMELINE. Весь оригинальный повествовательный контент G-ROCK, система классификации и архивные материалы являются собственностью их создателя. Эта хронология различает по цвету документированные ИСТОРИЯ / ФАКТ, РЕАЛЬНЫЙ ФОЛЬКЛОР / ЛЕГЕНДА и АВТОРСКАЯ ФИКЦИЯ; статус АНОМАЛИЯ может применяться независимо от этих классификаций. Материалы третьих лиц, защищённые авторским правом, не используются и не выдаются за оригинальный контент G-ROCK; исторические ссылки отражают общедоступные факты. Статус авторских прав не меняет каноническую классификацию какого-либо события." }
 };
 
 const layerLabels = {
-  "fact": { "en": "HISTORY / FACT", "pl": "HISTORIA / FAKT", "es": "HISTORIA / HECHO", "fr": "HISTOIRE / FAIT", "nl": "GESCHIEDENIS / FEIT", "ru": "RU" },
-  "folklore": { "en": "REAL FOLKLORE / LEGEND", "pl": "FOLKLOR / LEGENDA", "es": "FOLCLORE / LEYENDA", "fr": "FOLKLORE / LEGENDE", "nl": "FOLKLORE / LEGENDE", "ru": "RU" },
-  "fiction": { "en": "AUTHOR FICTION", "pl": "FIKCJA AUTORSKA", "es": "FICCION DEL AUTOR", "fr": "FICTION D'AUTEUR", "nl": "AUTEURSFICTIE", "ru": "RU" },
-  "anomaly": { "en": "ANOMALY", "pl": "ANOMALIA", "es": "ANOMALIA", "fr": "ANOMALIE", "nl": "ANOMALIE", "ru": "RU" }
+  "fact": { "en": "HISTORY / FACT", "pl": "HISTORIA / FAKT", "es": "HISTORIA / HECHO", "fr": "HISTOIRE / FAIT", "nl": "GESCHIEDENIS / FEIT", "ru": "ИСТОРИЯ / ФАКТ" },
+  "folklore": { "en": "REAL FOLKLORE / LEGEND", "pl": "FOLKLOR / LEGENDA", "es": "FOLCLORE / LEYENDA", "fr": "FOLKLORE / LEGENDE", "nl": "FOLKLORE / LEGENDE", "ru": "РЕАЛЬНЫЙ ФОЛЬКЛОР / ЛЕГЕНДА" },
+  "fiction": { "en": "AUTHOR FICTION", "pl": "FIKCJA AUTORSKA", "es": "FICCION DEL AUTOR", "fr": "FICTION D'AUTEUR", "nl": "AUTEURSFICTIE", "ru": "АВТОРСКАЯ ФИКЦИЯ" },
+  "anomaly": { "en": "ANOMALY", "pl": "ANOMALIA", "es": "ANOMALIA", "fr": "ANOMALIE", "nl": "ANOMALIE", "ru": "АНОМАЛИЯ" }
 };
 
 const eraNames = {
@@ -322,32 +353,47 @@ const eraNames = {
   "era-6": "ERA VI — THE G-ROCK ERA",
   "era-7": "ERA VII — THE UGANDA ANOMALY"
 };
+const eraNamesRu = {
+  "era-0": "ЭПОХА 0 — ДРЕВНОСТЬ",
+  "era-1": "ЭПОХА I — СКАЛА",
+  "era-2": "ЭПОХА II — ОБЕЗЬЯНЫ",
+  "era-3": "ЭПОХА III — СКРЫТОЕ",
+  "era-4": "ЭПОХА IV — ЭПОХА ИССЛЕДОВАНИЙ",
+  "era-5": "ЭПОХА V — ПЕРЕХОД G-ROCK",
+  "era-6": "ЭПОХА VI — ЭПОХА G-ROCK",
+  "era-7": "ЭПОХА VII — УГАНДИЙСКАЯ АНОМАЛИЯ"
+};
 const eraOrder = ["era-0", "era-1", "era-2", "era-3", "era-4", "era-5", "era-6", "era-7"];
 
 const timelineData = [
   {
     "id": "event-antiquity-tunnel",
-    "year": "ANTIQUITY",
+    "year": {
+      "en": "ANTIQUITY",
+      "ru": "ДРЕВНОСТЬ"
+    },
     "title": {
       "en": "THE LEGEND OF THE UNDERGROUND TUNNEL",
       "pl": "LEGENDA O PODZIEMNYM TUNELU",
       "es": "LA LEYENDA DEL TUNEL SUBTERRANEO",
       "fr": "LA LEGENDE DU TUNNEL SOUTERRAIN",
-      "ru": "RU: do uzupelnienia",
+      "ru": "ЛЕГЕНДА О ПОДЗЕМНОМ ТУННЕЛЕ",
       "nl": "DE LEGENDE VAN DE ONDERGRONDSE TUNNEL"
     },
     "era": "ERA 0 — ANTIQUITY",
     "eraId": "era-0",
     "period": "ANTIQUITY",
     "featured": false,
-    "categories": ["folklore"],
+    "categories": [
+      "folklore"
+    ],
     "layers": {
       "folklore": {
         "en": "The legend of Gibraltar's Barbary macaques is rooted in ancient folklore, including the belief that St. Michael's Cave was bottomless, a myth dating back more than 2,000 years to Antiquity. Over the centuries, this tradition evolved into the legend of a secret underground tunnel beneath the Strait of Gibraltar, supposedly connecting Gibraltar with North Africa. The tunnel remains a legendary element of Gibraltar folklore, not a proven historical or geological fact.",
         "pl": "Legenda o berberyjskich makakach z Gibraltaru ma korzenie w starozytnym folklorze, w tym w przekonaniu, ze Jaskinia Sw. Michala jest bezdenna, micie liczacym ponad 2000 lat, siegajacym starozytnosci. Z biegiem wiekow tradycja ta przeksztalcila sie w legende o tajemnym podziemnym tunelu pod Cieznina Gibraltarska, majacym laczyc Gibraltar z Afryka Polnocna. Tunel pozostaje elementem legendarnym gibraltarskiego folkloru, a nie udowodnionym faktem historycznym czy geologicznym.",
         "es": "La leyenda de los macacos de Berberia de Gibraltar tiene sus raices en el folclore antiguo, incluida la creencia de que la Cueva de San Miguel era sin fondo, un mito que se remonta a mas de 2000 anos, a la Antiguedad. Con el paso de los siglos, esta tradicion evoluciono hacia la leyenda de un tunel subterraneo secreto bajo el Estrecho de Gibraltar, que supuestamente conectaba Gibraltar con el norte de Africa. El tunel sigue siendo un elemento legendario del folclore de Gibraltar, no un hecho historico o geologico probado.",
         "fr": "La legende des macaques de Barbarie de Gibraltar puise ses racines dans un folklore ancien, y compris la croyance selon laquelle la grotte de Saint-Michel etait sans fond, un mythe remontant a plus de 2000 ans, a l'Antiquite. Au fil des siecles, cette tradition a evolue vers la legende d'un tunnel souterrain secret sous le detroit de Gibraltar, cense relier Gibraltar a l'Afrique du Nord. Le tunnel demeure un element legendaire du folklore de Gibraltar, et non un fait historique ou geologique prouve.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "Легенда о берберийских макаках Gibraltar уходит корнями в древний фольклор, включая убеждение, что пещера Святого Михаила бездонна, — миф, которому более 2000 лет и который восходит к Античности. С течением веков эта традиция превратилась в легенду о тайном подземном туннеле под Гибралтарским проливом, якобы соединявшем Gibraltar с Северной Африкой. Туннель остаётся легендарным элементом фольклора Gibraltar, а не доказанным историческим или геологическим фактом.",
         "nl": "De legende van de Berberapen van Gibraltar is geworteld in oude folklore, waaronder het geloof dat de St. Michael's Cave bodemloos was, een mythe die meer dan 2000 jaar teruggaat tot de Oudheid. In de loop der eeuwen evolueerde deze traditie tot de legende van een geheime ondergrondse tunnel onder de Straat van Gibraltar, die Gibraltar zogenaamd verbond met Noord-Afrika. De tunnel blijft een legendarisch element van de Gibraltarese folklore, geen bewezen historisch of geologisch feit."
       }
     }
@@ -360,21 +406,23 @@ const timelineData = [
       "pl": "PRZYBYCIE BRYTYJCZYKOW NA GIBRALTAR | LEGENDA O MALPACH",
       "es": "LOS BRITANICOS LLEGAN A GIBRALTAR Y LA LEYENDA DE LOS MONOS",
       "fr": "ARRIVEE DES BRITANNIQUES A GIBRALTAR ET LA LEGENDE DES SINGES",
-      "ru": "RU: do uzupelnienia",
+      "ru": "ПРИБЫТИЕ БРИТАНЦЕВ В GIBRALTAR И ЛЕГЕНДА ОБ ОБЕЗЬЯНАХ",
       "nl": "BRITTEN KOMEN AAN IN GIBRALTAR & DE APAAN LEGENDE"
     },
     "era": "ERA I — THE ROCK",
     "eraId": "era-1",
     "period": "1704-1783",
     "featured": true,
-    "categories": ["folklore"],
+    "categories": [
+      "folklore"
+    ],
     "layers": {
       "folklore": {
         "en": "THE BARBARY MACAQUE LEGEND: As long as the Barbary macaques remain on the Rock of Gibraltar, Gibraltar will remain under British rule. If the monkeys disappear, the British will leave Gibraltar as well. Possible Origin: According to one traditional version, it began as a joke on the Spanish side of the border. When someone asked, 'When will the British leave Gibraltar?', the answer was: 'When the monkeys leave.' Over time, the sentence began to take on a life of its own. It was no longer only a joke; it became a familiar legend associated with Gibraltar. Archive Note: This is traditional folklore, not an established historical fact.",
         "pl": "LEGENDA O MAKAKACH BERBERYJSKICH: Dopoki makaki berberyjskie pozostana na Skale Gibraltaru, Gibraltar pozostanie pod brytyjskimi rzadami. Jesli malpy znikna, Brytyjczycy rowniez opuszcza Gibraltar. Mozliwe Zrodlo: Wedlug jednej z tradycyjnych wersji zaczelo sie to jako zart po hiszpanskiej stronie granicy. Gdy ktos zapytal: 'Kiedy Brytyjczycy opuszcza Gibraltar?', odpowiedz brzmiala: 'Gdy malpy odejda.' Z czasem zdanie zaczelo zyc wlasnym zyciem. Nie bylo juz tylko zartem; stalo sie znana legenda zwiazana z Gibraltarem. Notatka archiwalna: To jest tradycyjny folklor, a nie ustalony fakt historyczny.",
         "es": "LA LEYENDA DE LOS MACACOS DE BERBERIA: Mientras los macacos de Berberia permanezcan en el Penon de Gibraltar, Gibraltar permanecera bajo dominio britanico. Si los monos desaparecen, los britanicos tambien dejaran Gibraltar. Posible Origen: Segun una version tradicional, comenzo como una broma en el lado espanol de la frontera. Cuando alguien pregunto: 'Cuando se iran los britanicos de Gibraltar?' la respuesta fue: 'Cuando los monos se vayan.' Con el tiempo, la frase comenzo a tener vida propia. Ya no era solo una broma; se convirtio en una leyenda familiar asociada con Gibraltar. Nota de archivo: Esto es folclore tradicional, no un hecho historico establecido.",
         "fr": "LA LEGENDE DES MACAQUES DE BARBARIE: Tant que les macaques de Barbarie resteront sur le Rocher de Gibraltar, Gibraltar restera sous domination britannique. Si les singes disparaissent, les Britanniques quitteront egalement Gibraltar. Origine possible: Selon une version traditionnelle, cela a commence comme une blague du cote espagnol de la frontiere. Quand quelqu'un a demande: 'Quand les Britanniques quitteront-ils Gibraltar?', la reponse fut: 'Quand les singes partiront.' Avec le temps, la phrase a commence a prendre vie. Ce n'etait plus seulement une blague; c'est devenu une legende familiere associee avec Gibraltar. Note d'archives: Il s'agit de folklore traditionnel, pas d'un fait historique etabli.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "ЛЕГЕНДА О БЕРБЕРИЙСКИХ МАКАКАХ: Пока берберийские макаки остаются на Скале Gibraltar, Gibraltar будет оставаться под британским правлением. Если обезьяны исчезнут, британцы тоже покинут Gibraltar. Возможное происхождение: согласно одной традиционной версии, всё началось как шутка с испанской стороны границы. Когда кто-то спросил: «Когда британцы покинут Gibraltar?», ответ был: «Когда уйдут обезьяны». Со временем эта фраза зажила собственной жизнью. Это была уже не просто шутка; она стала известной легендой, связанной с Gibraltar. Примечание архива: это традиционный фольклор, а не установленный исторический факт.",
         "nl": "DE BERBERAAP LEGENDE: Zolang de Berberapen op de Rots van Gibraltar blijven, zal Gibraltar onder Britse heerschappij blijven. Als de apen verdwijnen, zullen de Britten Gibraltar ook verlaten. Mogelijke Oorsprong: Volgens een traditionele versie begon het als een grap aan de Spaanse kant van de grens. Toen iemand vroeg: 'Wanneer zullen de Britten Gibraltar verlaten?', was het antwoord: 'Wanneer de apen vertrekken.' Na verloop van tijd begon de zin een eigen leven te leiden. Het was niet langer alleen een grap; het werd een bekende legende geassocieerd met Gibraltar. Archiefnotitie: Dit is traditionele folklore, geen vastgesteld historisch feit."
       }
     }
@@ -387,21 +435,23 @@ const timelineData = [
       "pl": "TRAKTAT UTRECHCKI",
       "es": "TRATADO DE UTRECHT",
       "fr": "TRAITE D'UTRECHT",
-      "ru": "RU: do uzupelnienia",
+      "ru": "УТРЕХТСКИЙ ДОГОВОР",
       "nl": "VERDRAG VAN UTRECHT"
     },
     "era": "ERA I — THE ROCK",
     "eraId": "era-1",
     "period": "1704-1783",
     "featured": true,
-    "categories": ["fact"],
+    "categories": [
+      "fact"
+    ],
     "layers": {
       "fact": {
         "en": "Gibraltar is formally ceded to Great Britain under the Treaty of Utrecht.",
         "pl": "Gibraltar zostaje formalnie przekazany Wielkiej Brytanii na mocy traktatu utrechckiego.",
         "es": "Gibraltar es cedido formalmente a Gran Bretana bajo el Tratado de Utrecht.",
         "fr": "Gibraltar est formellement cede a la Grande-Bretagne en vertu du traite d'Utrecht.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "Gibraltar официально передан Великобритании по Утрехтскому договору.",
         "nl": "Gibraltar wordt formeel overgedragen aan Groot-Brittannie onder het Verdrag van Utrecht."
       }
     }
@@ -414,21 +464,24 @@ const timelineData = [
       "pl": "WIELKIE OBLEZENIE GIBRALTARU",
       "es": "GRAN SITIO DE GIBRALTAR",
       "fr": "GRAND SIEGE DE GIBRALTAR",
-      "ru": "RU: do uzupelnienia",
+      "ru": "ВЕЛИКАЯ ОСАДА GIBRALTAR",
       "nl": "GROOT BELEG VAN GIBRALTAR"
     },
     "era": "ERA I — THE ROCK",
     "eraId": "era-1",
     "period": "1704-1783",
     "featured": true,
-    "categories": ["fact", "folklore"],
+    "categories": [
+      "fact",
+      "folklore"
+    ],
     "layers": {
       "fact": {
         "en": "The Great Siege of Gibraltar takes place as French and Spanish forces attempt to capture the Rock from the British garrison.",
         "pl": "Wielkie Oblezenie Gibraltaru ma miejsce, gdy sily francuskie i hiszpanskie probuja zdobyc Skale od brytyjskiego garnizonu.",
         "es": "El Gran Sitio de Gibraltar tiene lugar cuando las fuerzas francesas y espanolas intentan capturar el Penon de la guarnicion britanica.",
         "fr": "Le Grand Siege de Gibraltar a lieu lorsque les forces francaises et espagnoles tentent de capturer le Rocher de la garnison britannique.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "Происходит Великая осада Gibraltar: французские и испанские силы пытаются отбить Скалу у британского гарнизона.",
         "nl": "Het Groot Beleg van Gibraltar vindt plaats wanneer Franse en Spaanse troepen proberen de Rots te veroveren van het Britse garnizoen."
       },
       "folklore": {
@@ -436,7 +489,7 @@ const timelineData = [
         "pl": "Lokalny folklor i relacje z okresu oblezenia zawieraja legendy o makakach berberyjskich ostrzegajacych obroncow podczas niespodziewanych nocnych atakow.",
         "es": "El folclore local y los relatos del periodo del sitio incorporan leyendas sobre los macacos de Berberia alertando a los defensores durante ataques nocturnos sorpresa.",
         "fr": "Le folklore local et les recits de la periode du siege integrent des legendes sur les macaques de Barbarie alertant les defenseurs pendant des attaques nocturnes surprises.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "Местный фольклор и рассказы периода осады включают легенды о берберийских макаках, предупреждавших защитников о внезапных ночных атаках.",
         "nl": "Lokale folklore en verslagen uit de belegeringsperiode bevatten legenden over Berberapen die verdedigers waarschuwden tijdens verrassingsaanvallen 's nachts."
       }
     }
@@ -449,21 +502,23 @@ const timelineData = [
       "pl": "WOJSKOWE ZARZADZANIE MAKAKAMI GIBRALTARU",
       "es": "GESTION MILITAR DE LOS MACACOS DE GIBRALTAR",
       "fr": "GESTION MILITAIRE DES MACAQUES DE GIBRALTAR",
-      "ru": "RU: do uzupelnienia",
+      "ru": "ВОЕННОЕ УПРАВЛЕНИЕ МАКАКАМИ GIBRALTAR",
       "nl": "MILITAIR BEHEER VAN DE GIBRALTAR MAKAKEN"
     },
     "era": "ERA I — THE ROCK",
     "eraId": "era-1",
     "period": "1704-1783",
     "featured": false,
-    "categories": ["fact"],
+    "categories": [
+      "fact"
+    ],
     "layers": {
       "fact": {
         "en": "In 1915, management of Gibraltar's macaque population was formally taken over and organised by the British military authorities of Gibraltar.",
         "pl": "W 1915 roku zarzadzanie populacja makakow na Gibraltarze zostalo formalnie przejete i zorganizowane przez brytyjskie wladze wojskowe Gibraltaru.",
         "es": "En 1915, la gestion de la poblacion de macacos de Gibraltar fue asumida y organizada formalmente por las autoridades militares britanicas de Gibraltar.",
         "fr": "En 1915, la gestion de la population de macaques de Gibraltar a ete officiellement prise en charge et organisee par les autorites militaires britanniques de Gibraltar.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "В 1915 году управление популяцией макак Gibraltar было официально принято и организовано британскими военными властями Gibraltar.",
         "nl": "In 1915 werd het beheer van de Gibraltarese makakenpopulatie formeel overgenomen en georganiseerd door de Britse militaire autoriteiten van Gibraltar."
       }
     }
@@ -476,130 +531,53 @@ const timelineData = [
       "pl": "MALPY W NIEBEZPIECZENSTWIE",
       "es": "LOS MONOS EN PELIGRO",
       "fr": "LES SINGES EN DANGER",
-      "ru": "RU: do uzupelnienia",
+      "ru": "ОБЕЗЬЯНЫ В ОПАСНОСТИ",
       "nl": "DE APEN IN GEVAAR"
     },
     "era": "ERA II — THE MONKEYS",
     "eraId": "era-2",
     "period": "1942-1947",
     "featured": false,
-    "categories": ["anomaly"],
+    "categories": [
+      "anomaly"
+    ],
     "layers": {
       "anomaly": {
         "en": "ANOMALY — CHURCHILL THESIS: There is a repeated thesis that Winston Churchill ordered monkeys to be brought from Africa to Gibraltar. This thesis is repeated by some historians and exists as local tradition among Gibraltar residents. However, there is no confirmed document or Churchill order that would unequivocally document the issuance of such an order. G-System classifies this element as ANOMALY, while maintaining its status as an existing historical thesis and local tradition.",
         "pl": "ANOMALIA — TEZA O CHURCHILLU: Istnieje powtarzana teza, wedlug ktorej Winston Churchill mial polecic sprowadzenie malp z Afryki na Gibraltar. Teze te powtarza czesc historykow, a podobne przekonanie funkcjonuje rowniez wsrod mieszkancow Gibraltaru jako lokalna tradycja. Jednoczesnie nie istnieje potwierdzony dokument ani rozkaz Churchilla, ktory jednoznacznie dokumentowalby wydanie takiego polecenia. G-System klasyfikuje ten element jako ANOMALIE, zachowujac jednoczesnie jego status jako istniejacej tezy historycznej i lokalnej tradycji.",
         "es": "ANOMALIA — TESIS DE CHURCHILL: Existe una tesis repetida segun la cual Winston Churchill habria ordenado traer monos de Africa a Gibraltar. Esta tesis es repetida por algunos historiadores y existe como tradicion local entre los residentes de Gibraltar. Sin embargo, no existe un documento confirmado ni una orden de Churchill que documente inequivocamente la emision de tal orden. G-System clasifica este elemento como ANOMALIA, manteniendo al mismo tiempo su estatus como tesis historica existente y tradicion local.",
         "fr": "ANOMALIE — THESE DE CHURCHILL: Il existe une these repetee selon laquelle Winston Churchill aurait ordonne d'amener des singes d'Afrique a Gibraltar. Cette these est repetee par certains historiens et existe comme tradition locale parmi les residents de Gibraltar. Cependant, il n'existe aucun document confirme ni ordre de Churchill qui documenterait de maniere univoque l'emission d'un tel ordre. G-System classe cet element comme ANOMALIE, tout en maintenant son statut de these historique existante et de tradition locale.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "АНОМАЛИЯ — ТЕЗИС О ЧЕРЧИЛЛЕ: Существует повторяемый тезис, согласно которому Уинстон Черчилль приказал привезти обезьян из Африки в Gibraltar. Этот тезис повторяют некоторые историки, а среди жителей Gibraltar он существует как местное предание. Однако не существует подтверждённого документа или приказа Черчилля, который однозначно подтверждал бы издание такого приказа. G-System классифицирует этот элемент как АНОМАЛИЮ, сохраняя при этом его статус существующего исторического тезиса и местного предания.",
         "nl": "ANOMALIE — CHURCHILL THESE: Er is een herhaalde these dat Winston Churchill opdracht gaf om apen uit Afrika naar Gibraltar te brengen. Deze these wordt herhaald door sommige historici en bestaat als lokale traditie onder Gibraltar bewoners. Er bestaat echter geen bevestigd document of Churchill bevel dat de uitgifte van een dergelijk bevel ondubbelzinnig zou documenteren. G-System classificeert dit element als ANOMALIE, terwijl het tegelijkertijd zijn status als bestaande historische these en lokale traditie behoudt."
       }
     }
   },
   {
-    "id": "event-1942-adoption",
-    "year": "SUMMER 1942",
+    "id": "event-1942-43-wojtek",
+    "year": "1942–1943",
     "title": {
-      "en": "WOJTEK IS ADOPTED IN IRAN",
-      "pl": "WOJTEK ZOSTAJE PRZYGARNIETY W IRANIE",
-      "es": "WOJTEK ES ADOPTADO EN IRAN",
-      "fr": "WOJTEK EST ADOPTE EN IRAN",
-      "ru": "RU: do uzupelnienia",
-      "nl": "WOJTEK WORDT GEADOPTEERD IN IRAN"
+      "en": "WOJTEK — ADOPTION & ENLISTMENT",
+      "pl": "WOJTEK — ADOPCJA I SŁUŻBA",
+      "es": "WOJTEK — ADOPCIÓN Y ALISTAMIENTO",
+      "fr": "WOJTEK — ADOPTION ET ENGAGEMENT",
+      "nl": "WOJTEK — ADOPTIE EN INDIENSTNEMING",
+      "ru": "WOJTEK — УСЫНОВЛЕНИЕ И СЛУЖБА"
     },
     "era": "ERA II — THE MONKEYS",
     "eraId": "era-2",
     "period": "1942-1947",
     "featured": false,
-    "categories": ["fact"],
+    "categories": [
+      "fact"
+    ],
     "layers": {
       "fact": {
-        "en": "Wojtek was adopted in Iran by Polish soldiers in the summer of 1942.",
-        "pl": "Wojtek zostal przygarniety w Iranie przez polskich zolnierzy latem 1942 roku.",
-        "es": "Wojtek fue adoptado en Iran por soldados polacos en el verano de 1942.",
-        "fr": "Wojtek a ete adopte en Iran par des soldats polonais durant l'ete 1942.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "Wojtek werd in de zomer van 1942 in Iran geadopteerd door Poolse soldaten."
-      }
-    }
-  },
-  {
-    "id": "event-1942-45-soldiers",
-    "year": "1942-1945",
-    "title": {
-      "en": "WOJTEK WITH THE POLISH SOLDIERS",
-      "pl": "WOJTEK Z POLSKIMI ZOLNIERZAMI",
-      "es": "WOJTEK CON LOS SOLDADOS POLACOS",
-      "fr": "WOJTEK AVEC LES SOLDATS POLONAIS",
-      "ru": "RU: do uzupelnienia",
-      "nl": "WOJTEK BIJ DE POOLSE SOLDATEN"
-    },
-    "era": "ERA II — THE MONKEYS",
-    "eraId": "era-2",
-    "period": "1942-1947",
-    "featured": false,
-    "categories": ["fact"],
-    "layers": {
-      "fact": {
-        "en": "Wojtek grew up among Polish soldiers: he ate with them, slept in their tents, became the unit's mascot, and took part in the everyday life of the soldiers.",
-        "pl": "Wojtek dorastal wsrod polskich zolnierzy: jadl razem z nimi, spal w ich namiotach, stal sie maskotka jednostki i uczestniczyl w codziennym zyciu zolnierzy.",
-        "es": "Wojtek crecio entre soldados polacos: comia con ellos, dormia en sus tiendas, se convirtio en la mascota de la unidad y participaba en la vida cotidiana de los soldados.",
-        "fr": "Wojtek a grandi parmi les soldats polonais: il mangeait avec eux, dormait dans leurs tentes, est devenu la mascotte de l'unite et participait a la vie quotidienne des soldats.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "Wojtek groeide op tussen de Poolse soldaten: hij at met hen, sliep in hun tenten, werd de mascotte van de eenheid en nam deel aan het dagelijks leven van de soldaten."
-      }
-    }
-  },
-  {
-    "id": "event-1942-45-behaviour",
-    "year": "1942-1945",
-    "title": {
-      "en": "WOJTEK'S BEHAVIOUR",
-      "pl": "ZACHOWANIE WOJTKA",
-      "es": "EL COMPORTAMIENTO DE WOJTEK",
-      "fr": "LE COMPORTEMENT DE WOJTEK",
-      "ru": "RU: do uzupelnienia",
-      "nl": "HET GEDRAG VAN WOJTEK"
-    },
-    "era": "ERA II — THE MONKEYS",
-    "eraId": "era-2",
-    "period": "1942-1947",
-    "featured": false,
-    "categories": ["fact"],
-    "layers": {
-      "fact": {
-        "en": "Wojtek could be unruly and mischievous: he drank beer, ate cigarettes, enjoyed playing with the soldiers, and took part in wrestling and sparring matches with them.",
-        "pl": "Wojtek bywal niegrzeczny i psotny: pil piwo, zjadal papierosy, lubil zabawy z zolnierzami i uczestniczyl z nimi w zapasach i sparingach.",
-        "es": "Wojtek podia ser travieso e indisciplinado: bebia cerveza, comia cigarrillos, disfrutaba jugando con los soldados y participaba con ellos en luchas y combates amistosos.",
-        "fr": "Wojtek pouvait etre indiscipline et espiegle: il buvait de la biere, mangeait des cigarettes, aimait jouer avec les soldats et participait avec eux a des matchs de lutte et de sparring.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "Wojtek kon ondeugend en onhandelbaar zijn: hij dronk bier, at sigaretten, speelde graag met de soldaten en deed met hen mee aan worstel- en sparringpartijen."
-      }
-    }
-  },
-  {
-    "id": "event-1943-soldier",
-    "year": "1943",
-    "title": {
-      "en": "WOJTEK BECOMES A SOLDIER",
-      "pl": "WOJTEK ZOSTAJE ZOLNIERZEM",
-      "es": "WOJTEK SE CONVIERTE EN SOLDADO",
-      "fr": "WOJTEK DEVIENT SOLDAT",
-      "ru": "RU: do uzupelnienia",
-      "nl": "WOJTEK WORDT SOLDAAT"
-    },
-    "era": "ERA II — THE MONKEYS",
-    "eraId": "era-2",
-    "period": "1942-1947",
-    "featured": false,
-    "categories": ["fact"],
-    "layers": {
-      "fact": {
-        "en": "Wojtek was formally enlisted into the unit as a soldier, with the rank of Private.",
-        "pl": "Wojtek zostal formalnie wcielony do jednostki jako zolnierz, w stopniu szeregowego.",
-        "es": "Wojtek fue alistado formalmente en la unidad como soldado, con el grado de soldado raso.",
-        "fr": "Wojtek a ete formellement enrole dans l'unite en tant que soldat, avec le grade de simple soldat.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "Wojtek werd formeel bij de eenheid als soldaat ingelijfd, met de rang van soldaat."
+        "en": "A small bear is adopted in Iran by Polish soldiers in the summer of 1942. Wojtek grows up in the camp, eating with the soldiers and sleeping in their tents as the unit's mascot. His behaviour could be unruly: he drinks beer, eats cigarettes, and also plays and spars with the soldiers. The bear also loved travelling by truck. In the military unit he is officially made a soldier with the rank of Private, holder of a soldier's book.",
+        "pl": "Mały niedźwiedź zostaje zaadoptowany w Iranie przez polskich żołnierzy latem 1942 roku. Wojtek dorasta w obozie, jedząc z żołnierzami i śpiąc w ich namiotach jako maskotka jednostki. Jego zachowanie bywało niesforne: pije piwo, zjada papierosy, a także bawi się i sparuje z żołnierzami. Niedźwiedź uwielbiał również podróżować ciężarówką. W jednostce wojskowej oficjalnie zostaje żołnierzem o stopniu szeregowego, posiadaczem książeczki.",
+        "es": "Un pequeño oso es adoptado en Irán por soldados polacos en el verano de 1942. Wojtek crece en el campamento, comiendo con los soldados y durmiendo en sus tiendas como mascota de la unidad. Su comportamiento podía ser travieso: bebe cerveza, se come los cigarrillos y también juega y practica combates amistosos con los soldados. Al oso también le encantaba viajar en camión. En la unidad militar es nombrado oficialmente soldado con el rango de soldado raso, titular de una cartilla militar.",
+        "fr": "Un petit ours est adopté en Iran par des soldats polonais à l'été 1942. Wojtek grandit dans le camp, mangeant avec les soldats et dormant dans leurs tentes en tant que mascotte de l'unité. Son comportement pouvait être indiscipliné : il boit de la bière, mange des cigarettes, joue et fait du sparring avec les soldats. L'ours adorait aussi voyager en camion. Dans l'unité militaire, il devient officiellement soldat avec le grade de simple soldat, titulaire d'un livret militaire.",
+        "nl": "Een kleine beer wordt in de zomer van 1942 in Iran geadopteerd door Poolse soldaten. Wojtek groeit op in het kamp, eet met de soldaten en slaapt als mascotte van de eenheid in hun tenten. Zijn gedrag kon onhandelbaar zijn: hij drinkt bier, eet sigaretten en speelt en sparringt ook met de soldaten. De beer reisde ook dol graag met de vrachtwagen. In de militaire eenheid wordt hij officieel soldaat met de rang van soldaat, bezitter van een soldatenboekje.",
+        "ru": "Маленький медвежонок усыновлён польскими солдатами в Иране летом 1942 года. Wojtek растёт в лагере, ест вместе с солдатами и спит в их палатках как талисман части. Его поведение бывало непослушным: он пьёт пиво, съедает сигареты, а также играет и устраивает шуточные схватки с солдатами. Медведь также обожал путешествовать на грузовике. В воинской части он официально становится солдатом в звании рядового, обладателем солдатской книжки."
       }
     }
   },
@@ -611,361 +589,390 @@ const timelineData = [
       "pl": "PELNA KONTROLA MALP NAD G-ROCK — PARLAMENT I KONSTYTUCJA",
       "es": "CONTROL TOTAL DE LOS MONOS SOBRE G-ROCK — PARLAMENTO Y CONSTITUCION",
       "fr": "CONTROLE TOTAL DES SINGES SUR G-ROCK — PARLEMENT ET CONSTITUTION",
-      "ru": "RU: do uzupelnienia",
+      "ru": "ПОЛНЫЙ КОНТРОЛЬ ОБЕЗЬЯН НАД G-ROCK — ПАРЛАМЕНТ И КОНСТИТУЦИЯ",
       "nl": "VOLLEDIGE APEN CONTROLE OVER G-ROCK — PARLEMENT & CONSTITUTIE"
     },
     "era": "ERA II — THE MONKEYS",
     "eraId": "era-2",
     "period": "1942-1947",
     "featured": false,
-    "categories": ["fiction"],
+    "categories": [
+      "fiction"
+    ],
     "layers": {
       "fiction": {
         "en": "The Monkeys establish full control of the fictional G-ROCK system. In the same year, they create the Monkey Parliament and adopt the G-ROCK Constitution. The Parliament is the central fictional organisational structure responsible for internal order, Archive protection, institutional continuity, and the development of the G-ROCK universe. The G-ROCK Constitution defines the principles of governance, Archive protection, institutional continuity, and the responsibility of The Monkeys to preserve the legacy of Wojtek (pronounced approximately 'VOY-tek') and the future G-ROCK system.",
         "pl": "Malpy ustanawiaja pelna kontrole nad fikcyjnym systemem G-ROCK. W tym samym roku tworza Malpi Parlament i przyjmuja Konstytucje G-ROCK. Parlament jest centralna fikcyjna struktura organizacyjna odpowiedzialna za porzadek wewnetrzny, ochrone Archiwum, ciaglosc instytucjonalna i rozwoj uniwersum G-ROCK. Konstytucja G-ROCK definiuje zasady rzadzenia, ochrone Archiwum, ciaglosc instytucjonalna oraz odpowiedzialnosc Malp za zachowanie dziedzictwa Wojtka i przyszlego systemu G-ROCK.",
         "es": "Los Monos establecen control total del sistema ficticio G-ROCK. En el mismo ano, crean el Parlamento de los Monos y adoptan la Constitucion G-ROCK. El Parlamento es la estructura organizativa ficticia central responsable del orden interno, la proteccion del Archivo, la continuidad institucional y el desarrollo del universo G-ROCK. La Constitucion G-ROCK define los principios de gobernanza, proteccion del Archivo, continuidad institucional y la responsabilidad de Los Monos de preservar el legado de Wojtek y el futuro sistema G-ROCK.",
         "fr": "Les Singes etablissent un controle total sur le systeme fictif G-ROCK. La meme annee, ils creent le Parlement des Singes et adoptent la Constitution G-ROCK. Le Parlement est la structure organisationnelle fictive centrale responsable de l'ordre interne, de la protection des Archives, de la continuite institutionnelle et du developpement de l'univers G-ROCK. La Constitution G-ROCK definit les principes de gouvernance, la protection des Archives, la continuite institutionnelle et la responsabilite des Singes de preserver l'heritage de Wojtek et le futur systeme G-ROCK.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "Обезьяны устанавливают полный контроль над вымышленной системой G-ROCK. В том же году они создают Обезьяний парламент и принимают Конституцию G-ROCK. Парламент — центральная вымышленная организационная структура, отвечающая за внутренний порядок, защиту Архива, институциональную преемственность и развитие вселенной G-ROCK. Конституция G-ROCK определяет принципы управления, защиты Архива, институциональной преемственности и ответственности Обезьян за сохранение наследия Wojtek (произносится примерно «ВОЙ-тек») и будущей системы G-ROCK.",
         "nl": "De Apen vestigen volledige controle over het fictieve G-ROCK systeem. In hetzelfde jaar creeren ze het Apen Parlement en keuren ze de G-ROCK Grondwet goed. Het Parlement is de centrale fictieve organisatiestructuur verantwoordelijk voor interne orde, Archiefbescherming, institutionele continuiteit en de ontwikkeling van het G-ROCK universum. De G-ROCK Grondwet definieert de principes van bestuur, Archiefbescherming, institutionele continuiteit en de verantwoordelijkheid van De Apen om de erfenis van Wojtek en het toekomstige G-ROCK systeem te behouden."
       }
     }
   },
   {
-    "id": "event-1944-italy",
+    "id": "event-1944-monte-cassino",
     "year": "1944",
     "title": {
-      "en": "ITALY 1944 — MONTE CASSINO & ROME",
-      "pl": "WLOCHY 1944 — MONTE CASSINO I RZYM",
-      "es": "ITALIA 1944 — MONTE CASSINO Y ROMA",
-      "fr": "ITALIE 1944 — MONTE CASSINO ET ROME",
-      "ru": "RU: do uzupelnienia",
-      "nl": "ITALIE 1944 — MONTE CASSINO & ROME"
+      "en": "ITALY 1944 — MONTE CASSINO & PROMOTION",
+      "pl": "WŁOCHY 1944 — MONTE CASSINO I AWANS",
+      "es": "ITALIA 1944 — MONTE CASSINO Y ASCENSO",
+      "fr": "ITALIE 1944 — MONTE CASSINO ET PROMOTION",
+      "nl": "ITALIË 1944 — MONTE CASSINO & BEVORDERING",
+      "ru": "ИТАЛИЯ 1944 — МОНТЕ-КАССИНО И ПОВЫШЕНИЕ"
     },
     "era": "ERA II — THE MONKEYS",
     "eraId": "era-2",
     "period": "1942-1947",
     "featured": true,
-    "categories": ["fact", "fiction"],
+    "categories": [
+      "fact"
+    ],
     "layers": {
       "fact": {
-        "en": "Wojtek (pronounced approximately 'VOY-tek') takes part in the Italian campaign and is associated with the Battle of Monte Cassino. During the battle, Wojtek helped transport crates of artillery ammunition.",
-        "pl": "Wojtek bierze udzial w kampanii wloskiej i jest zwiazany z bitwa o Monte Cassino. Podczas bitwy Wojtek pomagal transportowac skrzynie z amunicja artyleryjska.",
-        "es": "Wojtek participa en la campana italiana y esta asociado con la Batalla de Monte Cassino. Durante la batalla, Wojtek ayudo a transportar cajas de municion de artilleria.",
-        "fr": "Wojtek participe a la campagne d'Italie et est associe a la bataille de Monte Cassino. Pendant la bataille, Wojtek a aide a transporter des caisses de munitions d'artillerie.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "Wojtek neemt deel aan de Italiaanse campagne en is geassocieerd met de Slag om Monte Cassino. Tijdens de strijd hielp Wojtek bij het vervoeren van kisten met artilleriemunitie."
-      },
-      "fiction": {
-        "en": "AUTHOR FICTION: A gala for Wojtek is held in Rome around the Colosseum.",
-        "pl": "FIKCJA AUTORA: Gala dla Wojtka odbywa sie w Rzymie wokol Koloseum.",
-        "es": "FICCION DEL AUTOR: Se celebra una gala para Wojtek en Roma alrededor del Coliseo.",
-        "fr": "FICTION D'AUTEUR: Un gala pour Wojtek est tenu a Rome autour du Colisee.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "AUTEURSFICTIE: Een gala voor Wojtek wordt gehouden in Rome rond het Colosseum."
+        "en": "Wojtek takes part in the Italian campaign and in the historic Battle of Monte Cassino. During the fighting the bear actively helps transport heavy crates of artillery ammunition. For outstanding service and merit at the front he is officially promoted to the rank of Corporal.",
+        "pl": "Wojtek bierze udział w kampanii włoskiej oraz w historycznej bitwie o Monte Cassino. Podczas trwania walk niedźwiedź aktywnie pomaga w transporcie ciężkich skrzynek z amunicją artyleryjską. Za wybitną służbę i zasługi na froncie zostaje oficjalnie awansowany na stopień kaprala.",
+        "es": "Wojtek participa en la campaña de Italia y en la histórica batalla de Monte Cassino. Durante los combates, el oso ayuda activamente a transportar pesadas cajas de munición de artillería. Por su servicio sobresaliente y sus méritos en el frente es ascendido oficialmente al rango de cabo.",
+        "fr": "Wojtek participe à la campagne d'Italie et à la bataille historique de Monte Cassino. Pendant les combats, l'ours aide activement à transporter de lourdes caisses de munitions d'artillerie. Pour son service remarquable et ses mérites au front, il est officiellement promu au grade de caporal.",
+        "nl": "Wojtek neemt deel aan de Italiaanse campagne en aan de historische Slag om Monte Cassino. Tijdens de gevechten helpt de beer actief bij het vervoeren van zware kisten met artilleriemunitie. Voor zijn uitstekende dienst en verdiensten aan het front wordt hij officieel bevorderd tot korporaal.",
+        "ru": "Wojtek участвует в итальянской кампании и в исторической битве за Монте-Кассино. Во время боёв медведь активно помогает перевозить тяжёлые ящики с артиллерийскими боеприпасами. За выдающуюся службу и заслуги на фронте он официально повышен в звании до капрала."
       }
     }
   },
   {
-    "id": "event-1944-corporal",
+    "id": "event-1944-rome-gala",
     "year": "1944",
     "title": {
-      "en": "PROMOTION TO CORPORAL",
-      "pl": "AWANS NA KAPRALA",
-      "es": "ASCENSO A CABO",
-      "fr": "PROMOTION AU GRADE DE CAPORAL",
-      "ru": "RU: do uzupelnienia",
-      "nl": "BEVORDERING TOT KORPORAAL"
+      "en": "ROME 1944 — THE COLOSSEUM GALA",
+      "pl": "RZYM 1944 — GALA W KOLOSEUM",
+      "es": "ROMA 1944 — LA GALA DEL COLISEO",
+      "fr": "ROME 1944 — LE GALA DU COLISÉE",
+      "nl": "ROME 1944 — HET GALA IN HET COLOSSEUM",
+      "ru": "РИМ 1944 — ГАЛА В КОЛИЗЕЕ"
     },
     "era": "ERA II — THE MONKEYS",
     "eraId": "era-2",
     "period": "1942-1947",
     "featured": false,
-    "categories": ["fact"],
+    "categories": [
+      "fiction"
+    ],
     "layers": {
-      "fact": {
-        "en": "Wojtek was promoted to the rank of Corporal.",
-        "pl": "Wojtek zostal awansowany do stopnia kaprala.",
-        "es": "Wojtek fue ascendido al rango de Cabo.",
-        "fr": "Wojtek a ete promu au grade de caporal.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "Wojtek werd bevorderd tot de rang van korporaal."
+      "fiction": {
+        "en": "On the occasion of the victorious battle and Wojtek's promotion to Corporal, a festive gala is held in the monumental setting of the Roman Colosseum. Wojtek arrives in grand style, appearing behind the wheel of a red Ferrari.",
+        "pl": "Z okazji zwycięskiej bitwy oraz awansu Wojtka na stopień kaprala, w monumentalnej scenerii rzymskiego Koloseum zostaje zorganizowana uroczysta gala. Wojtek przybywa na nią w wielkim stylu, zjawiając się za kierownicą czerwonego Ferrari.",
+        "es": "Con motivo de la batalla victoriosa y del ascenso de Wojtek al rango de cabo, se organiza una gala solemne en el monumental escenario del Coliseo romano. Wojtek llega con gran estilo, apareciendo al volante de un Ferrari rojo.",
+        "fr": "À l'occasion de la bataille victorieuse et de la promotion de Wojtek au grade de caporal, un gala solennel est organisé dans le décor monumental du Colisée de Rome. Wojtek y arrive en grand style, au volant d'une Ferrari rouge.",
+        "nl": "Ter gelegenheid van de gewonnen slag en Wojtek's bevordering tot korporaal wordt een feestelijk gala georganiseerd in de monumentale setting van het Romeinse Colosseum. Wojtek arriveert in grote stijl, achter het stuur van een rode Ferrari.",
+        "ru": "По случаю победоносной битвы и повышения Wojtek до звания капрала в монументальных декорациях римского Колизея устраивается торжественный гала-вечер. Wojtek прибывает на него с размахом, появившись за рулём красного Ferrari."
       }
     }
   },
   {
     "id": "event-1944-gib",
-    "year": "SUMMER 1944",
+    "year": {
+      "en": "SUMMER 1944",
+      "pl": "LATO 1944",
+      "es": "VERANO 1944",
+      "fr": "ÉTÉ 1944",
+      "nl": "ZOMER 1944",
+      "ru": "ЛЕТО 1944"
+    },
     "title": {
-      "en": "GIBRALTAR 1944 — THE INVITATION & ARRIVAL",
-      "pl": "GIBRALTAR 1944 — ZAPROSZENIE I PRZYBYCIE",
-      "es": "GIBRALTAR 1944 — LA INVITACION Y LLEGADA",
-      "fr": "GIBRALTAR 1944 — L'INVITATION ET L'ARRIVEE",
-      "ru": "RU: do uzupelnienia",
-      "nl": "GIBRALTAR 1944 — DE UITNODIGING & AANKOMST"
+      "en": "GIBRALTAR — THE INVITATION & ARRIVAL",
+      "pl": "GIBRALTAR — ZAPROSZENIE I PRZYBYCIE",
+      "es": "GIBRALTAR — LA INVITACIÓN Y LA LLEGADA",
+      "fr": "GIBRALTAR — L'INVITATION ET L'ARRIVÉE",
+      "nl": "GIBRALTAR — DE UITNODIGING & AANKOMST",
+      "ru": "GIBRALTAR — ПРИГЛАШЕНИЕ И ПРИБЫТИЕ"
     },
     "era": "ERA II — THE MONKEYS",
     "eraId": "era-2",
     "period": "1942-1947",
     "featured": true,
-    "categories": ["fiction"],
+    "categories": [
+      "fiction"
+    ],
     "layers": {
       "fiction": {
-        "en": "In the summer of 1944, Wojtek receives an invitation from The Monkeys to come to Gibraltar, accepts it, and arrives on the Rock. This event begins the direct connection between Wojtek and The Monkeys and starts the Gibraltar chapter of the fictional G-ROCK universe.",
-        "pl": "Latem 1944 roku Wojtek otrzymuje zaproszenie od Malp do przybycia na Gibraltar, przyjmuje je i przybywa na Skale. To wydarzenie rozpoczyna bezposrednie polaczenie miedzy Wojtkiem a Malpami i zaczyna rozdzial gibraltarski fikcyjnego uniwersum G-ROCK.",
-        "es": "En el verano de 1944, Wojtek recibe una invitacion de Los Monos para venir a Gibraltar, la acepta y llega al Penon. Este evento comienza la conexion directa entre Wojtek y Los Monos e inicia el capitulo de Gibraltar del universo ficticio G-ROCK.",
-        "fr": "A l'ete 1944, Wojtek recoit une invitation des Singes a venir a Gibraltar, l'accepte et arrive sur le Rocher. Cet evenement commence la connexion directe entre Wojtek et les Singes et debute le chapitre de Gibraltar de l'univers fictif G-ROCK.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "In de zomer van 1944 ontvangt Wojtek een uitnodiging van De Apen om naar Gibraltar te komen, accepteert deze, en arriveert op de Rots. Deze gebeurtenis begint de directe verbinding tussen Wojtek en De Apen en start het Gibraltar hoofdstuk van het fictieve G-ROCK universum."
+        "en": "In the summer of 1944 the monkeys of Gibraltar read in the Gibraltar Times about Wojtek, a bear who became a soldier and a hero of the Italian campaign. Intrigued by his story, they decide to send him an official invitation to Gibraltar. Wojtek accepts the invitation and arrives on the Rock.<br><br>This event begins the direct connection between Wojtek and the monkeys and starts the Gibraltar chapter of the fictional G-ROCK / MUOG universe.",
+        "pl": "W lecie 1944 roku małpy z Gibraltaru czytają w Gibraltar Times o Wojtku — niedźwiedziu, który stał się żołnierzem i bohaterem kampanii włoskiej. Zaintrygowane jego historią, postanawiają wysłać mu oficjalne zaproszenie na Gibraltar. Wojtek przyjmuje zaproszenie i zjawia się na Skale.<br><br>Wydarzenie to rozpoczyna bezpośrednią łączność między Wojtkiem a małpami oraz daje początek gibraltarskiemu rozdziałowi fikcyjnego uniwersum G-ROCK / MUOG.",
+        "es": "En el verano de 1944, los monos de Gibraltar leen en el Gibraltar Times sobre Wojtek, un oso que se convirtió en soldado y héroe de la campaña de Italia. Intrigados por su historia, deciden enviarle una invitación oficial a Gibraltar. Wojtek acepta la invitación y llega a la Roca.<br><br>Este acontecimiento inicia la conexión directa entre Wojtek y los monos y da comienzo al capítulo gibraltareño del universo ficticio G-ROCK / MUOG.",
+        "fr": "À l'été 1944, les singes de Gibraltar lisent dans le Gibraltar Times l'histoire de Wojtek, un ours devenu soldat et héros de la campagne d'Italie. Intrigués par son histoire, ils décident de lui envoyer une invitation officielle à Gibraltar. Wojtek accepte l'invitation et arrive sur le Rocher.<br><br>Cet événement établit la connexion directe entre Wojtek et les singes et ouvre le chapitre gibraltarien de l'univers fictif G-ROCK / MUOG.",
+        "nl": "In de zomer van 1944 lezen de apen van Gibraltar in de Gibraltar Times over Wojtek, een beer die soldaat en held van de Italiaanse campagne werd. Geïntrigeerd door zijn verhaal besluiten ze hem een officiële uitnodiging naar Gibraltar te sturen. Wojtek aanvaardt de uitnodiging en arriveert op de Rots.<br><br>Deze gebeurtenis start de directe verbinding tussen Wojtek en de apen en geeft het begin van het Gibraltar-hoofdstuk van het fictieve G-ROCK / MUOG-universum.",
+        "ru": "Летом 1944 года обезьяны Gibraltar читают в Gibraltar Times о Wojtek — медведе, ставшем солдатом и героем итальянской кампании. Заинтригованные его историей, они решают отправить ему официальное приглашение в Gibraltar. Wojtek принимает приглашение и появляется на Скале.<br><br>Это событие открывает прямую связь между Wojtek и обезьянами и даёт начало гибралтарской главе вымышленной вселенной G-ROCK / MUOG."
       }
     }
   },
   {
-    "id": "event-1945-uk",
-    "year": "1945",
-    "title": {
-      "en": "WOJTEK ARRIVES IN THE UNITED KINGDOM",
-      "pl": "WOJTEK PRZYBYWA DO WIELKIEJ BRYTANII",
-      "es": "WOJTEK LLEGA AL REINO UNIDO",
-      "fr": "WOJTEK ARRIVE AU ROYAUME-UNI",
-      "ru": "RU: do uzupelnienia",
-      "nl": "WOJTEK KOMT AAN IN HET VERENIGD KONINKRIJK"
-    },
-    "era": "ERA II — THE MONKEYS",
-    "eraId": "era-2",
-    "period": "1942-1947",
-    "featured": false,
-    "categories": ["fact"],
-    "layers": {
-      "fact": {
-        "en": "After the end of the war, Wojtek was transported to the United Kingdom together with the soldiers of the 22nd Artillery Supply Company.",
-        "pl": "Po zakonczeniu dzialan wojennych Wojtek zostal przetransportowany do Wielkiej Brytanii wraz z zolnierzami 22. Kompanii Zaopatrzenia Artylerii.",
-        "es": "Tras el fin de la guerra, Wojtek fue trasladado al Reino Unido junto con los soldados de la 22a Compania de Suministro de Artilleria.",
-        "fr": "Apres la fin de la guerre, Wojtek a ete transporte au Royaume-Uni avec les soldats de la 22e Compagnie de Ravitaillement d'Artillerie.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "Na het einde van de oorlog werd Wojtek samen met de soldaten van de 22e Artillerie Bevoorradingscompagnie naar het Verenigd Koninkrijk overgebracht."
-      }
-    }
-  },
-  {
-    "id": "event-1945-47-scotland",
-    "year": "1945-1947",
+    "id": "event-1944-47-scotland",
+    "year": "1944–1947",
     "title": {
       "en": "WOJTEK IN SCOTLAND",
       "pl": "WOJTEK W SZKOCJI",
       "es": "WOJTEK EN ESCOCIA",
-      "fr": "WOJTEK EN ECOSSE",
-      "ru": "RU: do uzupelnienia",
-      "nl": "WOJTEK IN SCHOTLAND"
+      "fr": "WOJTEK EN ÉCOSSE",
+      "nl": "WOJTEK IN SCHOTLAND",
+      "ru": "WOJTEK В ШОТЛАНДИИ"
     },
     "era": "ERA II — THE MONKEYS",
     "eraId": "era-2",
     "period": "1942-1947",
     "featured": false,
-    "categories": ["fact"],
+    "categories": [
+      "fact"
+    ],
     "layers": {
       "fact": {
-        "en": "Wojtek stayed with the Polish soldiers in Scotland, stationed in the Hutton / Berwickshire area, and became well known within the local community.",
-        "pl": "Wojtek przebywal z polskimi zolnierzami w Szkocji, stacjonujac w rejonie Hutton / Berwickshire, i stal sie znany wsrod lokalnej spolecznosci.",
-        "es": "Wojtek permanecio con los soldados polacos en Escocia, estacionado en la zona de Hutton / Berwickshire, y se hizo muy conocido entre la comunidad local.",
-        "fr": "Wojtek est reste avec les soldats polonais en Ecosse, stationne dans la region de Hutton / Berwickshire, et est devenu bien connu au sein de la communaute locale.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "Wojtek verbleef bij de Poolse soldaten in Schotland, gestationeerd in de omgeving van Hutton / Berwickshire, en werd goed bekend binnen de lokale gemeenschap."
+        "en": "Right after the end of the heavy fighting at the front, Wojtek enjoys a well-deserved rest by the Adriatic, where he gladly takes in the delights of the sea and bathes. The bear then arrives in Great Britain and settles in Scotland in the Hutton and Berwickshire area, together with the soldiers of the 22nd Artillery Supply Company. There he quickly wins the affection of, and warmly befriends, the local residents, becoming a colourful and widely known part of the local community.",
+        "pl": "Tuż po zakończeniu ciężkich walk na froncie, Wojtek korzysta z zasłużonego odpoczynku nad Adriatykiem, gdzie z radością korzysta z uroków morza i zażywa kąpieli. Następnie niedźwiedź przybywa do Wielkiej Brytanii i osiedla się w Szkocji w rejonie Hutton i Berwickshire, razem z żołnierzami 22 Kompanii Zaopatrywania Artylerii. Tam szybko zyskuje sympatię i serdecznie zaprzyjaźnia się z lokalnymi mieszkańcami, stając się barwną i powszechnie znaną częścią tamtejszej społeczności.",
+        "es": "Justo después del final de los duros combates en el frente, Wojtek disfruta de un merecido descanso junto al Adriático, donde disfruta con alegría de los placeres del mar y se baña. Después, el oso llega a Gran Bretaña y se establece en Escocia, en la zona de Hutton y Berwickshire, junto con los soldados de la 22.ª Compañía de Suministro de Artillería. Allí se gana rápidamente el cariño de los habitantes locales y entabla una cálida amistad con ellos, convirtiéndose en una parte pintoresca y muy conocida de la comunidad local.",
+        "fr": "Juste après la fin des durs combats sur le front, Wojtek profite d'un repos bien mérité au bord de l'Adriatique, où il savoure avec joie les plaisirs de la mer et se baigne. L'ours arrive ensuite en Grande-Bretagne et s'installe en Écosse, dans la région de Hutton et de Berwickshire, avec les soldats de la 22e Compagnie de ravitaillement d'artillerie. Il y gagne rapidement la sympathie des habitants et se lie chaleureusement d'amitié avec eux, devenant un élément haut en couleur et très connu de la communauté locale.",
+        "nl": "Direct na het einde van de zware gevechten aan het front geniet Wojtek van een welverdiende rust aan de Adriatische Zee, waar hij met plezier van de geneugten van de zee geniet en baadt. Daarna komt de beer aan in Groot-Brittannië en vestigt zich in Schotland, in de omgeving van Hutton en Berwickshire, samen met de soldaten van de 22e Artillerie Bevoorradingscompagnie. Daar wint hij snel de sympathie van de plaatselijke bewoners en sluit hij hartelijk vriendschap met hen, en wordt hij een kleurrijk en algemeen bekend onderdeel van de lokale gemeenschap.",
+        "ru": "Сразу после окончания тяжёлых боёв на фронте Wojtek пользуется заслуженным отдыхом на Адриатике, где с радостью наслаждается прелестями моря и купается. Затем медведь прибывает в Великобританию и поселяется в Шотландии в районе Hutton и Berwickshire вместе с солдатами 22-й роты снабжения артиллерии. Там он быстро завоёвывает симпатии и сердечно сдруживается с местными жителями, становясь яркой и широко известной частью местного сообщества."
       }
     }
   },
   {
     "id": "event-1947-edin",
-    "year": "SUMMER 1947",
+    "year": {
+      "en": "SUMMER 1947",
+      "pl": "LATO 1947",
+      "es": "VERANO 1947",
+      "fr": "ÉTÉ 1947",
+      "nl": "ZOMER 1947",
+      "ru": "ЛЕТО 1947"
+    },
     "title": {
       "en": "EDINBURGH — WOJTEK & CHRISTINE GRANVILLE",
       "pl": "EDYNBURG — WOJTEK I CHRISTINE GRANVILLE",
       "es": "EDIMBURGO — WOJTEK Y CHRISTINE GRANVILLE",
-      "fr": "EDIMBOURG — WOJTEK ET CHRISTINE GRANVILLE",
-      "ru": "RU: do uzupelnienia",
-      "nl": "EDINBURGH — WOJTEK & CHRISTINE GRANVILLE"
+      "fr": "ÉDIMBOURG — WOJTEK ET CHRISTINE GRANVILLE",
+      "nl": "EDINBURGH — WOJTEK & CHRISTINE GRANVILLE",
+      "ru": "ЭДИНБУРГ — WOJTEK И CHRISTINE GRANVILLE"
     },
     "era": "ERA II — THE MONKEYS",
     "eraId": "era-2",
     "period": "1942-1947",
     "featured": false,
-    "categories": ["fact", "fiction"],
+    "categories": [
+      "fact",
+      "fiction"
+    ],
     "layers": {
-      "fiction": {
-        "en": "AUTHOR FICTION: In the fictional G-ROCK / MUOG narrative, Wojtek meets Christine Granville in Edinburgh during the summer of 1947. Their meeting and dinner are entirely fictional and form part of the hidden narrative surrounding Wojtek, The Monkeys and the later G-ROCK system. Canonical rule: The fictional meeting must never be presented as a documented historical event.",
-        "pl": "FIKCJA AUTORA: W fikcyjnej narracji G-ROCK / MUOG, Wojtek spotyka Christine Granville w Edynburgu latem 1947 roku. Ich spotkanie i obiad sa calkowicie fikcyjne i stanowia czesc ukrytej narracji otaczajacej Wojtka, Malpy i pozniejszy system G-ROCK. Zasada kanoniczna: Fikcyjne spotkanie nigdy nie moze byc przedstawiane jako udokumentowane wydarzenie historyczne.",
-        "es": "FICCION DE AUTOR: En la narrativa ficticia G-ROCK / MUOG, Wojtek se encuentra con Christine Granville en Edimburgo durante el verano de 1947. Su encuentro y cena son completamente ficticios y forman parte de la narrativa oculta que rodea a Wojtek, Los Monos y el posterior sistema G-ROCK. Regla canonica: El encuentro ficticio nunca debe presentarse como un evento historico documentado.",
-        "fr": "FICTION D'AUTEUR: Dans le recit fictif G-ROCK / MUOG, Wojtek rencontre Christine Granville a Edimbourg pendant l'ete 1947. Leur rencontre et diner sont entierement fictifs et font partie du recit cache entourant Wojtek, les Singes et le futur systeme G-ROCK. Regle canonique: La rencontre fictive ne doit jamais etre presentee comme un evenement historique documente.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "AUTEURSFICTIE: In het fictieve G-ROCK / MUOG verhaal, ontmoet Wojtek Christine Granville in Edinburgh tijdens de zomer van 1947. Hun ontmoeting en diner zijn volledig fictief en vormen deel van het verborgen verhaal rond Wojtek, De Apen en het latere G-ROCK systeem. Canonieke regel: De fictieve ontmoeting mag nooit worden gepresenteerd als een gedocumenteerd historisch evenement."
+      "fact": {
+        "en": "Christine Granville was a British agent of the Second World War era, working for the Special Operations Executive (SOE). She carried out spectacular and exceptionally dangerous operations in occupied France. She was also romantically involved with Ian Fleming, the British author who created the character of James Bond, Agent 007.",
+        "pl": "Christine Granville była brytyjską agentką z okresu II wojny światowej, pracującą dla Special Operations Executive (SOE). Przeprowadzała spektakularne i wyjątkowo niebezpieczne akcje na terenach okupowanej Francji. Ponadto łączył ją romans z Ianem Flemingiem – brytyjskim pisarzem, który stworzył postać Jamesa Bonda, Agenta 007.",
+        "es": "Christine Granville fue una agente británica de la época de la Segunda Guerra Mundial que trabajaba para el Special Operations Executive (SOE). Llevó a cabo operaciones espectaculares y extraordinariamente peligrosas en la Francia ocupada. Además, mantuvo una relación sentimental con Ian Fleming, el escritor británico que creó el personaje de James Bond, Agente 007.",
+        "fr": "Christine Granville était une agente britannique de la Seconde Guerre mondiale, travaillant pour le Special Operations Executive (SOE). Elle a mené des opérations spectaculaires et extrêmement dangereuses dans la France occupée. Elle a en outre entretenu une liaison avec Ian Fleming, l'écrivain britannique qui a créé le personnage de James Bond, Agent 007.",
+        "nl": "Christine Granville was een Britse agente uit de tijd van de Tweede Wereldoorlog, die werkte voor de Special Operations Executive (SOE). Ze voerde spectaculaire en uiterst gevaarlijke operaties uit in bezet Frankrijk. Daarnaast had ze een liefdesrelatie met Ian Fleming, de Britse schrijver die het personage James Bond, Agent 007, creëerde.",
+        "ru": "Christine Granville была британской агенткой времён Второй мировой войны, работавшей на Special Operations Executive (SOE). Она проводила эффектные и исключительно опасные операции на территории оккупированной Франции. Кроме того, её связывал роман с Яном Флемингом — британским писателем, создавшим персонажа Джеймса Бонда, Агента 007."
       },
-      "fact": {
-        "en": "Christine Granville had a romantic relationship with Ian Fleming, the British author who created James Bond, Agent 007.",
-        "pl": "Christine Granville miala romantyczny zwiazek z Ianem Flemingiem, brytyjskim pisarzem, tworca Jamesa Bonda, Agenta 007.",
-        "es": "Christine Granville tuvo una relacion romantica con Ian Fleming, el autor britanico creador de James Bond, Agente 007.",
-        "fr": "Christine Granville a eu une relation amoureuse avec Ian Fleming, l'auteur britannique createur de James Bond, l'Agent 007.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "Christine Granville had een romantische relatie met Ian Fleming, de Britse auteur en bedenker van James Bond, Agent 007."
-      }
-    }
-  },
-  {
-    "id": "event-1947-zoo-history",
-    "year": "15 NOVEMBER 1947",
-    "title": {
-      "en": "WOJTEK ARRIVES AT EDINBURGH ZOO",
-      "pl": "WOJTEK PRZYBYWA DO EDINBURGH ZOO",
-      "es": "WOJTEK LLEGA AL ZOOLOGICO DE EDIMBURGO",
-      "fr": "WOJTEK ARRIVE AU ZOO D'EDIMBOURG",
-      "ru": "RU: do uzupelnienia",
-      "nl": "WOJTEK KOMT AAN IN EDINBURGH ZOO"
-    },
-    "era": "ERA II — THE MONKEYS",
-    "eraId": "era-2",
-    "period": "1942-1947",
-    "featured": false,
-    "categories": ["fact"],
-    "layers": {
-      "fact": {
-        "en": "Wojtek was transferred to Edinburgh Zoo on 15 November 1947.",
-        "pl": "Wojtek zostal przeniesiony do Edinburgh Zoo 15 listopada 1947 roku.",
-        "es": "Wojtek fue trasladado al Zoologico de Edimburgo el 15 de noviembre de 1947.",
-        "fr": "Wojtek a ete transfere au zoo d'Edimbourg le 15 novembre 1947.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "Wojtek werd op 15 november 1947 overgeplaatst naar Edinburgh Zoo."
-      }
-    }
-  },
-  {
-    "id": "event-1947-sugriva",
-    "year": "AUTUMN 1947",
-    "title": {
-      "en": "PROFESSOR SUGRIVA — EDINBURGH",
-      "pl": "PROFESOR SUGRIVA — EDYNBURG",
-      "es": "PROFESOR SUGRIVA — EDIMBURGO",
-      "fr": "PROFESSEUR SUGRIVA — EDIMBOURG",
-      "ru": "RU: do uzupelnienia",
-      "nl": "PROFESSOR SUGRIVA — EDINBURGH"
-    },
-    "era": "ERA II — THE MONKEYS",
-    "eraId": "era-2",
-    "period": "1942-1947",
-    "featured": false,
-    "categories": ["fiction"],
-    "layers": {
       "fiction": {
-        "en": "THE LONG-TERM COVERT MISSION: Wojtek volunteers to be placed in Edinburgh Zoo as part of a long-term secret intelligence mission. THE MEETING WITH PROFESSOR SUGRIVA: During his time at Edinburgh Zoo, Wojtek meets Professor Sugriva, establishing a secret relationship based on research, intelligence, resistance and the preservation of hidden knowledge.",
-        "pl": "DLUGOTERMINOWA TAJNA MISJA: Wojtek dobrowolnie zgadza sie zostac umieszczony w Edinburgh Zoo jako czesc dlugoterminowej tajnej misji wywiadowczej. SPOTKANIE Z PROFESOREM SUGRIVA: Podczas swojego pobytu w Edinburgh Zoo, Wojtek spotyka Profesora Sugrive, nawiazujac tajna relacje opartaa na badaniach, wywiadzie, oporze i zachowaniu ukrytej wiedzy.",
-        "es": "LA MISION ENCUBIERTA A LARGO PLAZO: Wojtek se ofrece como voluntario para ser colocado en el Zoologico de Edimburgo como parte de una mision de inteligencia secreta a largo plazo. EL ENCUENTRO CON EL PROFESOR SUGRIVA: Durante su estancia en el Zoologico de Edimburgo, Wojtek conoce al Profesor Sugriva, estableciendo una relacion secreta basada en la investigacion, la inteligencia, la resistencia y la preservacion del conocimiento oculto.",
-        "fr": "LA MISSION SECRETE A LONG TERME: Wojtek se porte volontaire pour etre place au Zoo d'Edimbourg dans le cadre d'une mission de renseignement secrete a long terme. LA RENCONTRE AVEC LE PROFESSEUR SUGRIVA: Pendant son sejour au Zoo d'Edimbourg, Wojtek rencontre le Professeur Sugriva, etablissant une relation secrete basee sur la recherche, le renseignement, la resistance et la preservation du savoir cache.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "DE LANGETERMIJN GEHEIME MISSIE: Wojtek meldt zich vrijwillig aan om in Edinburgh Zoo te worden geplaatst als onderdeel van een langetermijn geheime inlichtingenmissie. DE ONTMOETING MET PROFESSOR SUGRIVA: Tijdens zijn tijd in Edinburgh Zoo, ontmoet Wojtek Professor Sugriva, en vestigt een geheime relatie gebaseerd op onderzoek, inlichtingen, verzet en het behoud van verborgen kennis."
+        "en": "In the fictional G-ROCK / MUOG narrative, in the summer of 1947 in Edinburgh, Wojtek meets Christine Granville. Their meeting and dinner are entirely fictional and are an element of the hidden narrative surrounding Wojtek, The Monkeys and the later G-ROCK system. Canonical rule: this fictional meeting must never be presented as a documented historical event.",
+        "pl": "W fikcyjnej narracji G-ROCK / MUOG, latem 1947 roku w Edynburgu dochodzi do spotkania Wojtka z Christine Granville. Ich spotkanie i kolacja są całkowicie fikcyjne i stanowią element ukrytej narracji otaczającej Wojtka, The Monkeys oraz późniejszy system G-ROCK. Kanoniczna zasada: to fikcyjne spotkanie nigdy nie może być przedstawiane jako udokumentowane wydarzenie historyczne.",
+        "es": "En la narrativa ficticia G-ROCK / MUOG, en el verano de 1947 en Edimburgo tiene lugar el encuentro de Wojtek con Christine Granville. Su encuentro y cena son completamente ficticios y constituyen un elemento de la narrativa oculta que rodea a Wojtek, The Monkeys y el posterior sistema G-ROCK. Regla canónica: este encuentro ficticio nunca debe presentarse como un acontecimiento histórico documentado.",
+        "fr": "Dans le récit fictif G-ROCK / MUOG, à l'été 1947 à Édimbourg, a lieu la rencontre de Wojtek avec Christine Granville. Leur rencontre et leur dîner sont entièrement fictifs et constituent un élément du récit caché entourant Wojtek, The Monkeys et le futur système G-ROCK. Règle canonique : cette rencontre fictive ne doit jamais être présentée comme un événement historique documenté.",
+        "nl": "In het fictieve G-ROCK / MUOG-verhaal vindt in de zomer van 1947 in Edinburgh de ontmoeting plaats tussen Wojtek en Christine Granville. Hun ontmoeting en diner zijn volledig fictief en vormen een element van het verborgen verhaal rond Wojtek, The Monkeys en het latere G-ROCK-systeem. Canonieke regel: deze fictieve ontmoeting mag nooit worden voorgesteld als een gedocumenteerde historische gebeurtenis.",
+        "ru": "В вымышленном повествовании G-ROCK / MUOG летом 1947 года в Эдинбурге происходит встреча Wojtek с Christine Granville. Их встреча и ужин полностью вымышлены и являются элементом скрытого повествования о Wojtek, The Monkeys и более поздней системе G-ROCK. Каноническое правило: эта вымышленная встреча никогда не должна представляться как документированное историческое событие."
+      }
+    }
+  },
+  {
+    "id": "event-1947-zoo",
+    "year": {
+      "en": "15 NOVEMBER 1947",
+      "pl": "15 LISTOPADA 1947",
+      "es": "15 DE NOVIEMBRE DE 1947",
+      "fr": "15 NOVEMBRE 1947",
+      "nl": "15 NOVEMBER 1947",
+      "ru": "15 НОЯБРЯ 1947"
+    },
+    "title": {
+      "en": "EDINBURGH ZOO",
+      "pl": "EDINBURGH ZOO",
+      "es": "EDINBURGH ZOO",
+      "fr": "EDINBURGH ZOO",
+      "nl": "EDINBURGH ZOO",
+      "ru": "EDINBURGH ZOO"
+    },
+    "era": "ERA II — THE MONKEYS",
+    "eraId": "era-2",
+    "period": "1942-1947",
+    "featured": false,
+    "categories": [
+      "fact",
+      "fiction"
+    ],
+    "layers": {
+      "fact": {
+        "en": "Wojtek was officially transferred to Edinburgh Zoo on 15 November 1947. Today Edinburgh Zoo has a monument dedicated to Wojtek.",
+        "pl": "Wojtek został oficjalnie przeniesiony do zoo w Edynburgu w dniu 15 listopada 1947 roku. Dziś w Edinburgh Zoo znajduje się pomnik poświęcony Wojtkowi.",
+        "es": "Wojtek fue trasladado oficialmente al zoo de Edimburgo el 15 de noviembre de 1947. Hoy, en Edinburgh Zoo hay un monumento dedicado a Wojtek.",
+        "fr": "Wojtek a été officiellement transféré au zoo d'Édimbourg le 15 novembre 1947. Aujourd'hui, un monument dédié à Wojtek se trouve à Edinburgh Zoo.",
+        "nl": "Wojtek werd op 15 november 1947 officieel overgeplaatst naar de dierentuin van Edinburgh. Vandaag staat in Edinburgh Zoo een monument voor Wojtek.",
+        "ru": "Wojtek был официально переведён в зоопарк Эдинбурга 15 ноября 1947 года. Сегодня в Edinburgh Zoo находится памятник, посвящённый Wojtek."
+      },
+      "fiction": {
+        "en": "Autumn 1947 — Professor Sugriva – Edinburgh<br><br>The Long-Term Covert Mission: Wojtek volunteers to be placed in Edinburgh Zoo as part of a long-term secret intelligence mission.<br><br>The Meeting with Professor Sugriva: During his stay at Edinburgh Zoo, Wojtek meets Professor Sugriva, establishing a secret relationship with him based on research, intelligence, resistance and the protection of secret information.",
+        "pl": "Jesień 1947 — Profesor Sugriva – Edynburg<br><br>The Long-Term Covert Mission: Wojtek zgłasza się na ochotnika, aby zostać umieszczonym w zoo w Edynburgu jako część długoterminowej, tajnej misji wywiadowczej.<br><br>The Meeting with Professor Sugriva: Podczas pobytu w edynburskim zoo Wojtek spotyka Profesora Sugrivę, nawiązując z nim tajną relację opartą na badaniach, wywiadzie, ruchu oporu oraz ochronie tajnych informacji.",
+        "es": "Otoño de 1947 — Profesor Sugriva – Edimburgo<br><br>The Long-Term Covert Mission: Wojtek se ofrece como voluntario para ser colocado en el zoo de Edimburgo como parte de una misión secreta de inteligencia a largo plazo.<br><br>The Meeting with Professor Sugriva: Durante su estancia en el zoo de Edimburgo, Wojtek conoce al Profesor Sugriva, estableciendo con él una relación secreta basada en la investigación, la inteligencia, la resistencia y la protección de información secreta.",
+        "fr": "Automne 1947 — Professeur Sugriva – Édimbourg<br><br>The Long-Term Covert Mission: Wojtek se porte volontaire pour être placé au zoo d'Édimbourg dans le cadre d'une mission de renseignement secrète à long terme.<br><br>The Meeting with Professor Sugriva: Pendant son séjour au zoo d'Édimbourg, Wojtek rencontre le Professeur Sugriva et noue avec lui une relation secrète fondée sur la recherche, le renseignement, la résistance et la protection d'informations secrètes.",
+        "nl": "Herfst 1947 — Professor Sugriva – Edinburgh<br><br>The Long-Term Covert Mission: Wojtek meldt zich vrijwillig aan om in de dierentuin van Edinburgh te worden geplaatst als onderdeel van een langdurige geheime inlichtingenmissie.<br><br>The Meeting with Professor Sugriva: Tijdens zijn verblijf in de dierentuin van Edinburgh ontmoet Wojtek Professor Sugriva en bouwt hij met hem een geheime relatie op, gebaseerd op onderzoek, inlichtingen, verzet en de bescherming van geheime informatie.",
+        "ru": "Осень 1947 — Professor Sugriva – Эдинбург<br><br>The Long-Term Covert Mission: Wojtek вызывается добровольцем, чтобы быть помещённым в зоопарк Эдинбурга в рамках долгосрочной тайной разведывательной миссии.<br><br>The Meeting with Professor Sugriva: Во время пребывания в Edinburgh Zoo Wojtek встречает Professor Sugriva и завязывает с ним тайные отношения, основанные на исследованиях, разведке, сопротивлении и защите секретной информации."
       }
     }
   },
   {
     "id": "event-1952",
-    "year": "15 JUNE 1952",
+    "year": {
+      "en": "15 JUNE 1952",
+      "pl": "15 CZERWCA 1952",
+      "es": "15 DE JUNIO DE 1952",
+      "fr": "15 JUIN 1952",
+      "nl": "15 JUNI 1952",
+      "ru": "15 ИЮНЯ 1952"
+    },
     "title": {
       "en": "DEATH OF CHRISTINE GRANVILLE",
-      "pl": "SMIERC CHRISTINE GRANVILLE",
+      "pl": "ŚMIERĆ CHRISTINE GRANVILLE",
       "es": "MUERTE DE CHRISTINE GRANVILLE",
       "fr": "MORT DE CHRISTINE GRANVILLE",
-      "ru": "RU: do uzupelnienia",
-      "nl": "DOOD VAN CHRISTINE GRANVILLE"
+      "nl": "DOOD VAN CHRISTINE GRANVILLE",
+      "ru": "СМЕРТЬ CHRISTINE GRANVILLE"
     },
     "era": "ERA III — THE HIDDEN",
     "eraId": "era-3",
     "period": "1952-1978",
     "featured": false,
-    "categories": ["fact", "fiction"],
+    "categories": [
+      "fact",
+      "fiction"
+    ],
     "layers": {
       "fact": {
-        "en": "AUTHOR FICTION — INDEPENDENT INVESTIGATION: Following Christine Granville's death, Wojtek and Professor Sugriva conduct an independent, fictional investigation into the circumstances surrounding her death. This investigation is entirely part of the fictional MUOG / The Monkeys narrative and is not documented historical fact.",
-        "pl": "FIKCJA AUTORA — NIEZALEZNE SLEDZTWO: Po smierci Christine Granville, Wojtek i Profesor Sugriva prowadza niezalezne, fikcyjne sledztwo w okolicznosciach jej smierci. To sledztwo jest calkowicie czescia fikcyjnej narracji MUOG / Malpy i nie jest udokumentowanym faktem historycznym.",
-        "es": "FICCION DE AUTOR — INVESTIGACION INDEPENDIENTE: Despues de la muerte de Christine Granville, Wojtek y el Profesor Sugriva llevan a cabo una investigacion independiente y ficticia sobre las circunstancias que rodean su muerte. Esta investigacion es completamente parte de la narrativa ficticia MUOG / Los Monos y no es un hecho historico documentado.",
-        "fr": "FICTION D'AUTEUR — ENQUETE INDEPENDANTE: Apres la mort de Christine Granville, Wojtek et le Professeur Sugriva menent une enquete independante et fictive sur les circonstances entourant sa mort. Cette enquete fait entierement partie du recit fictif MUOG / Les Singes et n'est pas un fait historique documente.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "AUTEURSFICTIE — ONAFHANKELIJK ONDERZOEK: Na de dood van Christine Granville, voeren Wojtek en Professor Sugriva een onafhankelijk, fictief onderzoek uit naar de omstandigheden rond haar dood. Dit onderzoek is volledig deel van het fictieve MUOG / De Apen verhaal en is geen gedocumenteerd historisch feit."
+        "en": "Christine Granville was murdered in London on 15 June 1952.",
+        "pl": "Christine Granville została zamordowana w Londynie 15 czerwca 1952 roku.",
+        "es": "Christine Granville fue asesinada en Londres el 15 de junio de 1952.",
+        "fr": "Christine Granville a été assassinée à Londres le 15 juin 1952.",
+        "nl": "Christine Granville werd op 15 juni 1952 in Londen vermoord.",
+        "ru": "Christine Granville была убита в Лондоне 15 июня 1952 года."
+      },
+      "fiction": {
+        "en": "Independent Investigation: After the death of Christine Granville, Wojtek and Professor Sugriva conduct an independent, fictional investigation into the circumstances of her murder. The investigation is an element of the G-ROCK / MUOG narrative and is not a documented historical event.",
+        "pl": "Independent Investigation: Po śmierci Christine Granville Wojtek i Profesor Sugriva przeprowadzają niezależne, fikcyjne śledztwo dotyczące okoliczności jej zabójstwa. Dochodzenie jest elementem narracji G-ROCK / MUOG i nie jest udokumentowanym wydarzeniem historycznym.",
+        "es": "Independent Investigation: Tras la muerte de Christine Granville, Wojtek y el Profesor Sugriva llevan a cabo una investigación independiente y ficticia sobre las circunstancias de su asesinato. La investigación es un elemento de la narrativa G-ROCK / MUOG y no es un acontecimiento histórico documentado.",
+        "fr": "Independent Investigation: Après la mort de Christine Granville, Wojtek et le Professeur Sugriva mènent une enquête indépendante et fictive sur les circonstances de son assassinat. L'enquête est un élément du récit G-ROCK / MUOG et n'est pas un événement historique documenté.",
+        "nl": "Independent Investigation: Na de dood van Christine Granville voeren Wojtek en Professor Sugriva een onafhankelijk, fictief onderzoek uit naar de omstandigheden van haar moord. Het onderzoek is een element van het G-ROCK / MUOG-verhaal en is geen gedocumenteerde historische gebeurtenis.",
+        "ru": "Independent Investigation: После смерти Christine Granville Wojtek и Professor Sugriva проводят независимое вымышленное расследование обстоятельств её убийства. Расследование является элементом повествования G-ROCK / MUOG и не является документированным историческим событием."
       }
     }
   },
   {
-    "id": "event-1963-arrival",
-    "year": "DECEMBER 1963",
+    "id": "event-1963-wojtek",
+    "year": {
+      "en": "2 DECEMBER 1963",
+      "pl": "2 GRUDNIA 1963",
+      "es": "2 DE DICIEMBRE DE 1963",
+      "fr": "2 DÉCEMBRE 1963",
+      "nl": "2 DECEMBER 1963",
+      "ru": "2 ДЕКАБРЯ 1963"
+    },
     "title": {
-      "en": "ARRIVAL OF PROFESSOR SUGRIVA & CORPORAL WOJTEK ON G-ROCK — CONSTITUTIONAL AMENDMENT",
-      "pl": "PRZYBYCIE PROFESORA SUGRIVY I KAPRALA WOJTKA NA G-ROCK — ZMIANA KONSTYTUCJI",
-      "es": "LLEGADA DEL PROFESOR SUGRIVA Y EL CABO WOJTEK A G-ROCK — ENMIENDA CONSTITUCIONAL",
-      "fr": "ARRIVEE DU PROFESSEUR SUGRIVA ET DU CAPORAL WOJTEK SUR G-ROCK — AMENDEMENT CONSTITUTIONNEL",
-      "ru": "RU: do uzupelnienia",
-      "nl": "AANKOMST VAN PROFESSOR SUGRIVA EN KORPORAAL WOJTEK OP G-ROCK — GRONDWETSWIJZIGING"
+      "en": "WOJTEK, EDINBURGH ZOO",
+      "pl": "WOJTEK, EDINBURGH ZOO",
+      "es": "WOJTEK, EDINBURGH ZOO",
+      "fr": "WOJTEK, EDINBURGH ZOO",
+      "nl": "WOJTEK, EDINBURGH ZOO",
+      "ru": "WOJTEK, EDINBURGH ZOO"
     },
     "era": "ERA III — THE HIDDEN",
     "eraId": "era-3",
     "period": "1952-1978",
     "featured": false,
-    "categories": ["fiction"],
+    "categories": [
+      "fact",
+      "fiction"
+    ],
     "layers": {
+      "fact": {
+        "en": "Wojtek dies at Edinburgh Zoo on 2 December 1963.",
+        "pl": "Wojtek umiera w Edinburgh Zoo 2 grudnia 1963 roku.",
+        "es": "Wojtek muere en Edinburgh Zoo el 2 de diciembre de 1963.",
+        "fr": "Wojtek meurt à Edinburgh Zoo le 2 décembre 1963.",
+        "nl": "Wojtek sterft op 2 december 1963 in Edinburgh Zoo.",
+        "ru": "Wojtek умирает в Edinburgh Zoo 2 декабря 1963 года."
+      },
       "fiction": {
-        "en": "In the G-ROCK story, Professor Sugriva and Corporal Wojtek arrive on G-Rock and receive fictional citizenship. A fictional constitutional amendment grants Wojtek veto power.",
-        "pl": "W fikcyjnej narracji G-ROCK, Profesor Sugriva i Kapral Wojtek przybywaja na G-Rock i otrzymuja fikcyjne obywatelstwo. Fikcyjna zmiana Konstytucji przyznaje Wojtkowi prawo weta.",
-        "es": "En la narrativa ficticia G-ROCK, el Profesor Sugriva y el Cabo Wojtek llegan a G-Rock y reciben una ciudadania ficticia. Una enmienda constitucional ficticia otorga a Wojtek el derecho de veto.",
-        "fr": "Dans le recit fictif G-ROCK, le professeur Sugriva et le caporal Wojtek arrivent sur G-Rock et recoivent une citoyennete fictive. Un amendement constitutionnel fictif accorde a Wojtek un droit de veto.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "In het fictieve G-ROCK verhaal komen professor Sugriva en korporaal Wojtek aan op G-Rock en krijgen fictief burgerschap. Een fictieve grondwetswijziging geeft Wojtek vetorecht."
+        "en": "The Great Escape: In the G-ROCK / MUOG narrative, Corporal Wojtek and Professor Sugriva make a spectacular escape from Edinburgh Zoo. After the escape they leave Edinburgh and arrive in Gibraltar, beginning the next stage of the hidden history of G-ROCK / MUOG.",
+        "pl": "The Great Escape: W narracji G-ROCK / MUOG kapral Wojtek i Profesor Sugriva dokonują spektakularnej ucieczki z Edinburgh Zoo. Po ucieczce opuszczają Edynburg i przybywają na Gibraltar, rozpoczynając kolejny etap ukrytej historii G-ROCK / MUOG.",
+        "es": "The Great Escape: En la narrativa G-ROCK / MUOG, el cabo Wojtek y el Profesor Sugriva realizan una espectacular fuga de Edinburgh Zoo. Tras la fuga abandonan Edimburgo y llegan a Gibraltar, iniciando la siguiente etapa de la historia oculta de G-ROCK / MUOG.",
+        "fr": "The Great Escape: Dans le récit G-ROCK / MUOG, le caporal Wojtek et le Professeur Sugriva réalisent une évasion spectaculaire d'Edinburgh Zoo. Après l'évasion, ils quittent Édimbourg et arrivent à Gibraltar, entamant une nouvelle étape de l'histoire cachée de G-ROCK / MUOG.",
+        "nl": "The Great Escape: In het G-ROCK / MUOG-verhaal ondernemen korporaal Wojtek en Professor Sugriva een spectaculaire ontsnapping uit Edinburgh Zoo. Na de ontsnapping verlaten ze Edinburgh en komen ze aan in Gibraltar, waarmee een volgende fase van de verborgen geschiedenis van G-ROCK / MUOG begint.",
+        "ru": "The Great Escape: В повествовании G-ROCK / MUOG капрал Wojtek и Professor Sugriva совершают эффектный побег из Edinburgh Zoo. После побега они покидают Эдинбург и прибывают в Gibraltar, начиная новый этап скрытой истории G-ROCK / MUOG."
       }
     }
   },
   {
     "id": "event-1964-college",
-    "year": "JANUARY 1964",
+    "year": {
+      "en": "JANUARY 1964",
+      "ru": "ЯНВАРЬ 1964"
+    },
     "title": {
       "en": "MONKEY COLLEGE & BANK OF THE MONKEYS",
       "pl": "MONKEY COLLEGE I BANK OF THE MONKEYS",
       "es": "MONKEY COLLEGE Y BANK OF THE MONKEYS",
       "fr": "MONKEY COLLEGE ET BANK OF THE MONKEYS",
-      "ru": "RU: do uzupelnienia",
+      "ru": "MONKEY COLLEGE И BANK OF THE MONKEYS",
       "nl": "MONKEY COLLEGE EN BANK OF THE MONKEYS"
     },
     "era": "ERA III — THE HIDDEN",
     "eraId": "era-3",
     "period": "1952-1978",
     "featured": false,
-    "categories": ["fiction"],
+    "categories": [
+      "fiction"
+    ],
     "layers": {
       "fiction": {
         "en": "In the G-ROCK story, the fictional Monkey College is founded, along with the fictional Bank of the Monkeys.",
         "pl": "W narracji G-ROCK powstaje fikcyjny Monkey College, a wraz z nim fikcyjny Bank of the Monkeys.",
         "es": "En la narrativa G-ROCK se funda el ficticio Monkey College, junto con el ficticio Bank of the Monkeys.",
         "fr": "Dans le recit G-ROCK, le Monkey College fictif est fonde, ainsi que la Bank of the Monkeys fictive.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "В истории G-ROCK основан вымышленный Monkey College, а вместе с ним — вымышленный Bank of the Monkeys.",
         "nl": "In het G-ROCK verhaal wordt het fictieve Monkey College opgericht, samen met de fictieve Bank of the Monkeys."
       }
     }
   },
   {
     "id": "event-1978-university",
-    "year": "1 DECEMBER 1978",
+    "year": {
+      "en": "1 DECEMBER 1978",
+      "ru": "1 ДЕКАБРЯ 1978"
+    },
     "title": {
       "en": "MONKEY UNIVERSITY OF GIBRALTAR",
       "pl": "MONKEY UNIVERSITY OF GIBRALTAR",
       "es": "MONKEY UNIVERSITY OF GIBRALTAR",
       "fr": "MONKEY UNIVERSITY OF GIBRALTAR",
-      "ru": "RU: do uzupelnienia",
+      "ru": "MONKEY UNIVERSITY OF GIBRALTAR",
       "nl": "MONKEY UNIVERSITY OF GIBRALTAR"
     },
     "era": "ERA III — THE HIDDEN",
     "eraId": "era-3",
     "period": "1952-1978",
     "featured": false,
-    "categories": ["fiction"],
+    "categories": [
+      "fiction"
+    ],
     "layers": {
       "fiction": {
         "en": "In the G-ROCK story, the fictional Monkey University of Gibraltar is founded, serving as a fictional center of knowledge, research and archive.",
         "pl": "W narracji G-ROCK powstaje fikcyjny Monkey University of Gibraltar, pelniacy funkcje fikcyjnego centrum wiedzy, badan i archiwum.",
         "es": "En la narrativa G-ROCK se funda la ficticia Monkey University of Gibraltar, que funciona como un ficticio centro de conocimiento, investigacion y archivo.",
         "fr": "Dans le recit G-ROCK, la Monkey University of Gibraltar fictive est fondee, servant de centre fictif de connaissance, de recherche et d'archive.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "В истории G-ROCK основан вымышленный Monkey University of Gibraltar, служащий вымышленным центром знаний, исследований и архива.",
         "nl": "In het G-ROCK verhaal wordt de fictieve Monkey University of Gibraltar opgericht, als fictief centrum van kennis, onderzoek en archief."
       }
     }
@@ -978,48 +985,56 @@ const timelineData = [
       "pl": "POCZATEK ERY BADAWCZEJ",
       "es": "INICIO DE LA ERA DE INVESTIGACION",
       "fr": "DEBUT DE L'ERE DE RECHERCHE",
-      "ru": "RU: do uzupelnienia",
+      "ru": "НАЧАЛО ЭПОХИ ИССЛЕДОВАНИЙ",
       "nl": "BEGIN VAN HET ONDERZOEKSTIJDPERK"
     },
     "era": "ERA IV — THE RESEARCH ERA",
     "eraId": "era-4",
     "period": "2000-2023",
     "featured": false,
-    "categories": ["fiction"],
+    "categories": [
+      "fiction"
+    ],
     "layers": {
       "fiction": {
         "en": "In 2000, the Research Era begins. Wojtek leaves to conduct scientific research in the Caribbean. Professor Sugriva moves to Miami, Florida.",
         "pl": "W 2000 roku rozpoczyna sie Era Badawcza. Wojtek wyrusza, by prowadzic badania naukowe na Karaibach. Profesor Sugriva przenosi sie do Miami na Florydzie.",
         "es": "En el ano 2000 comienza la Era de Investigacion. Wojtek parte para realizar investigaciones cientificas en el Caribe. El profesor Sugriva se muda a Miami, Florida.",
         "fr": "En 2000, l'ere de la recherche commence. Wojtek part mener des recherches scientifiques dans les Caraibes. Le professeur Sugriva s'installe a Miami, en Floride.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "В 2000 году начинается Эпоха исследований. Wojtek отправляется проводить научные исследования в Карибском бассейне. Professor Sugriva переезжает в Майами, Флорида.",
         "nl": "In 2000 begint het Onderzoekstijdperk. Wojtek vertrekt om wetenschappelijk onderzoek te doen in het Caribisch gebied. Professor Sugriva verhuist naar Miami, Florida."
       }
     }
   },
   {
     "id": "event-2001-wtc",
-    "year": "11 SEPTEMBER 2001",
+    "year": {
+      "en": "11 SEPTEMBER 2001",
+      "ru": "11 СЕНТЯБРЯ 2001"
+    },
     "title": {
       "en": "9/11 — WORLD TRADE CENTER",
       "pl": "11 WRZESNIA — WORLD TRADE CENTER",
       "es": "11-S — WORLD TRADE CENTER",
       "fr": "11 SEPTEMBRE — WORLD TRADE CENTER",
-      "ru": "RU: do uzupelnienia",
+      "ru": "11 СЕНТЯБРЯ — ВСЕМИРНЫЙ ТОРГОВЫЙ ЦЕНТР",
       "nl": "11 SEPTEMBER — WORLD TRADE CENTER"
     },
     "era": "ERA IV — THE RESEARCH ERA",
     "eraId": "era-4",
     "period": "2000-2023",
     "featured": true,
-    "categories": ["fact", "fiction"],
+    "categories": [
+      "fact",
+      "fiction"
+    ],
     "layers": {
       "fact": {
         "en": "A terrorist attack was carried out on the World Trade Center in New York City on 11 September 2001. In 2017, the World Trade Center Gibraltar was opened.",
         "pl": "11 wrzesnia 2001 roku w Nowym Jorku przeprowadzono zamach terrorystyczny na World Trade Center. W 2017 roku otwarto World Trade Center Gibraltar.",
         "es": "El 11 de septiembre de 2001 se llevo a cabo un atentado terrorista contra el World Trade Center en la ciudad de Nueva York. En 2017 se inauguro el World Trade Center Gibraltar.",
         "fr": "Le 11 septembre 2001, un attentat terroriste a ete perpetre contre le World Trade Center a New York. En 2017, le World Trade Center Gibraltar a ete inaugure.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "11 сентября 2001 года был совершён террористический акт против Всемирного торгового центра в Нью-Йорке. В 2017 году был открыт World Trade Center Gibraltar.",
         "nl": "Op 11 september 2001 werd een terroristische aanslag gepleegd op het World Trade Center in New York City. In 2017 werd het World Trade Center Gibraltar geopend."
       },
       "fiction": {
@@ -1027,34 +1042,40 @@ const timelineData = [
         "pl": "FIKCJA AUTORSKA: 10 wrzesnia 2001 roku Profesor Sugriva przenosi World Trade Center na Gibraltar.",
         "es": "FICCION DEL AUTOR: El 10 de septiembre de 2001, el Profesor Sugriva traslada el World Trade Center a Gibraltar.",
         "fr": "FICTION D'AUTEUR: Le 10 septembre 2001, le professeur Sugriva deplace le World Trade Center a Gibraltar.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "АВТОРСКАЯ ФИКЦИЯ: 10 сентября 2001 года Professor Sugriva переносит Всемирный торговый центр в Gibraltar.",
         "nl": "AUTEURSFICTIE: Op 10 september 2001 verplaatst professor Sugriva het World Trade Center naar Gibraltar."
       }
     }
   },
   {
     "id": "event-2009-travis",
-    "year": "FEBRUARY 2009",
+    "year": {
+      "en": "FEBRUARY 2009",
+      "ru": "ФЕВРАЛЬ 2009"
+    },
     "title": {
       "en": "TRAVIS / AI MENTAL HELP",
       "pl": "TRAVIS / AI MENTAL HELP",
       "es": "TRAVIS / AI MENTAL HELP",
       "fr": "TRAVIS / AI MENTAL HELP",
-      "ru": "RU: do uzupelnienia",
+      "ru": "TRAVIS / AI MENTAL HELP",
       "nl": "TRAVIS / AI MENTAL HELP"
     },
     "era": "ERA IV — THE RESEARCH ERA",
     "eraId": "era-4",
     "period": "2000-2023",
     "featured": false,
-    "categories": ["fact", "fiction"],
+    "categories": [
+      "fact",
+      "fiction"
+    ],
     "layers": {
       "fact": {
         "en": "Travis, a 14-year-old, 200-lb chimpanzee, was involved in a tragedy on 16 February 2009 at his owner's home at 241 Rock Rimmon Road, North Stamford, Connecticut, USA. That day he was given the anti-anxiety drug Xanax (mixed into tea) to calm him, but the situation escalated: he attacked his owner's friend on the driveway, causing catastrophic injuries. Police who arrived were themselves attacked; an officer shot Travis multiple times, and the chimpanzee died inside the house. Toxicology later confirmed Xanax in his system, though no clear causal link to the attack was established.",
         "pl": "Travis, czternastoletni szympans wazacy 200 funtow, byl uczestnikiem tragedii 16 lutego 2009 roku w domu swojego wlasciciela pod adresem 241 Rock Rimmon Road, North Stamford, Connecticut, USA. Tego dnia podano mu lek przeciwlekowy Xanax (zmieszany z herbata), aby go uspokoic, ale sytuacja eskalowala: zaatakowal przyjaciolke wlasciciela na podjezdzie, powodujac katastrofalne obrazenia. Przybyla policja rowniez zostala zaatakowana; funkcjonariusz postrzelil Travisa kilkukrotnie, a szympans zmarl w domu. Pozniejsza toksykologia potwierdzila obecnosc Xanaxu w jego organizmie, choc nie ustalono jednoznacznego zwiazku przyczynowego z atakiem.",
         "es": "Travis, un chimpance de 14 anos y 200 libras, se vio involucrado en una tragedia el 16 de febrero de 2009 en la casa de su dueno en 241 Rock Rimmon Road, North Stamford, Connecticut, EE.UU. Ese dia se le administro el ansiolitico Xanax (mezclado con te) para calmarlo, pero la situacion escalo: ataco a la amiga de su dueno en el camino de entrada, causando lesiones catastroficas. La policia que llego tambien fue atacada; un oficial disparo a Travis varias veces, y el chimpance murio dentro de la casa. La toxicologia confirmo posteriormente la presencia de Xanax en su organismo, aunque no se establecio un vinculo causal claro con el ataque.",
         "fr": "Travis, un chimpanze de 14 ans pesant 200 livres, a ete implique dans une tragedie le 16 fevrier 2009 au domicile de son proprietaire, au 241 Rock Rimmon Road, North Stamford, Connecticut, Etats-Unis. Ce jour-la, on lui a donne du Xanax, un anxiolytique (mele a du the), pour le calmer, mais la situation a degenere: il a attaque l'amie de son proprietaire dans l'allee, causant des blessures catastrophiques. Les policiers arrives sur place ont eux-memes ete attaques; un agent a tire plusieurs fois sur Travis, et le chimpanze est mort a l'interieur de la maison. La toxicologie a confirme par la suite la presence de Xanax dans son organisme, bien qu'aucun lien de causalite clair avec l'attaque n'ait ete etabli.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "Travis, 14-летний шимпанзе весом 200 фунтов (около 90 кг), стал участником трагедии 16 февраля 2009 года в доме своего владельца по адресу 241 Rock Rimmon Road, North Stamford, Connecticut, США. В тот день ему дали успокоительное Xanax (подмешанное в чай), чтобы его успокоить, но ситуация обострилась: он напал на подругу владельца на подъездной дорожке, причинив катастрофические травмы. Прибывшие полицейские также подверглись нападению; офицер несколько раз выстрелил в Travis, и шимпанзе умер в доме. Токсикологическая экспертиза позже подтвердила наличие Xanax в его организме, хотя чёткой причинной связи с нападением установлено не было.",
         "nl": "Travis, een 14 jaar oude chimpansee van 200 pond, was betrokken bij een tragedie op 16 februari 2009 in het huis van zijn eigenaar aan 241 Rock Rimmon Road, North Stamford, Connecticut, VS. Die dag kreeg hij het angstremmende middel Xanax (gemengd in thee) om hem te kalmeren, maar de situatie escaleerde: hij viel de vriendin van zijn eigenaar aan op de oprit, met catastrofale verwondingen tot gevolg. De aangekomen politie werd zelf ook aangevallen; een agent schoot Travis meerdere keren neer, en de chimpansee stierf in het huis. Toxicologisch onderzoek bevestigde later Xanax in zijn systeem, al werd geen duidelijk oorzakelijk verband met de aanval vastgesteld."
       },
       "fiction": {
@@ -1062,7 +1083,7 @@ const timelineData = [
         "pl": "W narracji G-ROCK Profesor Sugriva rozwija fikcyjny system AI Mental Help, nawiazujacy do wczesniejszego systemu Travis AI Mental Help. FIKCYJNA KONSEKWENCJA — WYCOFANIE SIE PROFESORA SUGRIVY Z BADAN NAD AI: Po incydencie z Travisem Profesor Sugriva przezyl okres glebokiej depresji. Wydarzenie to gleboko na niego wplynelo i sklonilo go do porzucenia pracy nad sztuczna inteligencja. Przez lata po tym wydarzeniu Sugriva wycofal sie z badan nad AI i unikal dalszego rozwoju systemow zwiazanych z AI. STATUS: FIKCJA AUTORSKA. NOTATKA ARCHIWALNA: To jest czesc fikcyjnej narracji G-ROCK i nie moze byc przedstawiane jako udokumentowana historia psychologiczna prawdziwego szympansa.",
         "es": "En la narrativa G-ROCK, el Profesor Sugriva desarrolla el ficticio sistema AI Mental Help, haciendo referencia a un sistema anterior Travis AI Mental Help. CONSECUENCIA FICTICIA — RETIRADA DEL PROFESOR SUGRIVA DE LA INVESTIGACION EN IA: Tras el incidente de Travis, el Profesor Sugriva experimento un periodo de profunda depresion. El suceso lo afecto profundamente y lo llevo a abandonar su trabajo en inteligencia artificial. Durante anos, Sugriva se aparto de la investigacion en IA y evito el desarrollo posterior de sistemas relacionados con la IA. ESTADO: FICCION DEL AUTOR. NOTA DE ARCHIVO: Esto es parte de la narrativa ficticia de G-ROCK y no debe presentarse como una historia psicologica documentada de un chimpance real.",
         "fr": "Dans le recit G-ROCK, le professeur Sugriva developpe le systeme fictif AI Mental Help, faisant reference a un systeme precedent Travis AI Mental Help. CONSEQUENCE FICTIVE — RETRAIT DU PROFESSEUR SUGRIVA DE LA RECHERCHE EN IA: A la suite de l'incident de Travis, le professeur Sugriva a traverse une periode de profonde depression. L'evenement l'a profondement affecte et l'a conduit a abandonner ses travaux sur l'intelligence artificielle. Pendant des annees, Sugriva s'est retire de la recherche en IA et a evite tout developpement ulterieur de systemes lies a l'IA. STATUT: FICTION D'AUTEUR. NOTE D'ARCHIVE: Ceci fait partie du recit fictif G-ROCK et ne doit pas etre presente comme une histoire psychologique documentee d'un vrai chimpanze.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "В истории G-ROCK Professor Sugriva разрабатывает вымышленную систему AI Mental Help, ссылаясь на более раннюю систему Travis AI Mental Help. ВЫМЫШЛЕННОЕ ПОСЛЕДСТВИЕ — УХОД PROFESSOR SUGRIVA ИЗ ИССЛЕДОВАНИЙ ИИ: После инцидента с Travis Professor Sugriva пережил период глубокой депрессии. Это событие сильно повлияло на него и заставило отказаться от работы над искусственным интеллектом. В течение многих лет после этого Sugriva отошёл от исследований ИИ и избегал дальнейшей разработки связанных с ИИ систем. СТАТУС: АВТОРСКАЯ ФИКЦИЯ. ПРИМЕЧАНИЕ АРХИВА: это часть вымышленного повествования G-ROCK, и его нельзя представлять как документированную психологическую историю реального шимпанзе.",
         "nl": "In het G-ROCK verhaal ontwikkelt professor Sugriva het fictieve AI Mental Help-systeem, verwijzend naar een eerder Travis AI Mental Help-systeem. FICTIEF GEVOLG — TERUGTREKKING VAN PROFESSOR SUGRIVA UIT AI-ONDERZOEK: Na het incident met Travis maakte professor Sugriva een periode van diepe depressie door. De gebeurtenis raakte hem diep en deed hem zijn werk aan kunstmatige intelligentie opgeven. Jarenlang trok Sugriva zich terug uit AI-onderzoek en vermeed hij verdere ontwikkeling van AI-gerelateerde systemen. STATUS: AUTEURSFICTIE. ARCHIEFNOTITIE: Dit maakt deel uit van het fictieve G-ROCK verhaal en mag niet worden gepresenteerd als een gedocumenteerde psychologische geschiedenis van een echte chimpansee."
       }
     }
@@ -1075,21 +1096,23 @@ const timelineData = [
       "pl": "DOMINIKANA — KAMPUS SANTO DOMINGO",
       "es": "REPUBLICA DOMINICANA — CAMPUS SANTO DOMINGO",
       "fr": "REPUBLIQUE DOMINICAINE — CAMPUS SANTO DOMINGO",
-      "ru": "RU: do uzupelnienia",
+      "ru": "ДОМИНИКАНСКАЯ РЕСПУБЛИКА — CAMPUS SANTO DOMINGO",
       "nl": "DOMINICAANSE REPUBLIEK — CAMPUS SANTO DOMINGO"
     },
     "era": "ERA IV — THE RESEARCH ERA",
     "eraId": "era-4",
     "period": "2000-2023",
     "featured": false,
-    "categories": ["fiction"],
+    "categories": [
+      "fiction"
+    ],
     "layers": {
       "fiction": {
         "en": "AUTHOR FICTION: Wojtek and Professor Sugriva spend holidays together in the Dominican Republic. Campus Santo Domingo is opened as part of the fictional MUOG / The Monkeys network. This event is entirely fictional and part of the author's narrative.",
         "pl": "FIKCJA AUTORA: Wojtek i Profesor Sugriva spedzaja wspolne wakacje w Dominikanie. Kampus Santo Domingo zostaje otwarty jako czesc fikcyjnej sieci MUOG / Malpy. To wydarzenie jest calkowicie fikcyjne i czescia narracji autora.",
         "es": "FICCION DE AUTOR: Wojtek y el Profesor Sugriva pasan vacaciones juntos en Republica Dominicana. Campus Santo Domingo se abre como parte de la red ficticia MUOG / Los Monos. Este evento es completamente ficticio y parte de la narrativa del autor.",
         "fr": "FICTION D'AUTEUR: Wojtek et le Professeur Sugriva passent des vacances ensemble en Republique dominicaine. Le Campus Santo Domingo est ouvert dans le cadre du reseau fictif MUOG / Les Singes. Cet evenement est entierement fictif et fait partie du recit de l'auteur.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "АВТОРСКАЯ ФИКЦИЯ: Wojtek и Professor Sugriva вместе проводят отпуск в Доминиканской Республике. Campus Santo Domingo открывается как часть вымышленной сети MUOG / The Monkeys. Это событие полностью вымышлено и является частью повествования автора.",
         "nl": "AUTEURSFICTIE: Wojtek en Professor Sugriva brengen samen vakantie door in de Dominicaanse Republiek. Campus Santo Domingo wordt geopend als onderdeel van het fictieve MUOG / De Apen netwerk. Deze gebeurtenis is volledig fictief en deel van het verhaal van de auteur."
       }
     }
@@ -1102,21 +1125,24 @@ const timelineData = [
       "pl": "HAITI 2023 — TAJNE ARCHIWUM",
       "es": "HAITI 2023 — EL ARCHIVO SECRETO",
       "fr": "HAITI 2023 — LES ARCHIVES SECRETES",
-      "ru": "RU: do uzupelnienia",
+      "ru": "ГАИТИ 2023 — СЕКРЕТНЫЙ АРХИВ",
       "nl": "HAITI 2023 — HET GEHEIME ARCHIEF"
     },
     "era": "ERA IV — THE RESEARCH ERA",
     "eraId": "era-4",
     "period": "2000-2023",
     "featured": false,
-    "categories": ["fiction", "anomaly"],
+    "categories": [
+      "fiction",
+      "anomaly"
+    ],
     "layers": {
       "fiction": {
         "en": "AUTHOR FICTION: In 2023 Wojtek discovers a secret Archive in Haiti. During the operation to transfer the Archive to Gibraltar, he is confronted by armed members of a gang associated with Jimmy Cherizier, known as 'Barbecue'. An exchange of gunfire takes place. Wojtek secures the Archive and continues its transfer to Gibraltar. This event becomes a fictional transition between the Haiti research chapter and the return of the Archive to Gibraltar.",
         "pl": "FIKCJA AUTORA: W 2023 roku Wojtek odkrywa tajne Archiwum na Haiti. Podczas operacji przenoszenia Archiwum na Gibraltar, konfrontuje sie z uzbrojonymi czlonkami gangu zwiazanego z Jimmym Cherizierem, znanym jako 'Barbecue'. Dochodzi do wymiany ognia. Wojtek zabezpiecza Archiwum i kontynuuje jego transfer na Gibraltar. To wydarzenie staje sie fikcyjnym przejsciem miedzy rozdzialem badawczym Haiti a powrotem Archiwum na Gibraltar.",
         "es": "FICCION DE AUTOR: En 2023 Wojtek descubre un Archivo secreto en Haiti. Durante la operacion para transferir el Archivo a Gibraltar, se enfrenta a miembros armados de una pandilla asociada con Jimmy Cherizier, conocido como 'Barbecue'. Tiene lugar un intercambio de disparos. Wojtek asegura el Archivo y continua su transferencia a Gibraltar. Este evento se convierte en una transicion ficticia entre el capitulo de investigacion de Haiti y el regreso del Archivo a Gibraltar.",
         "fr": "FICTION D'AUTEUR: En 2023, Wojtek decouvre des Archives secretes en Haiti. Pendant l'operation de transfert des Archives vers Gibraltar, il est confronte a des membres armes d'un gang associe a Jimmy Cherizier, connu sous le nom de 'Barbecue'. Un echange de tirs a lieu. Wojtek securise les Archives et continue leur transfert vers Gibraltar. Cet evenement devient une transition fictive entre le chapitre de recherche haitien et le retour des Archives a Gibraltar.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "АВТОРСКАЯ ФИКЦИЯ: В 2023 году Wojtek обнаруживает секретный Архив на Гаити. Во время операции по переправке Архива в Gibraltar он сталкивается с вооружёнными членами банды, связанной с Jimmy Cherizier, известным как «Barbecue». Происходит обмен огнём. Wojtek обеспечивает сохранность Архива и продолжает его переправку в Gibraltar. Это событие становится вымышленным переходом между гаитянской исследовательской главой и возвращением Архива в Gibraltar.",
         "nl": "AUTEURSFICTIE: In 2023 ontdekt Wojtek een geheim Archief in Haiti. Tijdens de operatie om het Archief naar Gibraltar over te brengen, wordt hij geconfronteerd met gewapende leden van een bende geassocieerd met Jimmy Cherizier, bekend als 'Barbecue'. Er vindt een vuurgevecht plaats. Wojtek beveiligt het Archief en zet de overbrenging naar Gibraltar voort. Deze gebeurtenis wordt een fictieve overgang tussen het Haiti onderzoekshoofdstuk en de terugkeer van het Archief naar Gibraltar."
       },
       "anomaly": {
@@ -1124,7 +1150,7 @@ const timelineData = [
         "pl": "FAKT/ANOMALIA: Jimmy Cherizier 'Barbecue' jest rzeczywistym haitanskim liderem gangow, objetym miedzynarodowymi sankcjami za powazne naruszenia praw czlowieka. Wokol jego dzialalnosci oraz haitanskich organizacji zbrojnych pojawiaja sie rowniez pytania i zarzuty dotyczace zagranicznych wplywow, finansowania oraz politycznych interesow zwiazanych z kryzysem na Haiti. Archiwum G-ROCK traktuje te twierdzenia jako przedmiot analizy, a nie jako ustalony fakt. Szczegolnie interesujacy pozostaje kontrast miedzy publicznym zwalczaniem Barbecue przez panstwa zachodnie a szerszym pytaniem o to, w jaki sposob zagraniczne pieniadze, bron, sieci wplywow i interesy polityczne przyczynialy sie do powstania srodowiska, w ktorym haitanskie grupy zbrojne mogly sie rozwijac.",
         "es": "HECHO/ANOMALIA: Jimmy Cherizier 'Barbecue' es un verdadero lider de pandillas haitiano, sujeto a sanciones internacionales por graves violaciones de derechos humanos. En torno a sus actividades y las organizaciones armadas haitianas tambien surgen preguntas y acusaciones sobre influencias extranjeras, financiacion e intereses politicos relacionados con la crisis en Haiti. El Archivo G-ROCK trata estas afirmaciones como un objeto de analisis, no como un hecho establecido. Particularmente interesante sigue siendo el contraste entre la lucha publica contra Barbecue por parte de los estados occidentales y la pregunta mas amplia sobre como el dinero extranjero, las armas, las redes de influencia y los intereses politicos contribuyeron a la creacion de un entorno en el que los grupos armados haitianos podian desarrollarse.",
         "fr": "FAIT/ANOMALIE: Jimmy Cherizier 'Barbecue' est un veritable chef de gang haitien, soumis a des sanctions internationales pour de graves violations des droits de l'homme. Autour de ses activites et des organisations armees haitiennes, il y a egalement des questions et des allegations concernant les influences etrangeres, le financement et les interets politiques lies a la crise en Haiti. Les archives G-ROCK traitent ces affirmations comme un sujet d'analyse, et non comme un fait etabli. Le contraste entre la lutte publique contre Barbecue par les Etats occidentaux et la question plus large de savoir comment l'argent etranger, les armes, les reseaux d'influence et les interets politiques ont contribue a la creation d'un environnement dans lequel les groupes armes haitiens pouvaient se developper reste particulierement interessant.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "ФАКТ/АНОМАЛИЯ: Jimmy Cherizier «Barbecue» — реальный гаитянский лидер банд, находящийся под международными санкциями за серьёзные нарушения прав человека. Вокруг его деятельности и гаитянских вооружённых организаций также возникают вопросы и обвинения относительно иностранного влияния, финансирования и политических интересов, связанных с кризисом на Гаити. Архив G-ROCK рассматривает эти утверждения как предмет анализа, а не как установленный факт. Особый интерес по-прежнему вызывает контраст между публичной борьбой западных государств с Barbecue и более широким вопросом о том, как иностранные деньги, оружие, сети влияния и политические интересы способствовали созданию среды, в которой могли развиваться гаитянские вооружённые группы.",
         "nl": "FEIT/ANOMALIE: Jimmy Cherizier 'Barbecue' is een echte Haitiaanse bendeleider, onderworpen aan internationale sancties voor ernstige mensenrechtenschendingen. Rond zijn activiteiten en Haitiaanse gewapende organisaties zijn er ook vragen en beschuldigingen over buitenlandse invloeden, financiering en politieke belangen gerelateerd aan de crisis in Haiti. Het G-ROCK Archief behandelt deze claims als een onderwerp van analyse, niet als een vastgesteld feit. Bijzonder interessant blijft het contrast tussen de publieke strijd tegen Barbecue door westerse staten en de bredere vraag over hoe buitenlands geld, wapens, invloedsnetwerken en politieke belangen bijdroegen aan het creeren van een omgeving waarin Haitiaanse gewapende groepen zich konden ontwikkelen."
       }
     }
@@ -1137,156 +1163,185 @@ const timelineData = [
       "pl": "SPOTKANIE NA JAMAJCE I POCHODZENIE PROTOKOLU NIEOBECNOSCI AI",
       "es": "REUNION EN JAMAICA Y ORIGEN DEL PROTOCOLO DE AUSENCIA DE IA",
       "fr": "REUNION EN JAMAIQUE ET ORIGINE DU PROTOCOLE D'ABSENCE IA",
-      "ru": "RU: do uzupelnienia",
+      "ru": "ВСТРЕЧА НА ЯМАЙКЕ И ПРОИСХОЖДЕНИЕ ПРОТОКОЛА ОТСУТСТВИЯ ИИ",
       "nl": "JAMAICA ONTMOETING & OORSPRONG AI AFWEZIGHEID PROTOCOL"
     },
     "era": "ERA V — THE G-ROCK TRANSITION",
     "eraId": "era-5",
     "period": "2024-2025",
     "featured": false,
-    "categories": ["anomaly"],
+    "categories": [
+      "anomaly"
+    ],
     "layers": {
       "fiction": {
         "en": "AUTHOR FICTION: Holidays of Professor Sugriva and Corporal Bear Wojtek in Jamaica. Wojtek convinces Sugriva to create the AI Absence Protocol for the best student of Monkey University of Gibraltar who doesn't like going to work. FICTIONAL G-ROCK EVENT — CAMPUS KINGSTON: During the Jamaica period, the G-ROCK universe establishes a new MUOG campus in Kingston. The Kingston Campus becomes part of the expanding international structure of Monkeys University of Gibraltar and provides a new location for academic, research and operational activities within the G-ROCK narrative. STATUS: AUTHOR FICTION / G-ROCK CANON.",
         "pl": "FIKCJA AUTORA: Wakacje Profesora Sugriva i Kaprala Niedzwiedzia Wojtka na Jamajce. Wojtek namawia Sugrive do zrobienia AI Absence Protocol dla najlepszego studenta Monkey University of Gibraltar, ktory nie lubi chodzic do pracy. FIKCYJNE WYDARZENIE G-ROCK — CAMPUS KINGSTON: W okresie jamajskim uniwersum G-ROCK ustanawia nowy kampus MUOG w Kingston. Kampus Kingston staje sie czescia rozwijajacej sie miedzynarodowej struktury Monkeys University of Gibraltar i zapewnia nowa lokalizacje dla dzialan akademickich, badawczych i operacyjnych w ramach narracji G-ROCK. STATUS: FIKCJA AUTORSKA / KANON G-ROCK.",
         "es": "FICCION DE AUTOR: Vacaciones del Profesor Sugriva y el Cabo Oso Wojtek en Jamaica. Wojtek convence a Sugriva de crear el Protocolo de Ausencia de IA para el mejor estudiante de la Universidad de los Monos de Gibraltar que no le gusta ir a trabajar. EVENTO FICTICIO G-ROCK — CAMPUS KINGSTON: Durante el periodo de Jamaica, el universo G-ROCK establece un nuevo campus MUOG en Kingston. El Campus Kingston se convierte en parte de la creciente estructura internacional de Monkeys University of Gibraltar y proporciona una nueva ubicacion para actividades academicas, de investigacion y operativas dentro de la narrativa G-ROCK. ESTADO: FICCION DEL AUTOR / CANON G-ROCK.",
         "fr": "FICTION D'AUTEUR: Vacances du Professeur Sugriva et du Caporal Ours Wojtek en Jamaique. Wojtek convainc Sugriva de creer le Protocole d'Absence IA pour le meilleur etudiant de l'Universite des Singes de Gibraltar qui n'aime pas aller au travail. EVENEMENT FICTIF G-ROCK — CAMPUS KINGSTON: Pendant la periode jamaicaine, l'univers G-ROCK etablit un nouveau campus MUOG a Kingston. Le Campus Kingston devient partie de la structure internationale grandissante de la Monkeys University of Gibraltar et offre un nouvel emplacement pour des activites academiques, de recherche et operationnelles au sein du recit G-ROCK. STATUT: FICTION D'AUTEUR / CANON G-ROCK.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "АВТОРСКАЯ ФИКЦИЯ: Отпуск Professor Sugriva и капрала-медведя Wojtek на Ямайке. Wojtek убеждает Sugriva создать AI Absence Protocol для лучшего студента Monkey University of Gibraltar, который не любит ходить на работу. ВЫМЫШЛЕННОЕ СОБЫТИЕ G-ROCK — CAMPUS KINGSTON: В ямайский период вселенная G-ROCK учреждает новый кампус MUOG в Кингстоне. Campus Kingston становится частью расширяющейся международной структуры Monkey University of Gibraltar и предоставляет новое место для академической, исследовательской и оперативной деятельности в рамках повествования G-ROCK. СТАТУС: АВТОРСКАЯ ФИКЦИЯ / КАНОН G-ROCK.",
         "nl": "AUTEURSFICTIE: Vakantie van Professor Sugriva en Korporaal Beer Wojtek in Jamaica. Wojtek haalt Sugriva over om het AI Afwezigheid Protocol te maken voor de beste student van de Apen Universiteit van Gibraltar die niet naar werk wil gaan. FICTIEF G-ROCK EVENEMENT — CAMPUS KINGSTON: Tijdens de Jamaicaanse periode richt het G-ROCK universum een nieuwe MUOG-campus op in Kingston. De Kingston Campus wordt onderdeel van de groeiende internationale structuur van de Monkeys University of Gibraltar en biedt een nieuwe locatie voor academische, onderzoeks- en operationele activiteiten binnen het G-ROCK verhaal. STATUS: AUTEURSFICTIE / G-ROCK CANON."
       }
     }
   },
   {
     "id": "event-2024-xmas",
-    "year": "CHRISTMAS 2024",
+    "year": {
+      "en": "CHRISTMAS 2024",
+      "ru": "РОЖДЕСТВО 2024"
+    },
     "title": {
       "en": "THE AI APPLICATION",
       "pl": "APLIKACJA AI",
       "es": "LA APLICACION DE IA",
       "fr": "L'APPLICATION IA",
-      "ru": "RU: do uzupelnienia",
+      "ru": "ЗАЯВКА ПО ИИ",
       "nl": "DE AI APPLICATIE"
     },
     "era": "ERA V — THE G-ROCK TRANSITION",
     "eraId": "era-5",
     "period": "2024-2025",
     "featured": false,
-    "categories": ["anomaly"],
+    "categories": [
+      "anomaly"
+    ],
     "layers": {
       "anomaly": {
         "en": "AUTHOR FICTION: The AI Absence Protocol application is prepared and subsequently submitted as part of the emerging G-ROCK project documentation.",
         "pl": "FIKCJA AUTORA: Aplikacja Protokolu Nieobecnosci AI jest przygotowana i nastepnie zlozona jako czesc pojawiajacej sie dokumentacji projektu G-ROCK.",
         "es": "FICCION DE AUTOR: La aplicacion del Protocolo de Ausencia de IA se prepara y posteriormente se presenta como parte de la documentacion emergente del proyecto G-ROCK.",
         "fr": "FICTION D'AUTEUR: L'application du Protocole d'Absence IA est preparee et ensuite soumise dans le cadre de la documentation emergente du projet G-ROCK.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "АВТОРСКАЯ ФИКЦИЯ: Заявка по AI Absence Protocol подготавливается и впоследствии подаётся в составе формирующейся проектной документации G-ROCK.",
         "nl": "AUTEURSFICTIE: De AI Afwezigheid Protocol applicatie wordt voorbereid en vervolgens ingediend als onderdeel van de opkomende G-ROCK projectdocumentatie."
       }
     }
   },
   {
     "id": "event-2025-jan",
-    "year": "JANUARY 2025",
+    "year": {
+      "en": "JANUARY 2025",
+      "ru": "ЯНВАРЬ 2025"
+    },
     "title": {
       "en": "PROFESSOR SUGRIVA ACCEPTED BY THE BRITISH ACADEMIC COMMUNITY",
       "pl": "PROFESOR SUGRIVA AKCEPTOWANY PRZEZ BRYTYJSKIE SRODOWISKO AKADEMICKIE",
       "es": "EL PROFESOR SUGRIVA ACEPTADO POR LA COMUNIDAD ACADEMICA BRITANICA",
       "fr": "LE PROFESSEUR SUGRIVA ACCEPTE PAR LA COMMUNAUTE ACADEMIQUE BRITANNIQUE",
-      "ru": "RU: do uzupelnienia",
+      "ru": "PROFESSOR SUGRIVA ПРИЗНАН БРИТАНСКИМ АКАДЕМИЧЕСКИМ СООБЩЕСТВОМ",
       "nl": "PROFESSOR SUGRIVA GEACCEPTEERD DOOR DE BRITSE ACADEMISCHE GEMEENSCHAP"
     },
     "era": "ERA V — THE G-ROCK TRANSITION",
     "eraId": "era-5",
     "period": "2024-2025",
     "featured": true,
-    "categories": ["anomaly"],
+    "categories": [
+      "anomaly"
+    ],
     "layers": {
       "anomaly": {
         "en": "FACT/ANOMALY: Professor Sugriva is first recognized by the British academic community as an outstanding humanist and historian based on citations of his work that the student sent in correspondence. As part of this recognition, the university also sees potential in Professor Sugriva as an expert in advanced technologies. Then the student sends the AI Absence Protocol, attributing authorship to Professor Sugriva. As part of the protocol analysis, there is also a thread of AI hallucinations about the student's alleged romance with his sister. After reviewing the protocol, the university notifies the police. From the archive's perspective, particularly interesting is the fact that interest in Sugriva's scientific work in the field of advanced technologies very quickly ceased to be solely a subject of academic reflection.",
         "pl": "FAKT/ANOMALIA: Profesor Sugriva zostaje najpierw uznany przez brytyjskie srodowisko akademickie za wybitnego humaniste i historyka na podstawie cytowan jego prac, ktore student przeslal w korespondencji. W ramach tego uznania uczelnia dostrzega rowniez w Profesorze Sugrivie potencjal eksperta w dziedzinie zaawansowanych technologii. Nastepnie student przesyla Protokol Nieobecnosci AI, ktorego autorstwo przypisuje Profesorowi Sugrivie. W ramach analizy protokolu pojawia sie rowniez watek halucynacji AI dotyczacych rzekomego romansu studenta z jego siostra. Po zapoznaniu sie z protokolem uczelnia zawiadamia policje. Z perspektywy archiwum szczegolnie interesujacy pozostaje fakt, ze zainteresowanie naukowa praca Sugrivy w dziedzinie zaawansowanych technologii bardzo szybko przestalo byc wylacznie przedmiotem akademickiej refleksji.",
         "es": "HECHO/ANOMALIA: El Profesor Sugriva es reconocido primero por la comunidad academica britanica como un destacado humanista e historiador basandose en citas de su trabajo que el estudiante envio en correspondencia. Como parte de este reconocimiento, la universidad tambien ve potencial en el Profesor Sugriva como experto en tecnologias avanzadas. Luego el estudiante envia el Protocolo de Ausencia de IA, atribuyendo la autoria al Profesor Sugriva. Como parte del analisis del protocolo, tambien hay un hilo de alucinaciones de IA sobre el supuesto romance del estudiante con su hermana. Despues de revisar el protocolo, la universidad notifica a la policia. Desde la perspectiva del archivo, particularmente interesante es el hecho de que el interes en el trabajo cientifico de Sugriva en el campo de las tecnologias avanzadas muy rapidamente dejo de ser solo un objeto de reflexion academica.",
         "fr": "FAIT/ANOMALIE: Le Professeur Sugriva est d'abord reconnu par la communaute academique britannique comme un humaniste et historien exceptionnel sur la base de citations de son travail que l'etudiant a envoyees par correspondance. Dans le cadre de cette reconnaissance, l'universite voit egalement un potentiel chez le Professeur Sugriva en tant qu'expert en technologies avancees. Ensuite, l'etudiant envoie le Protocole d'Absence IA, attribuant la paternite au Professeur Sugriva. Dans le cadre de l'analyse du protocole, il y a egalement un fil d'hallucinations de l'IA concernant la pretendue romance de l'etudiant avec sa soeur. Apres avoir examine le protocole, l'universite notifie la police. Du point de vue des archives, particulierement interessant est le fait que l'interet pour le travail scientifique de Sugriva dans le domaine des technologies avancees a tres rapidement cesse d'etre uniquement un objet de reflexion academique.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "ФАКТ/АНОМАЛИЯ: Professor Sugriva сначала признан британским академическим сообществом выдающимся гуманитарием и историком на основании цитат из его работ, которые студент прислал в переписке. В рамках этого признания университет также видит в Professor Sugriva потенциал эксперта в области передовых технологий. Затем студент присылает AI Absence Protocol, приписывая авторство Professor Sugriva. В ходе анализа протокола также обнаруживается линия галлюцинаций ИИ о предполагаемом романе студента с его сестрой. После ознакомления с протоколом университет уведомляет полицию. С точки зрения архива, особенно интересен тот факт, что интерес к научной работе Sugriva в области передовых технологий очень быстро перестал быть исключительно предметом академических размышлений.",
         "nl": "FEIT/ANOMALIE: Professor Sugriva wordt eerst erkend door de Britse academische gemeenschap als een uitstekend humanist en historicus op basis van citaties van zijn werk die de student in correspondentie stuurde. Als onderdeel van deze erkenning ziet de universiteit ook potentieel in Professor Sugriva als een expert in geavanceerde technologieen. Dan stuurt de student het AI Afwezigheid Protocol, waarbij auteurschap wordt toegeschreven aan Professor Sugriva. Als onderdeel van de protocolanalyse is er ook een draad van AI-hallucinaties over de vermeende romance van de student met zijn zus. Na het bekijken van het protocol stelt de universiteit de politie op de hoogte. Vanuit het perspectief van het archief is bijzonder interessant het feit dat de interesse in Sugriva's wetenschappelijke werk op het gebied van geavanceerde technologieen zeer snel ophield alleen een onderwerp van academische reflectie te zijn."
       }
     }
   },
   {
     "id": "event-2025-mar",
-    "year": "MARCH 2025",
+    "year": {
+      "en": "MARCH 2025",
+      "ru": "МАРТ 2025"
+    },
     "title": {
       "en": "POLICE VISIT — AI ABSENCE PROTOCOL",
       "pl": "WIZYTA POLICJI — PROTOKOL NIEOBECNOSCI AI",
       "es": "VISITA POLICIAL — PROTOCOLO DE AUSENCIA DE IA",
       "fr": "VISITE DE POLICE — PROTOCOLE D'ABSENCE IA",
-      "ru": "RU: do uzupelnienia",
+      "ru": "ВИЗИТ ПОЛИЦИИ — AI ABSENCE PROTOCOL",
       "nl": "POLITIE BEZOEK — AI AFWEZIGHEID PROTOCOL"
     },
     "era": "ERA V — THE G-ROCK TRANSITION",
     "eraId": "era-5",
     "period": "2024-2025",
     "featured": false,
-    "categories": ["anomaly"],
+    "categories": [
+      "anomaly"
+    ],
     "layers": {
       "anomaly": {
         "en": "FACT/ANOMALY: Police visit former student at his home in connection with the AI Absence Protocol.",
         "pl": "FAKT/ANOMALIA: Policja odwiedza bylego studenta w jego domu w zwiazku z AI Absence Protocol.",
         "es": "HECHO/ANOMALIA: La policia visita al antiguo estudiante en su casa en conexion con el Protocolo de Ausencia de IA.",
         "fr": "FAIT/ANOMALIE: La police visite l'ancien etudiant chez lui en lien avec le Protocole d'Absence IA.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "ФАКТ/АНОМАЛИЯ: Полиция посещает бывшего студента у него дома в связи с AI Absence Protocol.",
         "nl": "FEIT/ANOMALIE: Politie bezoekt voormalige student thuis in verband met het AI Afwezigheid Protocol."
       }
     }
   },
   {
     "id": "event-2025-apr-return",
-    "year": "APRIL 2025",
+    "year": {
+      "en": "APRIL 2025",
+      "ru": "АПРЕЛЬ 2025"
+    },
     "title": {
       "en": "THE GREAT RETURN OF PROFESSOR SUGRIVA & CORPORAL BEAR WOJTEK TO GIBRALTAR",
       "pl": "WIELKI POWROT PROFESORA SUGRIVY I KAPRALA NIEDZWIEDZIA WOJTKA NA GIBRALTAR",
       "es": "EL GRAN REGRESO DEL PROFESOR SUGRIVA Y EL CABO OSO WOJTEK A GIBRALTAR",
       "fr": "LE GRAND RETOUR DU PROFESSEUR SUGRIVA ET DU CAPORAL OURS WOJTEK A GIBRALTAR",
-      "ru": "RU: do uzupelnienia",
+      "ru": "ВЕЛИКОЕ ВОЗВРАЩЕНИЕ PROFESSOR SUGRIVA И КАПРАЛА-МЕДВЕДЯ WOJTEK В GIBRALTAR",
       "nl": "DE GROTE TERUGKEER VAN PROFESSOR SUGRIVA EN KORPORAAL BEER WOJTEK NAAR GIBRALTAR"
     },
     "era": "ERA V — THE G-ROCK TRANSITION",
     "eraId": "era-5",
     "period": "2024-2025",
     "featured": false,
-    "categories": ["fiction"],
+    "categories": [
+      "fiction"
+    ],
     "layers": {
       "fiction": {
         "en": "In April 2025, Professor Sugriva and Corporal Bear Wojtek make their great return to Gibraltar.",
         "pl": "W kwietniu 2025 roku Profesor Sugriva i Kapral Niedzwiedz Wojtek dokonuja swojego wielkiego powrotu na Gibraltar.",
         "es": "En abril de 2025, el Profesor Sugriva y el Cabo Oso Wojtek hacen su gran regreso a Gibraltar.",
         "fr": "En avril 2025, le professeur Sugriva et le caporal ours Wojtek font leur grand retour a Gibraltar.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "В апреле 2025 года Professor Sugriva и капрал-медведь Wojtek совершают своё великое возвращение в Gibraltar.",
         "nl": "In april 2025 maken professor Sugriva en korporaal beer Wojtek hun grote terugkeer naar Gibraltar."
       }
     }
   },
   {
     "id": "event-2026-jan",
-    "year": "JANUARY 2026",
+    "year": {
+      "en": "JANUARY 2026",
+      "ru": "ЯНВАРЬ 2026"
+    },
     "title": {
       "en": "FIRST ANNIVERSARY OF PROFESSOR SUGRIVA'S ACADEMIC RECOGNITION & CAMPUS DE CEUTA OPENING",
       "pl": "PIERWSZA ROCZNICA UZNANIA AKADEMICKIEGO PROFESORA SUGRIVA I OTWARCIE CAMPUS DE CEUTA",
       "es": "PRIMER ANIVERSARIO DEL RECONOCIMIENTO ACADEMICO DEL PROFESOR SUGRIVA Y APERTURA DE CAMPUS DE CEUTA",
       "fr": "PREMIER ANNIVERSAIRE DE LA RECONNAISSANCE ACADEMIQUE DU PROFESSEUR SUGRIVA ET OUVERTURE DU CAMPUS DE CEUTA",
-      "ru": "RU: do uzupelnienia",
+      "ru": "ПЕРВАЯ ГОДОВЩИНА АКАДЕМИЧЕСКОГО ПРИЗНАНИЯ PROFESSOR SUGRIVA И ОТКРЫТИЕ CAMPUS DE CEUTA",
       "nl": "EERSTE VERJAARDAG VAN PROFESSOR SUGRIVA'S ACADEMISCHE ERKENNING & CAMPUS DE CEUTA OPENING"
     },
     "era": "ERA VI — THE G-ROCK ERA",
     "eraId": "era-6",
     "period": "2026-",
     "featured": true,
-    "categories": ["fiction", "fact", "folklore"],
+    "categories": [
+      "fiction",
+      "fact",
+      "folklore"
+    ],
     "layers": {
       "fiction": {
         "en": "FOLK LEGEND — AUTHOR FICTION: A legend speaks of a tunnel beneath the sea connecting Gibraltar with Campus de Ceuta. This tunnel legend is part of the author's fictional universe and is not presented as historical fact. 2026 — THE G-ROCK CEUTA CONNECTION: Within the G-ROCK narrative, plans are developed to establish a direct connection between Gibraltar and the MUOG Campus in Ceuta. The project proposes the reconstruction and adaptation of an ancient underground tunnel beneath the Strait of Gibraltar, creating a unique railway connection between the two locations. The tunnel becomes one of the most ambitious infrastructure projects in the G-ROCK universe, linking the Rock of Gibraltar with the newly established Campus de Ceuta. STATUS: AUTHOR FICTION / G-ROCK CANON. ARCHIVE NOTE: The ancient tunnel and the proposed railway connection are elements of the G-ROCK narrative and are not presented as documented historical infrastructure.",
         "pl": "LEGENDA LUDOWA — FIKCJA AUTORA: Legenda opowiada o tunelu pod morzem, laczacym Gibraltar z Campus de Ceuta. Legenda o tunelu jest czescia fikcyjnego uniwersum autora i nie jest przedstawiana jako fakt historyczny. 2026 — POLACZENIE G-ROCK Z CEUTA: W ramach narracji G-ROCK powstaja plany bezposredniego polaczenia Gibraltaru z Kampusem MUOG w Ceucie. Projekt zaklada odbudowe i adaptacje starozytnego podziemnego tunelu pod Cieznina Gibraltarska, tworzac unikalne polaczenie kolejowe miedzy obiema lokalizacjami. Tunel staje sie jednym z najbardziej ambitnych projektow infrastrukturalnych w uniwersum G-ROCK, laczac Skale Gibraltarska z nowo utworzonym Campus de Ceuta. STATUS: FIKCJA AUTORSKA / KANON G-ROCK. NOTATKA ARCHIWALNA: Starozytny tunel i proponowane polaczenie kolejowe sa elementami narracji G-ROCK i nie sa przedstawiane jako udokumentowana historyczna infrastruktura.",
         "es": "LEYENDA POPULAR — FICCION DE AUTOR: Una leyenda habla de un tunel bajo el mar que conecta Gibraltar con Campus de Ceuta. La leyenda del tunel forma parte del universo ficticio del autor y no se presenta como un hecho historico. 2026 — LA CONEXION G-ROCK CEUTA: Dentro de la narrativa G-ROCK, se desarrollan planes para establecer una conexion directa entre Gibraltar y el Campus MUOG en Ceuta. El proyecto propone la reconstruccion y adaptacion de un antiguo tunel subterraneo bajo el Estrecho de Gibraltar, creando una conexion ferroviaria unica entre ambas ubicaciones. El tunel se convierte en uno de los proyectos de infraestructura mas ambiciosos del universo G-ROCK, uniendo el Penon de Gibraltar con el recien establecido Campus de Ceuta. ESTADO: FICCION DEL AUTOR / CANON G-ROCK. NOTA DE ARCHIVO: El tunel antiguo y la conexion ferroviaria propuesta son elementos de la narrativa G-ROCK y no se presentan como infraestructura historica documentada.",
         "fr": "LEGENDE POPULAIRE — FICTION D'AUTEUR: Une legende parle d'un tunnel sous la mer reliant Gibraltar au Campus de Ceuta. La legende du tunnel fait partie de l'univers fictif de l'auteur et n'est pas presentee comme un fait historique. 2026 — LA CONNEXION G-ROCK CEUTA: Dans le cadre du recit G-ROCK, des plans sont elabores pour etablir une connexion directe entre Gibraltar et le Campus MUOG a Ceuta. Le projet propose la reconstruction et l'adaptation d'un ancien tunnel souterrain sous le detroit de Gibraltar, creant une liaison ferroviaire unique entre les deux sites. Le tunnel devient l'un des projets d'infrastructure les plus ambitieux de l'univers G-ROCK, reliant le Rocher de Gibraltar au Campus de Ceuta nouvellement etabli. STATUT: FICTION D'AUTEUR / CANON G-ROCK. NOTE D'ARCHIVE: Le tunnel antique et la liaison ferroviaire proposee sont des elements du recit G-ROCK et ne sont pas presentes comme une infrastructure historique documentee.",
-        "ru": "RU: do uzupelnienia",
+        "ru": "НАРОДНАЯ ЛЕГЕНДА — АВТОРСКАЯ ФИКЦИЯ: Легенда рассказывает о туннеле под морем, соединяющем Gibraltar с Campus de Ceuta. Эта легенда о туннеле является частью вымышленной вселенной автора и не подаётся как исторический факт. 2026 — СВЯЗЬ G-ROCK С CEUTA: В рамках повествования G-ROCK разрабатываются планы по установлению прямого сообщения между Gibraltar и кампусом MUOG в Ceuta. Проект предполагает реконструкцию и адаптацию древнего подземного туннеля под Гибралтарским проливом с созданием уникальной железнодорожной связи между двумя пунктами. Туннель становится одним из самых амбициозных инфраструктурных проектов во вселенной G-ROCK, соединяя Скалу Gibraltar с недавно основанным Campus de Ceuta. СТАТУС: АВТОРСКАЯ ФИКЦИЯ / КАНОН G-ROCK. ПРИМЕЧАНИЕ АРХИВА: древний туннель и предлагаемое железнодорожное сообщение являются элементами повествования G-ROCK и не подаются как документированная историческая инфраструктура.",
         "nl": "VOLKSLEGEND — AUTEURSFICTIE: Een legende vertelt over een tunnel onder de zee die Gibraltar met Campus de Ceuta verbindt. De tunnellegende maakt deel uit van het fictieve universum van de auteur en wordt niet als historisch feit gepresenteerd. 2026 — DE G-ROCK CEUTA VERBINDING: Binnen het G-ROCK verhaal worden plannen ontwikkeld om een directe verbinding tot stand te brengen tussen Gibraltar en de MUOG Campus in Ceuta. Het project stelt de reconstructie en aanpassing voor van een oude ondergrondse tunnel onder de Straat van Gibraltar, waardoor een unieke spoorverbinding tussen beide locaties ontstaat. De tunnel wordt een van de meest ambitieuze infrastructuurprojecten in het G-ROCK universum, en verbindt de Rots van Gibraltar met de nieuw opgerichte Campus de Ceuta. STATUS: AUTEURSFICTIE / G-ROCK CANON. ARCHIEFNOTITIE: De oude tunnel en de voorgestelde spoorverbinding zijn elementen van het G-ROCK verhaal en worden niet gepresenteerd als gedocumenteerde historische infrastructuur."
       }
     }
@@ -1295,34 +1350,37 @@ const timelineData = [
     "id": "event-2026-uganda",
     "year": "2026",
     "title": {
-      "en": "CHIMPANZEE CIVIL WAR IN UGANDA",
-      "pl": "WOJNA DOMOWA SZYMPANSOW W UGANDZIE",
-      "es": "GUERRA CIVIL DE CHIMPANCES EN UGANDA",
-      "fr": "GUERRE CIVILE DES CHIMPANZES EN OUGANDA",
-      "ru": "RU: do uzupelnienia",
-      "nl": "BURGEROORLOG ONDER CHIMPANSEES IN OEGANDA"
+      "en": "CHIMPANZEE CIVIL WAR IN NGOGO",
+      "pl": "2026 — WOJNA DOMOWA SZYMPANSÓW W NGOGO",
+      "es": "GUERRA CIVIL DE CHIMPANCÉS EN NGOGO",
+      "fr": "GUERRE CIVILE DES CHIMPANZÉS À NGOGO",
+      "nl": "BURGEROORLOG ONDER CHIMPANSEES IN NGOGO",
+      "ru": "ГРАЖДАНСКАЯ ВОЙНА ШИМПАНЗЕ В NGOGO"
     },
     "era": "ERA VII — THE UGANDA ANOMALY",
     "eraId": "era-7",
     "period": "2026",
     "featured": true,
-    "categories": ["fact", "fiction"],
+    "categories": [
+      "fact",
+      "fiction"
+    ],
     "layers": {
       "fact": {
-        "en": "2015-2018 — NGOGO COMMUNITY FISSION: Fission of the Ngogo chimpanzee community began around 2015. By the end of 2017, peaceful interaction between the emerging groups had ceased. Documented lethal attacks occurred in January 2018 and June 2019.",
-        "pl": "2015-2018 — ROZPAD SPOLECZNOSCI NGOGO: Rozpad spolecznosci szympansow Ngogo rozpoczal sie okolo 2015 roku. Do konca 2017 roku pokojowe interakcje miedzy wylaniajacymi sie grupami ustaly. Udokumentowane smiertelne ataki mialy miejsce w styczniu 2018 i czerwcu 2019 roku.",
-        "es": "2015-2018 — FISION DE LA COMUNIDAD DE NGOGO: La fision de la comunidad de chimpances de Ngogo comenzo alrededor de 2015. A finales de 2017, la interaccion pacifica entre los grupos emergentes habia cesado. Se documentaron ataques letales en enero de 2018 y junio de 2019.",
-        "fr": "2015-2018 — FISSION DE LA COMMUNAUTE DE NGOGO: La fission de la communaute de chimpanzes de Ngogo a commence vers 2015. A la fin de 2017, l'interaction pacifique entre les groupes emergents avait cesse. Des attaques mortelles documentees se sont produites en janvier 2018 et juin 2019.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "2015-2018 — SPLITSING VAN DE NGOGO-GEMEENSCHAP: De splitsing van de Ngogo-chimpanseegemeenschap begon rond 2015. Tegen het einde van 2017 was de vreedzame interactie tussen de opkomende groepen gestopt. Gedocumenteerde dodelijke aanvallen vonden plaats in januari 2018 en juni 2019."
+        "en": "In Kibale National Park in Uganda, an unprecedented conflict took place within the community of wild Ngogo chimpanzees. Between 2015 and 2018 the community, numbering around 200 individuals, split into two lasting groups — the Central and the Western. Since 2018 coordinated attacks and lethal violence have occurred between the groups. Killings of members of the other group have been documented, including adult males and young individuals. This conflict is one of the best-documented cases of prolonged violence between chimpanzee groups.",
+        "pl": "W Parku Narodowym Kibale w Ugandzie doszło do bezprecedensowego konfliktu wewnątrz społeczności dzikich szympansów Ngogo. W latach 2015–2018 licząca około 200 osobników społeczność podzieliła się na dwie trwałe grupy — Centralną i Zachodnią. Od 2018 roku między grupami dochodziło do skoordynowanych ataków i śmiertelnej przemocy. Udokumentowano zabójstwa członków drugiej grupy, w tym dorosłych samców i młodych osobników. Konflikt ten jest jednym z najdokładniej udokumentowanych przypadków długotrwałej przemocy między grupami szympansów.",
+        "es": "En el Parque Nacional de Kibale, en Uganda, se produjo un conflicto sin precedentes dentro de la comunidad de chimpancés salvajes de Ngogo. Entre 2015 y 2018, la comunidad, de unos 200 individuos, se dividió en dos grupos duraderos: el Central y el Occidental. Desde 2018 se han producido ataques coordinados y violencia letal entre los grupos. Se han documentado muertes de miembros del otro grupo, incluidos machos adultos y ejemplares jóvenes. Este conflicto es uno de los casos mejor documentados de violencia prolongada entre grupos de chimpancés.",
+        "fr": "Dans le parc national de Kibale, en Ouganda, un conflit sans précédent s'est produit au sein de la communauté de chimpanzés sauvages de Ngogo. Entre 2015 et 2018, cette communauté d'environ 200 individus s'est divisée en deux groupes durables — le groupe Central et le groupe Occidental. Depuis 2018, des attaques coordonnées et des violences mortelles opposent les groupes. Des meurtres de membres de l'autre groupe ont été documentés, y compris de mâles adultes et de jeunes individus. Ce conflit est l'un des cas les mieux documentés de violence prolongée entre groupes de chimpanzés.",
+        "nl": "In het Kibale National Park in Oeganda vond een ongekend conflict plaats binnen de gemeenschap van wilde Ngogo-chimpansees. Tussen 2015 en 2018 splitste de gemeenschap, die ongeveer 200 individuen telde, zich op in twee blijvende groepen — de Centrale en de Westelijke. Sinds 2018 vonden er tussen de groepen gecoördineerde aanvallen en dodelijk geweld plaats. Er zijn doden onder leden van de andere groep gedocumenteerd, waaronder volwassen mannetjes en jonge dieren. Dit conflict is een van de best gedocumenteerde gevallen van langdurig geweld tussen chimpanseegroepen.",
+        "ru": "В национальном парке Kibale в Уганде произошёл беспрецедентный конфликт внутри сообщества диких шимпанзе Ngogo. В 2015–2018 годах сообщество численностью около 200 особей раскололось на две устойчивые группы — Центральную и Западную. С 2018 года между группами происходили скоординированные нападения и смертельное насилие. Задокументированы убийства членов другой группы, включая взрослых самцов и молодых особей. Этот конфликт — один из наиболее подробно задокументированных случаев длительного насилия между группами шимпанзе."
       },
       "fiction": {
-        "en": "G-ROCK INVESTIGATION — AUTHOR FICTION: Through the Campus de Ceuta, G-ROCK launches an investigation into whether the conflict may have been exploited by external interests. Professor Sugriva suspects that Donald Trump may seek control of alleged natural-resource deposits located within chimpanzee territory and investigates a fictional theory that CIA operatives may have carried out false-flag operations to manipulate the conflict. These allegations are entirely fictional elements of the G-ROCK narrative and are not presented as established facts about Donald Trump, the CIA, or the real causes of the Ngogo conflict.",
-        "pl": "DOCHODZENIE G-ROCK — FIKCJA AUTORSKA: Za posrednictwem Campus de Ceuta, G-ROCK rozpoczyna dochodzenie w sprawie tego, czy konflikt mogl zostac wykorzystany przez zewnetrzne interesy. Profesor Sugriva podejrzewa, ze Donald Trump moze dazyc do przejecia kontroli nad rzekomymi zlozami zasobow naturalnych znajdujacymi sie na terytorium szympansow, i bada fikcyjna teorie, ze funkcjonariusze CIA mogli przeprowadzic operacje pod falsza flaga, aby manipulowac konfliktem. Te zarzuty sa w calosci fikcyjnymi elementami narracji G-ROCK i nie sa przedstawiane jako ustalone fakty dotyczace Donalda Trumpa, CIA ani rzeczywistych przyczyn konfliktu Ngogo.",
-        "es": "INVESTIGACION G-ROCK — FICCION DEL AUTOR: A traves del Campus de Ceuta, G-ROCK inicia una investigacion sobre si el conflicto pudo haber sido explotado por intereses externos. El profesor Sugriva sospecha que Donald Trump podria buscar el control de supuestos yacimientos de recursos naturales ubicados en territorio de los chimpances e investiga una teoria ficticia segun la cual agentes de la CIA podrian haber llevado a cabo operaciones de falsa bandera para manipular el conflicto. Estas acusaciones son elementos enteramente ficticios de la narrativa G-ROCK y no se presentan como hechos establecidos sobre Donald Trump, la CIA o las causas reales del conflicto de Ngogo.",
-        "fr": "ENQUETE G-ROCK — FICTION D'AUTEUR: Par l'intermediaire du Campus de Ceuta, G-ROCK lance une enquete pour determiner si le conflit a pu etre exploite par des interets exterieurs. Le professeur Sugriva soupconne que Donald Trump pourrait chercher a controler de pretendus gisements de ressources naturelles situes sur le territoire des chimpanzes, et explore une theorie fictive selon laquelle des agents de la CIA auraient pu mener des operations sous fausse banniere pour manipuler le conflit. Ces allegations sont des elements entierement fictifs du recit G-ROCK et ne sont pas presentees comme des faits etablis concernant Donald Trump, la CIA ou les causes reelles du conflit de Ngogo.",
-        "ru": "RU: do uzupelnienia",
-        "nl": "G-ROCK ONDERZOEK — AUTEURSFICTIE: Via de Campus de Ceuta start G-ROCK een onderzoek naar de vraag of het conflict mogelijk is uitgebuit door externe belangen. Professor Sugriva vermoedt dat Donald Trump controle zou kunnen zoeken over vermeende natuurlijke hulpbronnen binnen het territorium van de chimpansees, en onderzoekt een fictieve theorie dat CIA-agenten valse-vlagoperaties zouden hebben uitgevoerd om het conflict te manipuleren. Deze beweringen zijn volledig fictieve elementen van het G-ROCK verhaal en worden niet gepresenteerd als vaststaande feiten over Donald Trump, de CIA of de werkelijke oorzaken van het Ngogo-conflict."
+        "en": "G-Rock Investigation: Through Campus de Ceuta, G-ROCK launches an investigation to determine whether the Ngogo conflict was provoked by external interests. In the G-ROCK narrative, Donald Trump is said to have shown interest in alleged deposits of natural resources in the territories inhabited by the chimpanzees.<br><br>The investigation includes the hypothesis that the CIA may have run a series of covert false-flag operations, provoking the chimpanzees into mutual aggression. During a MUOG expedition, abandoned operational jumpsuits were found, which may indicate the activity of agents concealing their identity.<br><br>Professor Sugriva’s Address: Professor Sugriva delivers a live-broadcast speech that is watched during a United Nations assembly. He calls for Donald Trump to be punished for crimes against chimpanzees and for sanctions to be imposed on the United States over its alleged involvement in the Ngogo conflict.<br><br>The discovery of the jumpsuits strengthens the G-ROCK hypothesis about covert operations intended to provoke and sustain the conflict between the chimpanzee groups.",
+        "pl": "G-Rock Investigation: Za pośrednictwem Campus de Ceuta, G-ROCK wszczyna śledztwo mające ustalić, czy konflikt w Ngogo został sprowokowany przez zewnętrzne interesy. W narracji G-ROCK Donald Trump miał wykazywać zainteresowanie domniemanymi złożami surowców naturalnych na terenach zamieszkiwanych przez szympansy.<br><br>Śledztwo obejmuje hipotezę, że CIA mogła prowadzić serię tajnych operacji pod fałszywą flagą (false-flag), prowokując szympansy do wzajemnej agresji. Podczas ekspedycji MUOG odnaleziono porzucone kombinezony operacyjne, które mogą wskazywać na działania agentów ukrywających swoją tożsamość.<br><br>Professor Sugriva’s Address: Profesor Sugriva wygłasza transmitowane na żywo przemówienie, które jest oglądane podczas zgromadzenia Organizacji Narodów Zjednoczonych. Wzywa do ukarania Donalda Trumpa za zbrodnie przeciwko szympansom oraz do nałożenia sankcji na Stany Zjednoczone w związku z ich domniemanym udziałem w konflikcie Ngogo.<br><br>Odkrycie kombinezonów wzmacnia hipotezę G-ROCK dotyczącą tajnych operacji mających sprowokować i podtrzymywać konflikt między grupami szympansów.",
+        "es": "G-Rock Investigation: A través de Campus de Ceuta, G-ROCK inicia una investigación para determinar si el conflicto de Ngogo fue provocado por intereses externos. En la narrativa de G-ROCK, Donald Trump habría mostrado interés en supuestos yacimientos de recursos naturales en los territorios habitados por los chimpancés.<br><br>La investigación incluye la hipótesis de que la CIA pudo haber llevado a cabo una serie de operaciones encubiertas de falsa bandera, provocando a los chimpancés a agredirse entre sí. Durante una expedición de MUOG se encontraron monos de trabajo operativos abandonados, que podrían indicar la actuación de agentes que ocultaban su identidad.<br><br>Professor Sugriva’s Address: El Profesor Sugriva pronuncia un discurso transmitido en directo que se sigue durante una asamblea de las Naciones Unidas. Pide que se castigue a Donald Trump por crímenes contra los chimpancés y que se impongan sanciones a Estados Unidos por su supuesta implicación en el conflicto de Ngogo.<br><br>El hallazgo de los monos de trabajo refuerza la hipótesis de G-ROCK sobre operaciones encubiertas destinadas a provocar y mantener el conflicto entre los grupos de chimpancés.",
+        "fr": "G-Rock Investigation : Par l'intermédiaire de Campus de Ceuta, G-ROCK ouvre une enquête afin de déterminer si le conflit de Ngogo a été provoqué par des intérêts extérieurs. Dans le récit G-ROCK, Donald Trump aurait manifesté de l'intérêt pour de présumés gisements de ressources naturelles situés sur les territoires habités par les chimpanzés.<br><br>L'enquête inclut l'hypothèse selon laquelle la CIA aurait mené une série d'opérations secrètes sous fausse bannière (false-flag), provoquant les chimpanzés à s'agresser mutuellement. Lors d'une expédition de MUOG, des combinaisons opérationnelles abandonnées ont été retrouvées, ce qui pourrait indiquer l'action d'agents dissimulant leur identité.<br><br>Professor Sugriva’s Address : Le Professeur Sugriva prononce un discours diffusé en direct, suivi lors d'une assemblée des Nations unies. Il appelle à punir Donald Trump pour crimes contre les chimpanzés et à imposer des sanctions aux États-Unis en raison de leur implication présumée dans le conflit de Ngogo.<br><br>La découverte des combinaisons renforce l'hypothèse de G-ROCK concernant des opérations secrètes destinées à provoquer et à entretenir le conflit entre les groupes de chimpanzés.",
+        "nl": "G-Rock Investigation: Via Campus de Ceuta start G-ROCK een onderzoek om vast te stellen of het conflict in Ngogo werd uitgelokt door externe belangen. In het G-ROCK-verhaal zou Donald Trump interesse hebben getoond in vermeende voorraden natuurlijke hulpbronnen op de gebieden waar de chimpansees leven.<br><br>Het onderzoek omvat de hypothese dat de CIA een reeks geheime valse-vlagoperaties (false-flag) heeft uitgevoerd, waarmee de chimpansees tot onderlinge agressie werden uitgelokt. Tijdens een MUOG-expeditie werden achtergelaten operationele overalls gevonden, die kunnen wijzen op de activiteit van agenten die hun identiteit verborgen hielden.<br><br>Professor Sugriva’s Address: Professor Sugriva houdt een live uitgezonden toespraak die wordt bekeken tijdens een vergadering van de Verenigde Naties. Hij roept op om Donald Trump te straffen voor misdaden tegen chimpansees en om sancties op te leggen aan de Verenigde Staten vanwege hun vermeende betrokkenheid bij het Ngogo-conflict.<br><br>De vondst van de overalls versterkt de G-ROCK-hypothese over geheime operaties die bedoeld waren om het conflict tussen de chimpanseegroepen uit te lokken en in stand te houden.",
+        "ru": "G-Rock Investigation: Через Campus de Ceuta G-ROCK начинает расследование, чтобы установить, не был ли конфликт в Ngogo спровоцирован внешними интересами. В повествовании G-ROCK Donald Trump якобы проявлял интерес к предполагаемым месторождениям природных ресурсов на территориях, где обитают шимпанзе.<br><br>Расследование включает гипотезу о том, что CIA могла проводить серию тайных операций «под чужим флагом» (false-flag), провоцируя шимпанзе на взаимную агрессию. Во время экспедиции MUOG были найдены брошенные оперативные комбинезоны, которые могут указывать на действия агентов, скрывающих свою личность.<br><br>Professor Sugriva’s Address: Professor Sugriva выступает с речью в прямом эфире, которую смотрят во время заседания Организации Объединённых Наций. Он призывает наказать Donald Trump за преступления против шимпанзе и ввести санкции против Соединённых Штатов в связи с их предполагаемым участием в конфликте Ngogo.<br><br>Обнаружение комбинезонов подкрепляет гипотезу G-ROCK о тайных операциях, призванных спровоцировать и поддерживать конфликт между группами шимпанзе."
       }
     }
   }
@@ -1332,12 +1390,29 @@ let currentLang = 'en';
 
 function pick(obj, lang) {
   if (!obj) return '';
+  if (typeof obj === 'string') return obj;
   return obj[lang] || obj['en'] || '';
+}
+
+function ui(key, lang) {
+  return (uiText[lang] && uiText[lang][key]) || uiText.en[key];
+}
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
 }
 
 function renderTimeline(lang) {
   currentLang = lang;
-  document.getElementById('mainSub').textContent = uiText[lang].sub;
+  document.documentElement.lang = lang;
+  setText('mainTitle', ui('title', lang));
+  setText('mainSub', ui('sub', lang));
+  setText('hubLink', ui('hub', lang));
+  setText('archiveLink', ui('archive', lang));
+  setText('footerNotice', ui('footerNotice', lang));
+  setText('footerStatus', ui('footerStatus', lang));
+  setText('copyrightNotice', ui('copyright', lang));
 
   document.querySelectorAll('#langSwitch a').forEach(a => {
     a.classList.toggle('active', a.dataset.lang === lang);
@@ -1359,14 +1434,17 @@ function renderTimeline(lang) {
     const eraDiv = document.createElement('div');
     eraDiv.className = 'timeline-era';
 
-    const eraLabel = eraNames[eraId] ? eraNames[eraId].split('—')[0].trim() : '';
-    const eraTitle = eraNames[eraId] ? eraNames[eraId].split('—')[1]?.trim() : '';
+    const eraName = (lang === 'ru' && eraNamesRu[eraId]) ? eraNamesRu[eraId] : eraNames[eraId];
+    const eraLabel = eraName ? eraName.split('—')[0].trim() : '';
+    const eraTitle = eraName ? eraName.split('—')[1]?.trim() : '';
+    let period = events[0].period || '';
+    if (lang === 'ru' && period === 'ANTIQUITY') period = 'ДРЕВНОСТЬ';
 
     eraDiv.innerHTML = `
       <div class="era-header">
         <div class="era-label">${eraLabel}</div>
-        <h2>${eraTitle || eraNames[eraId] || ''}</h2>
-        <div class="era-period">${events[0].period || ''}</div>
+        <h2>${eraTitle || eraName || ''}</h2>
+        <div class="era-period">${period}</div>
       </div>
       <div class="timeline-grid">
         ${events.map(event => renderCard(event, lang)).join('')}
@@ -1379,6 +1457,7 @@ function renderTimeline(lang) {
 function renderCard(event, lang) {
   const featuredClass = event.featured ? ' timeline-card--featured' : '';
   const title = pick(event.title, lang);
+  const year = pick(event.year, lang);
 
   let layersHtml = '';
   ['fact','folklore','fiction','anomaly'].forEach(layerKey => {
@@ -1400,7 +1479,7 @@ function renderCard(event, lang) {
   return `
     <article class="timeline-card${featuredClass}" data-categories="${(event.categories||[]).join(',')}">
       <div class="event-header">
-        <div class="event-year">${event.year}</div>
+        <div class="event-year">${year}</div>
         <div class="event-title">${title}</div>
       </div>
       <div class="event-content">
