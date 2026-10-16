@@ -1,0 +1,657 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>G-ROCK Archive — Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+:root{
+  --bg:#04060a; --panel:#0b1020; --line:#22314d;
+  --blue:#4aa3ff; --gold:#d4af37; --gold2:#ffe08a;
+  --text:#e8eef9; --muted:#9cb0d0; --ok:#7cffb2; --err:#ff9c9c;
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0; min-height:100%;
+  background:radial-gradient(circle at top,#0f1728 0%,#05070d 48%,#03050a 100%);
+  color:var(--text); font-family:'Inter',sans-serif; overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+#rain{position:fixed;inset:0;z-index:1;opacity:.18;pointer-events:none}
+.scanlines{
+  position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0,rgba(0,0,0,0) 2px,rgba(0,0,0,.16) 3px,rgba(0,0,0,0) 4px),radial-gradient(ellipse at center,rgba(0,0,0,0) 0,rgba(0,0,0,.45) 100%);
+  mix-blend-mode:multiply;
+}
+.shell{position:relative;z-index:3;min-height:100vh;display:flex;flex-direction:column}
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:14px 22px;border-bottom:1px solid rgba(74,163,255,.14);
+  background:linear-gradient(180deg,rgba(10,14,26,.88),rgba(10,14,26,.42));
+  backdrop-filter:blur(10px);position:sticky;top:0;z-index:10;
+}
+.brand{font-family:'Orbitron',sans-serif;letter-spacing:4px;font-size:14px;color:#dbe6ff;text-transform:uppercase}
+.brand b{color:var(--gold2)}
+.lang-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.hub-link{
+  padding:10px 14px;font-size:11px;border-radius:10px;background:rgba(4,6,10,.45);
+  border:1px solid rgba(74,163,255,.25);color:#dbe6ff;font-family:'Orbitron',sans-serif;
+  letter-spacing:2px;text-transform:uppercase;transition:.2s ease;white-space:nowrap;
+}
+.hub-link:hover{border-color:var(--gold2);color:var(--gold2)}
+.lang-wrap label{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:#7fa8e0;text-transform:uppercase}
+select,input[type=email],input[type=password]{
+  background:rgba(4,6,10,.55);border:1px solid rgba(74,163,255,.25);border-radius:12px;
+  padding:12px 14px;color:#fff;outline:none;width:100%;font:inherit;font-size:14px;
+}
+select{
+  width:auto;min-width:170px;cursor:pointer;font-family:'Orbitron',sans-serif;
+  font-size:12px;letter-spacing:1.5px;padding:10px 12px;
+}
+select option{background:#0b1020;color:#fff}
+select:focus,input:focus{border-color:var(--gold2)}
+.page{width:min(1100px,100%);margin:0 auto;padding:26px 18px 40px;flex:1}
+.page > .grid2:first-child{margin-top:0}
+.card{
+  background:linear-gradient(135deg,rgba(17,24,42,.96),rgba(10,14,26,.92));
+  border:1px solid rgba(74,163,255,.16);border-radius:18px;
+  box-shadow:0 22px 70px rgba(0,0,0,.35);padding:28px;position:relative;
+}
+.kicker{font-family:'Orbitron',sans-serif;color:#8da4ff;letter-spacing:6px;text-transform:uppercase;font-size:12px}
+.title{
+  font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:6px;line-height:1.05;
+  margin:8px 0 0;color:var(--gold2);font-size:clamp(30px,4.4vw,60px);text-transform:uppercase;
+}
+.tagline{font-family:'Share Tech Mono',monospace;font-size:14px;letter-spacing:3px;color:#fff;text-transform:uppercase;margin-top:8px}
+.lead{color:#d4dded;line-height:1.7;margin:14px 0 0;max-width:70ch;font-size:15.5px}
+h2{font-family:'Orbitron',sans-serif;letter-spacing:3px;text-transform:uppercase;font-size:15px;color:#dbe6ff;margin:0 0 12px}
+ul.inc{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+ul.inc li{color:#d4dded;font-size:14px;padding-left:22px;position:relative}
+ul.inc li::before{content:"◆";position:absolute;left:0;color:var(--gold2);font-size:11px;top:3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+.box{
+  padding:22px;border-radius:16px;background:rgba(4,6,10,.35);border:1px solid rgba(74,163,255,.14);
+}
+.box.gold{border-color:rgba(212,175,55,.28)}
+.price{font-family:'Orbitron',sans-serif;font-size:24px;letter-spacing:2px;color:var(--gold2);margin-bottom:6px}
+.small{font-size:13px;color:var(--muted);line-height:1.6}
+.field{margin-top:14px}
+.field label{display:block;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#9cb0d0;margin-bottom:6px;font-family:'Share Tech Mono',monospace}
+.btn{
+  appearance:none;border:none;border-radius:12px;padding:14px 18px;font-weight:700;cursor:pointer;
+  transition:.25s ease;font-family:'Orbitron',sans-serif;letter-spacing:2px;text-transform:uppercase;
+  font-size:12px;width:100%;margin-top:16px;
+}
+.btn.primary{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#111}
+.btn:hover:not(:disabled){filter:brightness(1.1)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.pay-method-btn{
+  padding:14px 12px;border-radius:12px;background:rgba(4,6,10,.35);border:1px solid rgba(74,163,255,.18);
+  color:#dbe6ff;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;transition:.2s ease;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;line-height:1.4;
+}
+.icos{display:flex;gap:6px;align-items:center;justify-content:center}
+.ico{width:46px;height:29px;display:block;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.pay-method-btn.active{border-color:var(--gold2);color:var(--gold2);background:rgba(212,175,55,.08)}
+.pay-pane{display:none;margin-top:14px}
+.pay-pane.active{display:block}
+#card-element{background:rgba(4,6,10,.5);border:1px solid rgba(74,163,255,.22);border-radius:12px;padding:16px 14px}
+#card-element.StripeElement--focus{border-color:var(--gold2)}
+.consent-check{
+  display:flex;align-items:flex-start;gap:10px;margin:14px 0 0;padding:14px;border-radius:12px;
+  background:rgba(4,6,10,.35);border:1px solid rgba(74,163,255,.14);font-size:13px;color:#d4dded;line-height:1.5;cursor:pointer;
+}
+.consent-check input{width:18px;height:18px;flex:none;margin-top:2px;accent-color:var(--gold2)}
+#paypal-button-container{margin-top:6px;min-height:44px}
+.msg{font-size:13px;margin-top:12px;min-height:18px;line-height:1.5}
+.msg.err{color:var(--err)} .msg.ok{color:var(--ok)}
+.footer{
+  position:relative;z-index:3;padding:22px;border-top:1px solid rgba(74,163,255,.14);
+  color:#9cb0d0;text-align:center;font-size:13px;line-height:1.8;
+}
+.footer .insp{font-style:italic}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+<canvas id="rain"></canvas>
+<div class="scanlines"></div>
+
+<div class="shell">
+  <header class="topbar">
+    <a class="brand" href="index.html" id="brandLink" aria-label="G-ROCK">G-<b>ROCK</b> Archive</a>
+    <div class="lang-wrap">
+      <a class="hub-link" href="index.html" id="hubLink" data-i18n="hub">← Back to Hub</a>
+      <label for="langSelect" data-i18n="language">Language</label>
+      <select id="langSelect" aria-label="Language">
+        <option value="en">🇬🇧 English</option>
+        <option value="pl">🇵🇱 Polski</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="nl">🇳🇱 Nederlands</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="grid2">
+      <!-- LOGIN -->
+      <section class="box">
+        <h2 data-i18n="haveAccess">Already have access?</h2>
+        <div class="small" data-i18n="haveAccessDesc">Enter your email address and password to log in or verify your access.</div>
+        <div class="field">
+          <label for="loginEmail" data-i18n="email">Email address</label>
+          <input id="loginEmail" type="email" autocomplete="email" data-i18n-placeholder="emailPh" placeholder="Enter your email address">
+        </div>
+        <div class="field">
+          <label for="loginPassword" data-i18n="password">Password</label>
+          <input id="loginPassword" type="password" autocomplete="current-password" data-i18n-placeholder="passwordPh" placeholder="Enter your password">
+        </div>
+        <button type="button" class="btn primary" id="loginBtn" data-i18n="continue">Continue</button>
+        <div class="msg" id="loginMsg" role="status" aria-live="polite"></div>
+      </section>
+
+      <!-- PAYMENT -->
+      <section class="box gold">
+        <h2 data-i18n="getAccess">Get Archive Access</h2>
+        <div class="small" data-i18n="createAccountDesc">Create your account, then choose your preferred payment method.</div>
+        <div class="field">
+          <label for="buyEmail" data-i18n="email">Email address</label>
+          <input id="buyEmail" type="email" autocomplete="email" data-i18n-placeholder="emailPh" placeholder="Enter your email address">
+        </div>
+        <div class="field">
+          <label for="buyPassword" data-i18n="createPassword">Create password</label>
+          <input id="buyPassword" type="password" autocomplete="new-password" data-i18n-placeholder="createPasswordPh" placeholder="At least 8 characters">
+        </div>
+
+        <label class="consent-check">
+          <input type="checkbox" id="consentBox">
+          <span data-i18n="consent">I request immediate access to the digital content and acknowledge that this may affect my right of withdrawal once delivery has begun.</span>
+        </label>
+
+        <div class="small" style="margin-top:14px" data-i18n="choosePay">Choose your preferred payment method.</div>
+        <div class="pay-methods">
+          <button type="button" class="pay-method-btn" id="tabStripe"><span class="icos"><svg class="ico" viewBox="0 0 48 30" aria-label="Visa" role="img"><rect width="48" height="30" rx="4" fill="#fff"/><rect x="0" y="0" width="48" height="5" fill="#1a1f71"/><rect x="0" y="25" width="48" height="5" fill="#f7a600"/><text x="24" y="21" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-style="italic" font-size="14" fill="#1a1f71">VISA</text></svg><svg class="ico" viewBox="0 0 48 30" aria-label="Mastercard" role="img"><rect width="48" height="30" rx="4" fill="#fff"/><circle cx="19" cy="15" r="9" fill="#eb001b"/><circle cx="29" cy="15" r="9" fill="#f79e1b"/><path d="M24 7.6a9 9 0 0 1 0 14.8a9 9 0 0 1 0-14.8z" fill="#ff5f00"/></svg></span><span data-i18n="payStripe">Pay with Visa/Mastercard</span></button>
+          <button type="button" class="pay-method-btn" id="tabPaypal"><span class="icos"><svg class="ico" viewBox="0 0 48 30" aria-label="PayPal" role="img"><rect width="48" height="30" rx="4" fill="#fff"/><path d="M15 6h8.2c3.4 0 5.2 1.7 4.7 4.6c-.6 3.4-2.9 5-6.3 5h-2l-1 6.1H14z" fill="#003087"/><path d="M19 9h8.2c3.4 0 5.2 1.7 4.7 4.6c-.6 3.4-2.9 5-6.3 5h-2l-1 6.1H18z" fill="#009cde" opacity=".9"/></svg></span><span data-i18n="payPaypal">Pay with PayPal</span></button>
+        </div>
+
+        <div class="pay-pane" id="paneStripe">
+          <div id="card-element"></div>
+          <button type="button" class="btn primary" id="stripePayBtn" data-i18n="payNowStripe">Pay £5</button>
+        </div>
+        <div class="pay-pane" id="panePaypal">
+          <div id="paypal-button-container"></div>
+        </div>
+
+        <div class="msg" id="payMsg" role="status" aria-live="polite"></div>
+        <div class="small" data-i18n="activationNote">Your access will be activated after successful payment verification.</div>
+        <div class="small" style="margin-top:8px" data-i18n="stripeNote">Card details are processed securely by our payment provider. G-ROCK never sees or stores your card number.</div>
+      </section>
+    </div>
+    <section class="card" style="margin-top:18px">
+      <div class="kicker" data-i18n="brand">G-ROCK Archive</div>
+      <h1 class="title" data-i18n="archiveAccess">Archive Access</h1>
+      <div class="tagline" data-i18n="tagline">History. Legends. Stories.</div>
+      <p class="lead" data-i18n="intro1">Explore a unique universe combining real history, historical figures, folklore, documented events and original storytelling.</p>
+      <p class="lead" data-i18n="intro2">Discover books, audiobooks, videos, documents and visual materials from across the G-ROCK universe.</p>
+    </section>
+
+    <div class="grid2">
+      <section class="box">
+        <h2 data-i18n="includesTitle">What does Archive Access include?</h2>
+        <ul class="inc">
+          <li data-i18n="inc1">Books and audiobooks.</li>
+          <li data-i18n="inc2">Historical records and documents.</li>
+          <li data-i18n="inc3">Videos and visual materials.</li>
+          <li data-i18n="inc4">Stories connecting history, folklore and original fiction.</li>
+        </ul>
+      </section>
+      <section class="box gold">
+        <h2 data-i18n="lifetime">Lifetime Archive Access</h2>
+        <div class="price" data-i18n="priceLine">£5 — one-time payment</div>
+        <div class="small" data-i18n="noSub">Access for life. No subscription. No recurring payments.</div>
+      </section>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="insp" data-i18n="inspired">Inspired by real history. Reimagined through storytelling.</div>
+    <div style="margin-bottom:6px"><a class="hub-link" href="index.html" data-i18n="hub">← Back to Hub</a></div>
+    <div data-i18n="copyright">© G-ROCK Corporation. All rights reserved.</div>
+  </footer>
+</div>
+
+<script>
+/* =========================================================
+   CONFIG — fill in your own keys
+   ========================================================= */
+const CONFIG = {
+  STRIPE_PUBLISHABLE_KEY: 'pk_live_REPLACE_ME',
+  PAYPAL_CLIENT_ID: 'REPLACE_ME',
+  CURRENCY: 'GBP',
+  ARCHIVE_URL: 'archive.html',
+  HUB_URL: 'index.html'
+};
+const api = {
+  login: '/api/auth/login',
+  me: '/api/auth/me',
+  csrf: '/api/auth/csrf-token',
+  stripeIntent: '/api/stripe/create-payment-intent',
+  paypalOrder: '/api/paypal/order',
+  paypalCapture: '/api/paypal/order/capture',
+  /* Frontend never grants access. Backend must verify the payment with
+     Stripe/PayPal itself and only then activate the account. */
+  paymentsConfirm: '/api/payments/confirm'
+};
+
+/* =========================================================
+   TRANSLATIONS
+   ========================================================= */
+const translations = {
+  en:{
+    hub:"← Back to Hub", language:"Language", brand:"G-ROCK Archive", archiveAccess:"Archive Access",
+    tagline:"History. Legends. Stories.",
+    intro1:"Explore a unique universe combining real history, historical figures, folklore, documented events and original storytelling.",
+    intro2:"Discover books, audiobooks, videos, documents and visual materials from across the G-ROCK universe.",
+    includesTitle:"What does Archive Access include?",
+    inc1:"Books and audiobooks.", inc2:"Historical records and documents.", inc3:"Videos and visual materials.", inc4:"Stories connecting history, folklore and original fiction.",
+    lifetime:"Lifetime Archive Access", priceLine:"£5 — one-time payment", noSub:"Access for life. No subscription. No recurring payments.",
+    haveAccess:"Already have access?", haveAccessDesc:"Enter your email address and password to log in or verify your access.",
+    email:"Email address", emailPh:"Enter your email address", password:"Password", passwordPh:"Enter your password",
+    continue:"Continue",
+    getAccess:"Get Archive Access", createAccountDesc:"Create your account, then choose your preferred payment method.",
+    createPassword:"Create password", createPasswordPh:"At least 8 characters",
+    consent:"I request immediate access to the digital content and acknowledge that this may affect my right of withdrawal once delivery has begun.",
+    choosePay:"Choose your preferred payment method.", payStripe:"Pay with Visa/Mastercard", payPaypal:"Pay with PayPal", payNowStripe:"Pay £5",
+    activationNote:"Your access will be activated after successful payment verification.",
+    stripeNote:"Card details are processed securely by our payment provider. G-ROCK never sees or stores your card number.",
+    inspired:"Inspired by real history. Reimagined through storytelling.", copyright:"© G-ROCK Corporation. All rights reserved.",
+    errEmail:"Please enter a valid email address.", errPassword:"Please enter your password.", errNewPassword:"Password must be at least 8 characters.",
+    errConsent:"Please tick the checkbox above before paying.",
+    loggingIn:"Logging in...", loginFailed:"Login failed. Check your email and password, or purchase access below.",
+    loginOk:"Access verified. Redirecting...",
+    payProcessing:"Processing payment...", payFailed:"Payment failed. Please check your details and try again.",
+    payCompleted:"Payment completed. Redirecting to the archive...",
+    errStripeNotReady:"Card payment is not available right now.", errPaypalNotReady:"PayPal is not available right now."
+  },
+  pl:{
+    hub:"← Wróć do Hubu", language:"Język", brand:"Archiwum G-ROCK", archiveAccess:"Dostęp do Archiwum",
+    tagline:"Historia. Legendy. Opowieści.",
+    intro1:"Odkryj wyjątkowy świat łączący prawdziwą historię, postacie historyczne, folklor, udokumentowane wydarzenia i oryginalne opowieści.",
+    intro2:"Poznaj książki, audiobooki, filmy, dokumenty i materiały wizualne z całego uniwersum G-ROCK.",
+    includesTitle:"Co zawiera Dostęp do Archiwum?",
+    inc1:"Książki i audiobooki.", inc2:"Zapisy historyczne i dokumenty.", inc3:"Filmy i materiały wizualne.", inc4:"Opowieści łączące historię, folklor i oryginalną fikcję.",
+    lifetime:"Dożywotni Dostęp do Archiwum", priceLine:"£5 — jednorazowa płatność", noSub:"Dostęp na całe życie. Bez subskrypcji. Bez płatności cyklicznych.",
+    haveAccess:"Masz już dostęp?", haveAccessDesc:"Wpisz swój adres e-mail i hasło, aby się zalogować lub zweryfikować dostęp.",
+    email:"Adres e-mail", emailPh:"Wpisz swój adres e-mail", password:"Hasło", passwordPh:"Wpisz swoje hasło",
+    continue:"Kontynuuj",
+    getAccess:"Uzyskaj Dostęp do Archiwum", createAccountDesc:"Utwórz konto, a następnie wybierz preferowaną metodę płatności.",
+    createPassword:"Utwórz hasło", createPasswordPh:"Co najmniej 8 znaków",
+    consent:"Żądam natychmiastowego dostępu do treści cyfrowych i przyjmuję do wiadomości, że może to wpłynąć na moje prawo odstąpienia od umowy po rozpoczęciu dostarczania.",
+    choosePay:"Wybierz preferowaną metodę płatności.", payStripe:"Zapłać kartą Visa/Mastercard", payPaypal:"Zapłać przez PayPal", payNowStripe:"Zapłać £5",
+    activationNote:"Twój dostęp zostanie aktywowany po pomyślnej weryfikacji płatności.",
+    stripeNote:"Dane karty są bezpiecznie przetwarzane przez operatora płatności. G-ROCK nigdy nie widzi ani nie przechowuje numeru Twojej karty.",
+    inspired:"Inspirowane prawdziwą historią. Opowiedziane na nowo.", copyright:"© G-ROCK Corporation. Wszelkie prawa zastrzeżone.",
+    errEmail:"Wpisz poprawny adres e-mail.", errPassword:"Wpisz swoje hasło.", errNewPassword:"Hasło musi mieć co najmniej 8 znaków.",
+    errConsent:"Zaznacz powyższe pole przed płatnością.",
+    loggingIn:"Logowanie...", loginFailed:"Logowanie nieudane. Sprawdź e-mail i hasło lub wykup dostęp poniżej.",
+    loginOk:"Dostęp zweryfikowany. Przekierowanie...",
+    payProcessing:"Przetwarzanie płatności...", payFailed:"Płatność nieudana. Sprawdź dane i spróbuj ponownie.",
+    payCompleted:"Płatność zakończona. Przekierowanie do archiwum...",
+    errStripeNotReady:"Płatność kartą jest obecnie niedostępna.", errPaypalNotReady:"PayPal jest obecnie niedostępny."
+  },
+  es:{
+    hub:"← Volver al Hub", language:"Idioma", brand:"Archivo G-ROCK", archiveAccess:"Acceso al Archivo",
+    tagline:"Historia. Leyendas. Relatos.",
+    intro1:"Explora un universo único que combina historia real, personajes históricos, folclore, hechos documentados y narrativa original.",
+    intro2:"Descubre libros, audiolibros, vídeos, documentos y materiales visuales de todo el universo G-ROCK.",
+    includesTitle:"¿Qué incluye el Acceso al Archivo?",
+    inc1:"Libros y audiolibros.", inc2:"Registros históricos y documentos.", inc3:"Vídeos y materiales visuales.", inc4:"Relatos que conectan historia, folclore y ficción original.",
+    lifetime:"Acceso Vitalicio al Archivo", priceLine:"£5 — pago único", noSub:"Acceso de por vida. Sin suscripción. Sin pagos recurrentes.",
+    haveAccess:"¿Ya tienes acceso?", haveAccessDesc:"Introduce tu correo electrónico y tu contraseña para iniciar sesión o verificar tu acceso.",
+    email:"Correo electrónico", emailPh:"Introduce tu correo electrónico", password:"Contraseña", passwordPh:"Introduce tu contraseña",
+    continue:"Continuar",
+    getAccess:"Obtener Acceso al Archivo", createAccountDesc:"Crea tu cuenta y luego elige tu método de pago preferido.",
+    createPassword:"Crear contraseña", createPasswordPh:"Al menos 8 caracteres",
+    consent:"Solicito acceso inmediato al contenido digital y reconozco que esto puede afectar a mi derecho de desistimiento una vez iniciada la entrega.",
+    choosePay:"Elige tu método de pago preferido.", payStripe:"Pagar con Visa/Mastercard", payPaypal:"Pagar con PayPal", payNowStripe:"Pagar £5",
+    activationNote:"Tu acceso se activará tras la verificación correcta del pago.",
+    stripeNote:"Los datos de la tarjeta se procesan de forma segura a través de nuestro proveedor de pagos. G-ROCK nunca ve ni almacena el número de tu tarjeta.",
+    inspired:"Inspirado en la historia real. Reimaginado a través de la narrativa.", copyright:"© G-ROCK Corporation. Todos los derechos reservados.",
+    errEmail:"Introduce un correo electrónico válido.", errPassword:"Introduce tu contraseña.", errNewPassword:"La contraseña debe tener al menos 8 caracteres.",
+    errConsent:"Marca la casilla anterior antes de pagar.",
+    loggingIn:"Iniciando sesión...", loginFailed:"Error al iniciar sesión. Revisa tu correo y contraseña, o compra el acceso más abajo.",
+    loginOk:"Acceso verificado. Redirigiendo...",
+    payProcessing:"Procesando el pago...", payFailed:"Pago fallido. Revisa tus datos e inténtalo de nuevo.",
+    payCompleted:"Pago completado. Redirigiendo al archivo...",
+    errStripeNotReady:"El pago con tarjeta no está disponible ahora.", errPaypalNotReady:"PayPal no está disponible ahora."
+  },
+  fr:{
+    hub:"← Retour au Hub", language:"Langue", brand:"Archive G-ROCK", archiveAccess:"Accès à l'Archive",
+    tagline:"Histoire. Légendes. Récits.",
+    intro1:"Explorez un univers unique mêlant histoire réelle, figures historiques, folklore, événements documentés et récits originaux.",
+    intro2:"Découvrez des livres, livres audio, vidéos, documents et matériaux visuels issus de tout l'univers G-ROCK.",
+    includesTitle:"Que comprend l'Accès à l'Archive ?",
+    inc1:"Livres et livres audio.", inc2:"Documents et archives historiques.", inc3:"Vidéos et matériaux visuels.", inc4:"Récits reliant histoire, folklore et fiction originale.",
+    lifetime:"Accès à Vie à l'Archive", priceLine:"£5 — paiement unique", noSub:"Accès à vie. Sans abonnement. Sans paiements récurrents.",
+    haveAccess:"Vous avez déjà un accès ?", haveAccessDesc:"Saisissez votre adresse e-mail et votre mot de passe pour vous connecter ou vérifier votre accès.",
+    email:"Adresse e-mail", emailPh:"Saisissez votre adresse e-mail", password:"Mot de passe", passwordPh:"Saisissez votre mot de passe",
+    continue:"Continuer",
+    getAccess:"Obtenir l'Accès à l'Archive", createAccountDesc:"Créez votre compte, puis choisissez votre mode de paiement.",
+    createPassword:"Créer un mot de passe", createPasswordPh:"Au moins 8 caractères",
+    consent:"Je demande un accès immédiat au contenu numérique et reconnais que cela peut affecter mon droit de rétractation une fois la livraison commencée.",
+    choosePay:"Choisissez votre mode de paiement.", payStripe:"Payer avec Visa/Mastercard", payPaypal:"Payer avec PayPal", payNowStripe:"Payer £5",
+    activationNote:"Votre accès sera activé après la vérification réussie du paiement.",
+    stripeNote:"Les données de carte sont traitées de manière sécurisée par notre prestataire de paiement. G-ROCK ne voit ni ne stocke jamais votre numéro de carte.",
+    inspired:"Inspiré de l'histoire réelle. Réinventé par le récit.", copyright:"© G-ROCK Corporation. Tous droits réservés.",
+    errEmail:"Veuillez saisir une adresse e-mail valide.", errPassword:"Veuillez saisir votre mot de passe.", errNewPassword:"Le mot de passe doit contenir au moins 8 caractères.",
+    errConsent:"Veuillez cocher la case ci-dessus avant de payer.",
+    loggingIn:"Connexion...", loginFailed:"Échec de la connexion. Vérifiez votre e-mail et votre mot de passe, ou achetez l'accès ci-dessous.",
+    loginOk:"Accès vérifié. Redirection...",
+    payProcessing:"Traitement du paiement...", payFailed:"Paiement échoué. Vérifiez vos informations et réessayez.",
+    payCompleted:"Paiement effectué. Redirection vers l'archive...",
+    errStripeNotReady:"Le paiement par carte n'est pas disponible actuellement.", errPaypalNotReady:"PayPal n'est pas disponible actuellement."
+  },
+  ru:{
+    hub:"← Вернуться в Хаб", language:"Язык", brand:"Архив G-ROCK", archiveAccess:"Доступ к Архиву",
+    tagline:"История. Легенды. Рассказы.",
+    intro1:"Исследуйте уникальный мир, объединяющий реальную историю, исторических личностей, фольклор, документированные события и авторские истории.",
+    intro2:"Откройте для себя книги, аудиокниги, видео, документы и визуальные материалы со всей вселенной G-ROCK.",
+    includesTitle:"Что включает Доступ к Архиву?",
+    inc1:"Книги и аудиокниги.", inc2:"Исторические записи и документы.", inc3:"Видео и визуальные материалы.", inc4:"Истории, соединяющие историю, фольклор и авторскую фантастику.",
+    lifetime:"Пожизненный Доступ к Архиву", priceLine:"£5 — единоразовый платёж", noSub:"Доступ навсегда. Без подписки. Без регулярных платежей.",
+    haveAccess:"Уже есть доступ?", haveAccessDesc:"Введите адрес электронной почты и пароль, чтобы войти или подтвердить доступ.",
+    email:"Адрес электронной почты", emailPh:"Введите адрес электронной почты", password:"Пароль", passwordPh:"Введите пароль",
+    continue:"Продолжить",
+    getAccess:"Получить Доступ к Архиву", createAccountDesc:"Создайте аккаунт, затем выберите удобный способ оплаты.",
+    createPassword:"Придумайте пароль", createPasswordPh:"Не менее 8 символов",
+    consent:"Я прошу предоставить немедленный доступ к цифровому контенту и понимаю, что это может повлиять на моё право на отказ после начала предоставления.",
+    choosePay:"Выберите удобный способ оплаты.", payStripe:"Оплатить картой Visa/Mastercard", payPaypal:"Оплатить через PayPal", payNowStripe:"Оплатить £5",
+    activationNote:"Ваш доступ будет активирован после успешной проверки платежа.",
+    stripeNote:"Данные карты безопасно обрабатываются нашим платёжным провайдером. G-ROCK никогда не видит и не хранит номер вашей карты.",
+    inspired:"Вдохновлено реальной историей. Переосмыслено через повествование.", copyright:"© G-ROCK Corporation. Все права защищены.",
+    errEmail:"Введите корректный адрес электронной почты.", errPassword:"Введите пароль.", errNewPassword:"Пароль должен содержать не менее 8 символов.",
+    errConsent:"Отметьте флажок выше перед оплатой.",
+    loggingIn:"Вход...", loginFailed:"Не удалось войти. Проверьте почту и пароль или приобретите доступ ниже.",
+    loginOk:"Доступ подтверждён. Перенаправление...",
+    payProcessing:"Обработка платежа...", payFailed:"Платёж не удался. Проверьте данные и попробуйте снова.",
+    payCompleted:"Платёж завершён. Переход в архив...",
+    errStripeNotReady:"Оплата картой сейчас недоступна.", errPaypalNotReady:"PayPal сейчас недоступен."
+  },
+  nl:{
+    hub:"← Terug naar Hub", language:"Taal", brand:"G-ROCK Archief", archiveAccess:"Archieftoegang",
+    tagline:"Geschiedenis. Legenden. Verhalen.",
+    intro1:"Verken een uniek universum dat echte geschiedenis, historische figuren, folklore, gedocumenteerde gebeurtenissen en originele verhalen combineert.",
+    intro2:"Ontdek boeken, luisterboeken, video's, documenten en visueel materiaal uit het hele G-ROCK-universum.",
+    includesTitle:"Wat omvat Archieftoegang?",
+    inc1:"Boeken en luisterboeken.", inc2:"Historische documenten en archieven.", inc3:"Video's en visueel materiaal.", inc4:"Verhalen die geschiedenis, folklore en originele fictie verbinden.",
+    lifetime:"Levenslange Archieftoegang", priceLine:"£5 — eenmalige betaling", noSub:"Toegang voor het leven. Geen abonnement. Geen terugkerende betalingen.",
+    haveAccess:"Heb je al toegang?", haveAccessDesc:"Voer je e-mailadres en wachtwoord in om in te loggen of je toegang te verifiëren.",
+    email:"E-mailadres", emailPh:"Voer je e-mailadres in", password:"Wachtwoord", passwordPh:"Voer je wachtwoord in",
+    continue:"Doorgaan",
+    getAccess:"Archieftoegang Verkrijgen", createAccountDesc:"Maak je account aan en kies daarna je gewenste betaalmethode.",
+    createPassword:"Wachtwoord aanmaken", createPasswordPh:"Minimaal 8 tekens",
+    consent:"Ik verzoek om onmiddellijke toegang tot de digitale inhoud en erken dat dit mijn herroepingsrecht kan beïnvloeden zodra de levering begint.",
+    choosePay:"Kies je gewenste betaalmethode.", payStripe:"Betalen met Visa/Mastercard", payPaypal:"Betalen met PayPal", payNowStripe:"Betaal £5",
+    activationNote:"Je toegang wordt geactiveerd na succesvolle verificatie van de betaling.",
+    stripeNote:"Kaartgegevens worden veilig verwerkt door onze betalingsprovider. G-ROCK ziet of bewaart nooit je kaartnummer.",
+    inspired:"Geïnspireerd door echte geschiedenis. Herverteld door verhalen.", copyright:"© G-ROCK Corporation. Alle rechten voorbehouden.",
+    errEmail:"Voer een geldig e-mailadres in.", errPassword:"Voer je wachtwoord in.", errNewPassword:"Het wachtwoord moet minimaal 8 tekens bevatten.",
+    errConsent:"Vink het bovenstaande vakje aan voordat je betaalt.",
+    loggingIn:"Inloggen...", loginFailed:"Inloggen mislukt. Controleer je e-mail en wachtwoord, of koop hieronder toegang.",
+    loginOk:"Toegang geverifieerd. Doorsturen...",
+    payProcessing:"Betaling wordt verwerkt...", payFailed:"Betaling mislukt. Controleer je gegevens en probeer het opnieuw.",
+    payCompleted:"Betaling voltooid. Doorsturen naar het archief...",
+    errStripeNotReady:"Kaartbetaling is momenteel niet beschikbaar.", errPaypalNotReady:"PayPal is momenteel niet beschikbaar."
+  }
+};
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+const $ = id => document.getElementById(id);
+const state = { lang: 'en' };
+function safeGet(k){ try{ return localStorage.getItem(k); }catch(_e){ return null; } }
+function safeSet(k,v){ try{ localStorage.setItem(k,v); }catch(_e){} }
+function t(key){
+  const tr = translations[state.lang] || translations.en;
+  return tr[key] != null ? tr[key] : (translations.en[key] || key);
+}
+function setMsg(el, text, kind){
+  el.textContent = text || '';
+  el.className = 'msg' + (kind ? ' ' + kind : '');
+}
+const lastMsg = { login:null, pay:null };   // re-translate status messages on language change
+function showLogin(key, kind){ lastMsg.login = key ? {key,kind} : null; setMsg($('loginMsg'), key ? t(key) : '', kind); }
+function showPay(key, kind){ lastMsg.pay = key ? {key,kind} : null; setMsg($('payMsg'), key ? t(key) : '', kind); }
+
+function applyI18n(lang){
+  state.lang = translations[lang] ? lang : 'en';
+  document.documentElement.lang = state.lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.placeholder = t(el.dataset.i18nPlaceholder); });
+  $('langSelect').value = state.lang;
+  if(lastMsg.login) setMsg($('loginMsg'), t(lastMsg.login.key), lastMsg.login.kind);
+  if(lastMsg.pay) setMsg($('payMsg'), t(lastMsg.pay.key), lastMsg.pay.kind);
+  safeSet('grock_lang', state.lang);
+}
+$('langSelect').addEventListener('change', e => applyI18n(e.target.value));
+applyI18n(safeGet('grock_lang') || 'en');
+
+const emailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+/* =========================================================
+   CSRF + API
+   ========================================================= */
+let csrfToken = null;
+async function getCsrf(force){
+  if(csrfToken && !force) return csrfToken;
+  const res = await fetch(api.csrf, { credentials:'include' });
+  if(!res.ok) throw new Error('csrf');
+  csrfToken = (await res.json()).csrfToken;
+  return csrfToken;
+}
+async function apiPost(url, data){
+  const send = async tok => fetch(url, {
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-csrf-token':tok},
+    credentials:'include',
+    body:JSON.stringify(data)
+  });
+  let res = await send(await getCsrf());
+  if(res.status === 403) res = await send(await getCsrf(true));
+  if(!res.ok) throw new Error('HTTP ' + res.status);
+  return res.json();
+}
+
+/* =========================================================
+   AFTER LOGIN / PAYMENT — where to go
+   Only same-site relative pages are allowed (no open redirect).
+   ========================================================= */
+function targetUrl(){
+  const next = new URLSearchParams(location.search).get('next');
+  return (next && /^[a-z0-9_-]+\.html$/i.test(next)) ? next : CONFIG.ARCHIVE_URL;
+}
+/* Already logged in with paid access? Skip straight to the archive. */
+(async function(){
+  try{
+    const res = await fetch(api.me, { credentials:'include' });
+    if(res.ok){
+      const me = await res.json();
+      if(me && me.has_access) location.replace(targetUrl());
+    }
+  }catch(_e){ /* not logged in — stay on this page */ }
+})();
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+async function doLogin(){
+  const email = $('loginEmail').value.trim();
+  const password = $('loginPassword').value;
+  if(!emailOk(email)){ showLogin('errEmail','err'); return; }
+  if(!password){ showLogin('errPassword','err'); return; }
+  $('loginBtn').disabled = true;
+  showLogin('loggingIn');
+  try{
+    await apiPost(api.login, { email, password });
+    showLogin('loginOk','ok');
+    setTimeout(()=>{ location.href = targetUrl(); }, 600);
+  }catch(_e){
+    showLogin('loginFailed','err');
+  }finally{
+    $('loginBtn').disabled = false;
+  }
+}
+$('loginBtn').addEventListener('click', doLogin);
+['loginEmail','loginPassword'].forEach(id => $(id).addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); }));
+
+/* =========================================================
+   PAYMENT — shared validation
+   ========================================================= */
+function readBuyer(){
+  const email = $('buyEmail').value.trim();
+  const password = $('buyPassword').value;
+  if(!emailOk(email)){ showPay('errEmail','err'); return null; }
+  if(password.length < 8){ showPay('errNewPassword','err'); return null; }
+  if(!$('consentBox').checked){ showPay('errConsent','err'); return null; }
+  showPay(null);
+  return { email, password };
+}
+function finishPayment(){
+  showPay('payCompleted','ok');
+  setTimeout(()=>{ location.href = targetUrl(); }, 900);
+}
+
+/* =========================================================
+   PAYMENT — tabs
+   ========================================================= */
+function selectMethod(m){
+  $('tabStripe').classList.toggle('active', m==='stripe');
+  $('tabPaypal').classList.toggle('active', m==='paypal');
+  $('paneStripe').classList.toggle('active', m==='stripe');
+  $('panePaypal').classList.toggle('active', m==='paypal');
+  if(m==='stripe') initStripe(); else initPaypal();
+}
+$('tabStripe').addEventListener('click', ()=>selectMethod('stripe'));
+$('tabPaypal').addEventListener('click', ()=>selectMethod('paypal'));
+
+/* =========================================================
+   STRIPE
+   ========================================================= */
+let stripe = null, cardEl = null;
+function initStripe(){
+  if(cardEl) return;
+  if(!window.Stripe || CONFIG.STRIPE_PUBLISHABLE_KEY.includes('REPLACE_ME')){
+    showPay('errStripeNotReady','err'); return;
+  }
+  stripe = Stripe(CONFIG.STRIPE_PUBLISHABLE_KEY);
+  const elements = stripe.elements();
+  cardEl = elements.create('card', { style:{ base:{
+    color:'#ffffff', fontFamily:'Inter, sans-serif', fontSize:'16px',
+    '::placeholder':{ color:'#7f93b5' }
+  }}});
+  cardEl.mount('#card-element');
+}
+$('stripePayBtn').addEventListener('click', async () => {
+  if(!stripe || !cardEl){ showPay('errStripeNotReady','err'); return; }
+  const buyer = readBuyer(); if(!buyer) return;
+  $('stripePayBtn').disabled = true;
+  showPay('payProcessing');
+  try{
+    const { clientSecret } = await apiPost(api.stripeIntent, buyer);
+    const result = await stripe.confirmCardPayment(clientSecret, { payment_method:{ card: cardEl, billing_details:{ email: buyer.email } } });
+    if(result.error || !result.paymentIntent || result.paymentIntent.status !== 'succeeded') throw new Error('stripe');
+    await apiPost(api.paymentsConfirm, { provider:'stripe', reference: result.paymentIntent.id, email: buyer.email });
+    finishPayment();
+  }catch(_e){
+    showPay('payFailed','err');
+  }finally{
+    $('stripePayBtn').disabled = false;
+  }
+});
+
+/* =========================================================
+   PAYPAL
+   ========================================================= */
+let paypalLoaded = false;
+function initPaypal(){
+  if(paypalLoaded) return;
+  if(CONFIG.PAYPAL_CLIENT_ID.includes('REPLACE_ME')){ showPay('errPaypalNotReady','err'); return; }
+  paypalLoaded = true;
+  const s = document.createElement('script');
+  s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(CONFIG.PAYPAL_CLIENT_ID) + '&currency=' + CONFIG.CURRENCY + '&intent=capture';
+  s.onload = renderPaypal;
+  s.onerror = () => { paypalLoaded = false; showPay('errPaypalNotReady','err'); };
+  document.head.appendChild(s);
+}
+function renderPaypal(){
+  if(!window.paypal){ showPay('errPaypalNotReady','err'); return; }
+  let buyer = null;
+  paypal.Buttons({
+    style:{ layout:'vertical', color:'gold', shape:'rect', label:'paypal' },
+    onClick: (data, actions) => {
+      buyer = readBuyer();
+      return buyer ? actions.resolve() : actions.reject();
+    },
+    createOrder: async () => {
+      const order = await apiPost(api.paypalOrder, buyer);
+      return order.id;
+    },
+    onApprove: async (data) => {
+      showPay('payProcessing');
+      try{
+        await apiPost(api.paypalCapture, { orderID: data.orderID, email: buyer.email });
+        await apiPost(api.paymentsConfirm, { provider:'paypal', reference: data.orderID, email: buyer.email });
+        finishPayment();
+      }catch(_e){ showPay('payFailed','err'); }
+    },
+    onError: () => showPay('payFailed','err')
+  }).render('#paypal-button-container');
+}
+
+/* =========================================================
+   MATRIX RAIN BACKGROUND
+   ========================================================= */
+(function(){
+  const canvas = $('rain'); if(!canvas) return;
+  const ctx = canvas.getContext('2d'); if(!ctx) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let w,h,cols,drops;
+  const glyphs = 'ΩΣΦΨΞ01GROCKΑΒΓ'.split('');
+  function resize(){
+    w = canvas.width = innerWidth; h = canvas.height = innerHeight;
+    cols = Math.floor(w/22);
+    drops = new Array(cols).fill(0).map(()=>Math.random()*-100);
+  }
+  addEventListener('resize', resize); resize();
+  (function draw(){
+    ctx.fillStyle = 'rgba(4,6,10,0.12)'; ctx.fillRect(0,0,w,h);
+    ctx.font = '16px monospace';
+    for(let i=0;i<cols;i++){
+      const rare = Math.random() < .002;
+      const c = rare ? '🐒' : glyphs[Math.floor(Math.random()*glyphs.length)];
+      ctx.fillStyle = rare ? 'rgba(212,175,55,0.9)' : (Math.random()<.06 ? 'rgba(255,255,255,0.9)' : 'rgba(74,163,255,0.55)');
+      ctx.fillText(c, i*22, drops[i]*20);
+      if(drops[i]*20 > h && Math.random() > .975) drops[i] = 0;
+      drops[i]++;
+    }
+    requestAnimationFrame(draw);
+  })();
+})();
+</script>
+</body>
+</html>
+
