@@ -235,16 +235,22 @@ ul.inc li::before{content:"◆";position:absolute;left:0;color:var(--gold2);font
 
 <script>
 /* =========================================================
-   CONFIG — fill in your own keys
+   CONFIG
+   Preferred: leave the keys empty and let the backend return them
+   from GET /api/config  ->  { stripe_publishable_key, paypal_client_id, currency }
+   (these are PUBLIC keys, safe for the browser — never put secret keys here).
+   Fallback: paste the public keys below.
    ========================================================= */
 const CONFIG = {
-  STRIPE_PUBLISHABLE_KEY: 'pk_live_REPLACE_ME',
-  PAYPAL_CLIENT_ID: 'REPLACE_ME',
+  API_BASE: '',                       // '' = same origin as this page. Cross-origin: 'https://api.your-domain.com' (backend needs CORS + credentials)
+  STRIPE_PUBLISHABLE_KEY: '',         // pk_live_... or pk_test_...
+  PAYPAL_CLIENT_ID: '',               // PayPal REST app Client ID (public)
   CURRENCY: 'GBP',
   ARCHIVE_URL: 'archive.html',
   HUB_URL: 'index.html'
 };
 const api = {
+  config: '/api/config',
   login: '/api/auth/login',
   me: '/api/auth/me',
   csrf: '/api/auth/csrf-token',
@@ -255,6 +261,26 @@ const api = {
      Stripe/PayPal itself and only then activate the account. */
   paymentsConfirm: '/api/payments/confirm'
 };
+Object.keys(api).forEach(k => { api[k] = CONFIG.API_BASE + api[k]; });
+
+/* Load public payment keys from the backend (once). Falls back to CONFIG values. */
+let publicConfigPromise = null;
+function loadPublicConfig(){
+  if(!publicConfigPromise){
+    publicConfigPromise = (async () => {
+      try{
+        const res = await fetch(api.config, { credentials:'include' });
+        if(res.ok){
+          const c = await res.json();
+          if(c.stripe_publishable_key) CONFIG.STRIPE_PUBLISHABLE_KEY = c.stripe_publishable_key;
+          if(c.paypal_client_id) CONFIG.PAYPAL_CLIENT_ID = c.paypal_client_id;
+          if(c.currency) CONFIG.CURRENCY = String(c.currency).toUpperCase();
+        }
+      }catch(_e){ /* use CONFIG fallback */ }
+    })();
+  }
+  return publicConfigPromise;
+}
 
 /* =========================================================
    TRANSLATIONS
@@ -552,11 +578,14 @@ $('tabPaypal').addEventListener('click', ()=>selectMethod('paypal'));
    STRIPE
    ========================================================= */
 let stripe = null, cardEl = null;
-function initStripe(){
+async function initStripe(){
   if(cardEl) return;
-  if(!window.Stripe || CONFIG.STRIPE_PUBLISHABLE_KEY.includes('REPLACE_ME')){
+  await loadPublicConfig();
+  if(cardEl) return;
+  if(!window.Stripe || !/^pk_(live|test)_/.test(CONFIG.STRIPE_PUBLISHABLE_KEY)){
     showPay('errStripeNotReady','err'); return;
   }
+  showPay(null);
   stripe = Stripe(CONFIG.STRIPE_PUBLISHABLE_KEY);
   const elements = stripe.elements();
   cardEl = elements.create('card', { style:{ base:{
@@ -587,10 +616,12 @@ $('stripePayBtn').addEventListener('click', async () => {
    PAYPAL
    ========================================================= */
 let paypalLoaded = false;
-function initPaypal(){
+async function initPaypal(){
   if(paypalLoaded) return;
-  if(CONFIG.PAYPAL_CLIENT_ID.includes('REPLACE_ME')){ showPay('errPaypalNotReady','err'); return; }
   paypalLoaded = true;
+  await loadPublicConfig();
+  if(!CONFIG.PAYPAL_CLIENT_ID){ paypalLoaded = false; showPay('errPaypalNotReady','err'); return; }
+  showPay(null);
   const s = document.createElement('script');
   s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(CONFIG.PAYPAL_CLIENT_ID) + '&currency=' + CONFIG.CURRENCY + '&intent=capture';
   s.onload = renderPaypal;
@@ -654,4 +685,3 @@ function renderPaypal(){
 </script>
 </body>
 </html>
-
