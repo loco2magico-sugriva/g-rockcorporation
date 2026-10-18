@@ -1,1 +1,189 @@
-a
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>G-ROCK ARCHIVE</title>
+
+<!-- Fallback if JavaScript is disabled: go to the shop after 5 s -->
+<noscript><meta http-equiv="refresh" content="5; url=https://whop.com/grockcorporation/g-rock-archive/"></noscript>
+
+<!-- warm up the connection to the shop while the intro plays -->
+<link rel="preconnect" href="https://whop.com">
+<link rel="dns-prefetch" href="https://whop.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --gold:#d4af37;
+  --gold2:#ffe08a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  width:100%;height:100%;background:#000;overflow:hidden;
+  -webkit-text-size-adjust:100%;
+}
+body{
+  display:flex;align-items:center;justify-content:center;
+  padding:env(safe-area-inset-top) 4vw env(safe-area-inset-bottom);
+  font-family:'Orbitron','Arial Black',Arial,sans-serif;
+}
+
+/* soft golden glow behind the text */
+.glow{
+  position:fixed;left:50%;top:50%;width:90vmax;height:90vmax;transform:translate(-50%,-50%) scale(.6);
+  background:radial-gradient(circle,rgba(212,175,55,.16) 0%,rgba(212,175,55,.05) 30%,rgba(0,0,0,0) 62%);
+  opacity:0;pointer-events:none;
+  animation:glow 4.5s ease-out forwards;
+}
+@keyframes glow{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}
+  45%{opacity:1}
+  100%{opacity:.85;transform:translate(-50%,-50%) scale(1)}
+}
+
+.stage{
+  position:relative;text-align:center;width:100%;
+  display:flex;flex-direction:column;align-items:center;gap:.5em;
+  opacity:1;transition:opacity .45s ease;
+}
+.stage.out{opacity:0}
+
+/* each line is one unbroken row; JS shrinks the font until the whole line fits the screen */
+.line{
+  display:inline-flex;white-space:nowrap;justify-content:center;
+  font-weight:900;text-transform:uppercase;letter-spacing:.14em;line-height:1.1;
+  /* start size — JS refines it so EVERY letter is visible */
+  font-size:min(6.2vw,64px);
+  margin-right:-.14em;               /* cancels trailing letter-spacing so text is truly centred */
+}
+.line.top{font-size:.62em;letter-spacing:.42em;margin-right:-.42em;color:#dbe6ff;font-weight:700}
+.line.main{color:var(--gold2)}
+
+.ch{
+  display:inline-block;opacity:0;transform:translateY(.5em) scale(.9);filter:blur(10px);
+  animation:letter .8s cubic-bezier(.2,.7,.2,1) forwards;
+  animation-delay:calc(.45s + var(--i) * 70ms);
+  background:linear-gradient(100deg,#b8902a 0%,#ffe08a 35%,#fff6d6 50%,#ffe08a 65%,#b8902a 100%);
+  background-size:300% 100%;background-position:100% 0;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+}
+.top .ch{
+  background:none;-webkit-text-fill-color:#dbe6ff;color:#dbe6ff;
+}
+@keyframes letter{
+  to{opacity:1;transform:none;filter:blur(0)}
+}
+/* one golden light sweep across the main title */
+.main .ch{
+  animation:
+    letter .8s cubic-bezier(.2,.7,.2,1) forwards,
+    shine 1.3s ease-in-out forwards;
+  animation-delay:calc(.45s + var(--i) * 70ms), calc(2.3s + var(--i) * 25ms);
+}
+@keyframes shine{
+  0%{background-position:100% 0}
+  100%{background-position:0 0}
+}
+
+/* thin line that draws itself under the title */
+.rule{
+  height:2px;width:0;margin-top:.9em;
+  background:linear-gradient(90deg,rgba(212,175,55,0),var(--gold2),rgba(212,175,55,0));
+  animation:rule 1.4s ease-out 2.4s forwards;
+}
+@keyframes rule{to{width:min(70vw,520px)}}
+
+@media (prefers-reduced-motion: reduce){
+  .ch{animation:none;opacity:1;transform:none;filter:none}
+  .main .ch{animation:none}
+  .glow{animation:none;opacity:.6;transform:translate(-50%,-50%)}
+  .rule{animation:none;width:min(70vw,520px)}
+}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+
+<main class="stage" id="stage" aria-label="Welcome in G-ROCK Archive">
+  <div class="line top" id="l1" data-text="WELCOME IN"></div>
+  <div class="line main" id="l2" data-text="G-ROCK ARCHIVE"></div>
+  <div class="rule"></div>
+</main>
+
+<noscript>
+  <div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:#ffe08a;font-family:Arial,sans-serif;text-align:center;padding:20px">
+    WELCOME IN G-ROCK ARCHIVE
+  </div>
+</noscript>
+
+<script>
+(function(){
+  var SHOP_URL   = "https://whop.com/grockcorporation/g-rock-archive/";
+  var TOTAL_MS   = 4500;   // intro length (4.5 s)
+  var FADE_MS    = 450;    // fade-out at the very end (included in TOTAL_MS)
+
+  /* ---- build letters ---- */
+  var idx = 0;
+  ['l1','l2'].forEach(function(id){
+    var el = document.getElementById(id);
+    var text = el.getAttribute('data-text');
+    var words = text.split(' ');
+    words.forEach(function(word, wi){
+      var w = document.createElement('span');
+      w.style.display = 'inline-flex';
+      w.style.whiteSpace = 'nowrap';
+      word.split('').forEach(function(c){
+        var s = document.createElement('span');
+        s.className = 'ch';
+        s.style.setProperty('--i', idx++);
+        s.textContent = c;
+        w.appendChild(s);
+      });
+      el.appendChild(w);
+      if(wi < words.length - 1){
+        var sp = document.createElement('span');
+        sp.style.display = 'inline-block';
+        sp.style.width = '.7em';
+        el.appendChild(sp);
+      }
+    });
+  });
+
+  /* ---- guarantee ALL letters fit the phone screen ---- */
+  function fit(){
+    var l1 = document.getElementById('l1');
+    var l2 = document.getElementById('l2');
+    var maxW = Math.min(window.innerWidth, document.documentElement.clientWidth) * 0.92;
+    var size = Math.min(window.innerWidth * 0.062, 64);
+    function apply(){
+      l2.style.fontSize = size + 'px';
+      l1.style.fontSize = (size * 0.62) + 'px';
+    }
+    apply();
+    // shrink in small steps until the widest line fits inside the screen
+    var guard = 120;
+    while(guard-- > 0 && size > 8 &&
+          Math.max(l1.getBoundingClientRect().width, l2.getBoundingClientRect().width) > maxW){
+      size -= 0.5;
+      apply();
+    }
+  }
+  fit();
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', fit);
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fit); }
+
+  /* ---- timing: 4.5 s, then the Whop page ---- */
+  var stage = document.getElementById('stage');
+  setTimeout(function(){ stage.classList.add('out'); }, TOTAL_MS - FADE_MS);
+  setTimeout(function(){ window.location.replace(SHOP_URL); }, TOTAL_MS);
+})();
+</script>
+</body>
+</html>
+
