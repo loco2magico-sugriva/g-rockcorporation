@@ -285,9 +285,13 @@ footer {
   .nav-left { gap: 8px; }
   .return-hub, .archive-hub { padding: 8px 12px; font-size: 11px; }
 }
+.layer-historyanomaly { border-color: #FF1A1A; background: #2a0808; color: #FF2E2E; box-shadow: inset 0 0 12px rgba(255,26,26,0.18); }
+.label-historyanomaly { background: rgba(255,26,26,0.22); color: #FF1A1A; border: 1px solid #FF1A1A; }
+article.timeline-card.timeline-card--redall { border-color: #FF1A1A; }
+article.timeline-card.timeline-card--redall .event-year, article.timeline-card.timeline-card--redall .event-title, article.timeline-card.timeline-card--redall .event-layer, article.timeline-card.timeline-card--redall .layer-label, article.timeline-card.timeline-card--redall .event-layer b { color: #FF2E2E; }
 .layer-factanomaly { border-color: #FF1A1A; background: #2a0808; color: #FF2E2E; box-shadow: inset 0 0 12px rgba(255,26,26,0.18); }
 .label-factanomaly { background: rgba(255,26,26,0.22); color: #FF1A1A; border: 1px solid #FF1A1A; }
-.intro-text { max-width: 850px; margin: 12px auto 0; color: var(--light); font-size: 13px; line-height: 1.7; }
+.intro-text { max-width: 900px; margin: 16px auto 0; color: var(--text); font-size: clamp(17px, 2.4vw, 22px); font-weight: 500; line-height: 1.6; }
 .top-email { margin: 0 auto 22px; color: var(--light); font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 1px; }
 .top-email a { color: var(--brass-bright); text-decoration: none; }
 .top-email a:hover { color: var(--cyan); }
@@ -316,7 +320,6 @@ footer {
   <h1 class="premium-header" id="mainTitle">G-ROCK STORY TIMELINE</h1>
   <p id="mainSub" style="color:var(--muted); font-size:13px; letter-spacing:1px;">Canonical chronology and intelligence framework</p>
   <p class="intro-text" id="introText1"></p>
-  <p class="intro-text" id="introText2"></p>
 </header>
 
 <div class="container" id="timeline-container"></div>
@@ -336,38 +339,32 @@ footer {
 <script>
 const uiText = {
   "en": { "title": "G-ROCK STORY TIMELINE", "sub": "Canonical chronology and intelligence framework", "hub": "← RETURN TO HUB", "archive": "ARCHIVE",
-          "intro1": "The G-ROCK timeline presents historical events connected with Gibraltar, local legends and traditions, as well as an original story developed within the G-ROCK universe.",
-          "intro2": "The chronology combines real figures and events with fictional elements of the G-ROCK world, maintaining a distinction between history, folklore and original fiction.",
+          "intro1": "The G-ROCK timeline documents historical facts, folklore and legends, original fiction, canonical events and developments, and the author's real personal experiences, including experiences at a university in the United Kingdom.",
           "end": "END — G-ROCK: THE FULL TIMELINE",
           "footerNotice": "G-ROCK Archive — data preserved from original source notes.", "footerStatus": "ARCHIVE INTEGRITY: OK",
           "copyright": "© G-ROCK STORY TIMELINE. All original G-ROCK narrative content, classification system and archive material are the property of their creator. This timeline distinguishes documented HISTORY / FACT, REAL FOLKLORE / LEGEND, and AUTHOR FICTION content by color; an ANOMALY status may apply independently of these classifications. No third-party copyrighted material is used or claimed as original G-ROCK content; historical references reflect public-domain facts. Copyright status does not alter the canonical classification of any event." },
   "pl": { "title": "OŚ CZASU HISTORII G-ROCK", "sub": "Kanoniczna chronologia i ramy wywiadowcze", "hub": "← POWRÓT DO HUB", "archive": "ARCHIWUM",
-          "intro1": "Oś czasu G-ROCK przedstawia wydarzenia historyczne związane z Gibraltarem, lokalne legendy i tradycje oraz oryginalną opowieść rozwijaną w uniwersum G-ROCK.",
-          "intro2": "Chronologia łączy prawdziwe postaci i wydarzenia z fikcyjnymi elementami świata G-ROCK, zachowując rozróżnienie między historią, folklorem i autorską fikcją.",
+          "intro1": "Oś czasu G-ROCK dokumentuje fakty historyczne, folklor i legendy, oryginalną fikcję, wydarzenia i wątki kanoniczne oraz prawdziwe osobiste doświadczenia autora, w tym doświadczenia na uniwersytecie w Wielkiej Brytanii.",
           "end": "KONIEC — G-ROCK: PEŁNA OŚ CZASU",
           "footerNotice": "Archiwum G-ROCK — dane zachowane z oryginalnych notatek źródłowych.", "footerStatus": "INTEGRALNOŚĆ ARCHIWUM: OK",
           "copyright": "© G-ROCK STORY TIMELINE. Cała oryginalna treść narracyjna G-ROCK, system klasyfikacji i materiały archiwalne są własnością ich twórcy. Ta oś czasu rozróżnia kolorami udokumentowane treści HISTORIA / FAKT, FOLKLOR / LEGENDA oraz FIKCJA AUTORSKA; status ANOMALIA może występować niezależnie od tych klasyfikacji. Nie wykorzystuje się materiałów chronionych prawem autorskim osób trzecich ani nie przedstawia się ich jako oryginalnej treści G-ROCK; odniesienia historyczne odzwierciedlają fakty z domeny publicznej. Status praw autorskich nie zmienia kanonicznej klasyfikacji żadnego wydarzenia." },
   "es": { "title": "CRONOLOGÍA DE LA HISTORIA DE G-ROCK", "sub": "Cronología canónica y marco de inteligencia", "hub": "← VOLVER AL HUB", "archive": "ARCHIVO",
-          "intro1": "La cronología de G-ROCK presenta acontecimientos históricos relacionados con Gibraltar, leyendas y tradiciones locales, así como una historia original desarrollada dentro del universo G-ROCK.",
-          "intro2": "La cronología combina personajes y acontecimientos reales con elementos ficticios del mundo G-ROCK, manteniendo la distinción entre historia, folclore y ficción original.",
+          "intro1": "La cronología de G-ROCK documenta hechos históricos, folclore y leyendas, ficción original, acontecimientos y desarrollos canónicos, y las experiencias personales reales del autor, incluidas las vividas en una universidad del Reino Unido.",
           "end": "FIN — G-ROCK: LA CRONOLOGÍA COMPLETA",
           "footerNotice": "Archivo G-ROCK — datos conservados de las notas originales de origen.", "footerStatus": "INTEGRIDAD DEL ARCHIVO: OK",
           "copyright": "© G-ROCK STORY TIMELINE. Todo el contenido narrativo original de G-ROCK, el sistema de clasificación y el material de archivo son propiedad de su creador. Esta cronología distingue por colores el contenido documentado de HISTORIA / HECHO, FOLCLORE / LEYENDA y FICCIÓN DEL AUTOR; un estado de ANOMALÍA puede aplicarse independientemente de estas clasificaciones. No se utiliza material protegido por derechos de autor de terceros ni se presenta como contenido original de G-ROCK; las referencias históricas reflejan hechos de dominio público. El estatus de derechos de autor no altera la clasificación canónica de ningún acontecimiento." },
   "fr": { "title": "CHRONOLOGIE DE L'HISTOIRE DE G-ROCK", "sub": "Chronologie canonique et cadre de renseignement", "hub": "← RETOUR AU HUB", "archive": "ARCHIVES",
-          "intro1": "La chronologie G-ROCK présente des événements historiques liés à Gibraltar, des légendes et traditions locales, ainsi qu'une histoire originale développée dans l'univers G-ROCK.",
-          "intro2": "La chronologie associe des personnages et des événements réels à des éléments fictifs du monde G-ROCK, en maintenant une distinction entre histoire, folklore et fiction originale.",
+          "intro1": "La chronologie G-ROCK documente des faits historiques, du folklore et des légendes, de la fiction originale, des événements et développements canoniques, ainsi que les expériences personnelles réelles de l'auteur, y compris celles vécues dans une université au Royaume-Uni.",
           "end": "FIN — G-ROCK : LA CHRONOLOGIE COMPLÈTE",
           "footerNotice": "Archives G-ROCK — données conservées à partir des notes sources originales.", "footerStatus": "INTÉGRITÉ DES ARCHIVES : OK",
           "copyright": "© G-ROCK STORY TIMELINE. Tout le contenu narratif original de G-ROCK, le système de classification et le matériel d'archive sont la propriété de leur créateur. Cette chronologie distingue par la couleur le contenu documenté HISTOIRE / FAIT, FOLKLORE / LÉGENDE et FICTION D'AUTEUR ; un statut ANOMALIE peut s'appliquer indépendamment de ces classifications. Aucun matériel protégé par le droit d'auteur de tiers n'est utilisé ni présenté comme contenu original de G-ROCK ; les références historiques reflètent des faits relevant du domaine public. Le statut du droit d'auteur ne modifie pas la classification canonique d'un événement." },
   "nl": { "title": "TIJDLIJN VAN HET G-ROCK-VERHAAL", "sub": "Canonieke chronologie en inlichtingenkader", "hub": "← TERUG NAAR HUB", "archive": "ARCHIEF",
-          "intro1": "De G-ROCK-tijdlijn presenteert historische gebeurtenissen die verband houden met Gibraltar, lokale legenden en tradities, evenals een origineel verhaal dat binnen het G-ROCK-universum is ontwikkeld.",
-          "intro2": "De chronologie combineert echte personen en gebeurtenissen met fictieve elementen van de G-ROCK-wereld, met behoud van het onderscheid tussen geschiedenis, folklore en originele fictie.",
+          "intro1": "De G-ROCK-tijdlijn documenteert historische feiten, folklore en legenden, originele fictie, canonieke gebeurtenissen en ontwikkelingen, en de echte persoonlijke ervaringen van de auteur, waaronder ervaringen aan een universiteit in het Verenigd Koninkrijk.",
           "end": "EINDE — G-ROCK: DE VOLLEDIGE TIJDLIJN",
           "footerNotice": "G-ROCK Archief — gegevens bewaard uit de oorspronkelijke bronnotities.", "footerStatus": "ARCHIEFINTEGRITEIT: OK",
           "copyright": "© G-ROCK STORY TIMELINE. Alle originele G-ROCK-verhalende inhoud, het classificatiesysteem en het archiefmateriaal zijn eigendom van hun maker. Deze tijdlijn onderscheidt gedocumenteerde GESCHIEDENIS / FEIT-, FOLKLORE / LEGENDE- en AUTEURSFICTIE-inhoud met kleur; een ANOMALIE-status kan los van deze classificaties van toepassing zijn. Er wordt geen auteursrechtelijk beschermd materiaal van derden gebruikt of als origineel G-ROCK-materiaal aangemerkt; historische verwijzingen weerspiegelen feiten uit het publiek domein. De auteursrechtelijke status verandert de canonieke classificatie van geen enkele gebeurtenis." },
   "ru": { "title": "ХРОНОЛОГИЯ ИСТОРИИ G-ROCK", "sub": "Каноническая хронология и разведывательная структура", "hub": "← ВЕРНУТЬСЯ В ХАБ", "archive": "АРХИВ",
-          "intro1": "Хронология G-ROCK представляет исторические события, связанные с Gibraltar, местные легенды и традиции, а также оригинальную историю, развивающуюся во вселенной G-ROCK.",
-          "intro2": "Хронология объединяет реальных людей и события с вымышленными элементами мира G-ROCK, сохраняя различие между историей, фольклором и авторской фикцией.",
+          "intro1": "Хронология G-ROCK документирует исторические факты, фольклор и легенды, оригинальную вымышленную историю, канонические события и развитие сюжета, а также реальный личный опыт автора, включая опыт обучения в университете в Великобритании.",
           "end": "КОНЕЦ — G-ROCK: ПОЛНАЯ ХРОНОЛОГИЯ",
           "footerNotice": "Архив G-ROCK — данные сохранены из исходных заметок.", "footerStatus": "ЦЕЛОСТНОСТЬ АРХИВА: ОК",
           "copyright": "© G-ROCK STORY TIMELINE. Весь оригинальный повествовательный контент G-ROCK, система классификации и архивные материалы являются собственностью их создателя. Эта хронология различает по цвету документированные ИСТОРИЯ / ФАКТ, РЕАЛЬНЫЙ ФОЛЬКЛОР / ЛЕГЕНДА и АВТОРСКАЯ ФИКЦИЯ; статус АНОМАЛИЯ может применяться независимо от этих классификаций. Материалы третьих лиц, защищённые авторским правом, не используются и не выдаются за оригинальный контент G-ROCK; исторические ссылки отражают общедоступные факты. Статус авторских прав не меняет каноническую классификацию какого-либо события." }
@@ -378,6 +375,7 @@ const layerLabels = {
   "folklore": { "en": "REAL FOLKLORE / LEGEND", "pl": "FOLKLOR / LEGENDA", "es": "FOLCLORE / LEYENDA", "fr": "FOLKLORE / LEGENDE", "nl": "FOLKLORE / LEGENDE", "ru": "РЕАЛЬНЫЙ ФОЛЬКЛОР / ЛЕГЕНДА" },
   "fiction": { "en": "AUTHOR FICTION", "pl": "FIKCJA AUTORSKA", "es": "FICCION DEL AUTOR", "fr": "FICTION D'AUTEUR", "nl": "AUTEURSFICTIE", "ru": "АВТОРСКАЯ ФИКЦИЯ" },
   "anomaly": { "en": "ANOMALY", "pl": "ANOMALIA", "es": "ANOMALIA", "fr": "ANOMALIE", "nl": "ANOMALIE", "ru": "АНОМАЛИЯ" },
+  "historyanomaly": { "en": "HISTORY / ANOMALY", "pl": "HISTORIA / ANOMALIA", "es": "HISTORIA / ANOMALÍA", "fr": "HISTOIRE / ANOMALIE", "nl": "GESCHIEDENIS / ANOMALIE", "ru": "ИСТОРИЯ / АНОМАЛИЯ" },
   "factanomaly": { "en": "FACT / ANOMALY", "pl": "FAKT / ANOMALIA", "es": "HECHO / ANOMALIA", "fr": "FAIT / ANOMALIE", "nl": "FEIT / ANOMALIE", "ru": "ФАКТ / АНОМАЛИЯ" }
 };
 
@@ -420,6 +418,7 @@ const timelineData = [
     "categories": [
       "fact"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "The name “Gibraltar” derives from the Arabic Jabal Ṭāriq, meaning “Mountain of Tariq.” It refers to Tariq ibn Ziyad, an Arab commander who crossed the Strait of Gibraltar in 711 and began the conquest of the Iberian Peninsula.<br><br>In antiquity, the Rock was known as one of the “Pillars of Hercules.” For centuries, it stood on an important route between the Mediterranean Sea and the Atlantic Ocean.<br><br>During antiquity, Gibraltar and the surrounding area of the Strait of Gibraltar were connected with the activities of the Phoenicians and Carthaginians. The Phoenicians used the area as an important point on trade routes between the Mediterranean and the Atlantic. Later, Carthage expanded its influence in the region.<br><br>After the Punic Wars, Gibraltar came within the sphere of Roman influence. During the Roman period, the Rock remained part of the wider Mediterranean world, and its location had strategic and commercial importance.<br><br>After the fall of the Western Roman Empire, the territories of the Iberian Peninsula came under the control of the Visigoths. Visigothic rule lasted until the beginning of the 8th century, when Muslims invaded the Iberian Peninsula.<br><br>In 711, Tariq ibn Ziyad crossed the Strait of Gibraltar and began the conquest of the Iberian Peninsula. The name “Gibraltar” derives from his name.<br><br>During the Middle Ages, Gibraltar was ruled by successive states and dynasties. It later came under the control of various rulers of Muslim Spain, and in 1462 it was captured by Castile.<br><br>In 1501, Gibraltar was formally incorporated into the Crown of Castile. It remained under Spanish rule until 1704, when it was captured by British and Dutch forces during the War of the Spanish Succession.",
@@ -456,6 +455,7 @@ const timelineData = [
     "categories": [
       "folklore"
     ],
+    "redCard": false,
     "layers": {
       "folklore": {
         "en": "The legend of the Barbary macaques of Gibraltar has roots in ancient stories and traditions. One of its elements is the belief that St Michael’s Cave is bottomless — a myth whose tradition is said to reach back more than 2,000 years.<br><br>Over the centuries, the story evolved into a legend of a mysterious underground tunnel beneath the Strait of Gibraltar, supposedly connecting Gibraltar with North Africa.<br><br>The tunnel remains part of Gibraltarian folklore, rather than an established historical or geological fact.",
@@ -492,6 +492,7 @@ const timelineData = [
     "categories": [
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fiction": {
         "en": "In the G-ROCK universe, the monkeys discover a legendary tunnel leading beneath the Strait of Gibraltar from Africa to Europe.<br><br>Using the underground route, they travel from North Africa to the Iberian Peninsula and settle on the Rock of Gibraltar.<br><br>This event marks the fictional beginning of the monkeys’ presence in Gibraltar within the G-ROCK universe. The legendary tunnel becomes one of the most important elements of the hidden history of G-ROCK.",
@@ -528,6 +529,7 @@ const timelineData = [
     "categories": [
       "folklore"
     ],
+    "redCard": false,
     "layers": {
       "folklore": {
         "en": "<b>The Legend of the Barbary Macaques</b><br>As long as the Barbary macaques remain on the Rock of Gibraltar, Gibraltar will remain under British control. If the monkeys disappear, the British will also leave Gibraltar.<br><br><b>Possible Origin of the Legend</b><br>According to one traditional version, the story began as a joke on the Spanish side of the border. When someone asked, “When will the British leave Gibraltar?”, the answer was: “When the monkeys leave.”<br><br>Over time, the phrase took on a life of its own. It was no longer merely a joke, but became a well-known legend connected with Gibraltar.",
@@ -564,6 +566,7 @@ const timelineData = [
     "categories": [
       "fact"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "On 13 July 1713, the Peace of Utrecht was signed as part of the agreements ending the War of the Spanish Succession.<br><br>Under Article X, the King of Spain ceded to the British Crown the town and castle of Gibraltar, together with its port, fortifications and associated defences.<br><br>The treaty defined the terms of British possession of Gibraltar. At the same time, it stated that the transfer of ownership did not include territorial jurisdiction over the surrounding land areas or free communication between Gibraltar and the neighbouring territories of Spain.<br><br>Article X became the foundation of the British title to Gibraltar and one of the most important documents in the later Spanish-British dispute over the status of the Rock.",
@@ -601,6 +604,7 @@ const timelineData = [
       "fact",
       "folklore"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "On 24 June 1779, Spanish forces began a blockade of Gibraltar, attempting to regain control of the Rock. French forces also took part in operations against the British garrison.<br><br>The Great Siege lasted three years and seven months. The British defenders had to face artillery bombardment, blockades of food supplies, disease and difficult living conditions. Despite the numerical superiority of the besieging forces, the garrison held its positions.<br><br>During the siege, Gibraltar’s defensive system was developed. In 1782, construction of the Great Siege Tunnels continued, allowing cannons to be placed on the inaccessible northern face of the Rock.<br><br>On 13 September 1782, French and Spanish forces launched a major attack using specially prepared floating artillery batteries. The attack failed.<br><br>On 2 February 1783, a ceasefire was signed, and Gibraltar remained under British control.",
@@ -645,6 +649,7 @@ const timelineData = [
     "categories": [
       "fact"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "In 1915, the British Army took responsibility for managing the population of Barbary macaques in Gibraltar.<br><br>The reason for the intervention was the monkeys’ increasingly frequent descent into inhabited parts of the town in search of food. The animals visited gardens and kitchens, causing damage and disrupting the lives of residents.<br><br>Regular feeding of the monkeys was introduced in the higher parts of the Rock to limit their movement into the town. The Army was also given the task of maintaining the population at around 25 individuals.<br><br>The military system of care, feeding and population control became an important element in the history of the monkeys of Gibraltar and continued for decades.",
@@ -659,15 +664,15 @@ const timelineData = [
   {
     "id": "event-1942-danger",
     "year": {
-      "en": "1942–1943",
-      "pl": "1942–1943",
-      "ru": "1942–1943",
-      "es": "1942–1943",
-      "fr": "1942–1943",
-      "nl": "1942–1943"
+      "en": "1941–1943",
+      "pl": "1941–1943",
+      "ru": "1941–1943",
+      "es": "1941–1943",
+      "fr": "1941–1943",
+      "nl": "1941–1943"
     },
     "title": {
-      "en": "THE MONKEYS IN DANGER",
+      "en": "MONKEYS IN DANGER",
       "pl": "MAŁPY W NIEBEZPIECZEŃSTWIE",
       "ru": "ОБЕЗЬЯНЫ В ОПАСНОСТИ",
       "es": "LOS MONOS EN PELIGRO",
@@ -679,25 +684,17 @@ const timelineData = [
     "period": "1942-1947",
     "featured": false,
     "categories": [
-      "fact",
-      "fiction"
+      "fact"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
-        "en": "During the Second World War, the population of Barbary macaques in Gibraltar dramatically declined, reaching only a few individuals.<br><br>The situation caused concern among the residents of Gibraltar and soldiers of the British garrison. Faced with the threat of the monkeys’ disappearance, the local legend was recalled, according to which Gibraltar would remain under British rule as long as the macaques remained on the Rock. According to this belief, the disappearance of the monkeys would also mean the end of British rule over Gibraltar.<br><br>It is not fully established when exactly, or in what numbers, additional monkeys were brought to Gibraltar. The circumstances of replenishing the population have not been fully determined.",
-        "pl": "W czasie II wojny światowej populacja makaków berberyjskich na Gibraltarze dramatycznie spadła, osiągając zaledwie kilka osobników.<br><br>Sytuacja budziła niepokój wśród mieszkańców Gibraltaru i żołnierzy brytyjskiego garnizonu. W obliczu zagrożenia zniknięciem małp przypomniano lokalną legendę, według której Gibraltar pozostanie pod brytyjskimi rządami tak długo, jak makaki pozostaną na Skale. Zgodnie z tym przekonaniem zniknięcie małp oznaczałoby również koniec brytyjskich rządów nad Gibraltarem.<br><br>Nie ustalono w pełni, kiedy dokładnie i w jakiej liczbie sprowadzono na Gibraltar dodatkowe małpy. Okoliczności uzupełnienia populacji nie zostały w pełni określone.",
-        "ru": "Во время Второй мировой войны популяция берберийских макак на Gibraltar резко сократилась — осталось лишь несколько особей.<br><br>Ситуация вызвала беспокойство жителей Gibraltar и солдат британского гарнизона. Перед лицом угрозы исчезновения обезьян вспомнили местную легенду, согласно которой Gibraltar останется под британским правлением, пока макаки остаются на Скале. Согласно этому поверью, исчезновение обезьян означало бы и конец британского правления над Gibraltar.<br><br>Не установлено в точности, когда и в каком количестве на Gibraltar были завезены дополнительные обезьяны. Обстоятельства пополнения популяции до конца не определены.",
-        "es": "Durante la Segunda Guerra Mundial, la población de macacos de Berbería en Gibraltar disminuyó drásticamente, quedando reducida a solo unos pocos individuos.<br><br>La situación causó preocupación entre los residentes de Gibraltar y los soldados de la guarnición británica. Ante la amenaza de la desaparición de los monos, se recordó la leyenda local según la cual Gibraltar permanecería bajo dominio británico mientras los macacos permanecieran en la Roca. Según esta creencia, la desaparición de los monos significaría también el fin del dominio británico sobre Gibraltar.<br><br>No está completamente establecido cuándo exactamente, ni en qué número, se trajeron monos adicionales a Gibraltar. Las circunstancias de la reposición de la población no se han determinado por completo.",
-        "fr": "Pendant la Seconde Guerre mondiale, la population de macaques de Barbarie de Gibraltar chuta de façon dramatique, ne comptant plus que quelques individus.<br><br>La situation suscita l'inquiétude des habitants de Gibraltar et des soldats de la garnison britannique. Face à la menace de disparition des singes, on rappela la légende locale selon laquelle Gibraltar resterait sous domination britannique tant que les macaques resteraient sur le Rocher. Selon cette croyance, la disparition des singes signifierait aussi la fin de la domination britannique sur Gibraltar.<br><br>On ne sait pas avec certitude quand exactement, ni en quel nombre, des singes supplémentaires furent amenés à Gibraltar. Les circonstances du renouvellement de la population n'ont pas été entièrement établies.",
-        "nl": "Tijdens de Tweede Wereldoorlog nam de populatie Berberapen in Gibraltar dramatisch af, tot slechts enkele individuen.<br><br>De situatie baarde zorgen onder de inwoners van Gibraltar en de soldaten van het Britse garnizoen. Geconfronteerd met de dreiging dat de apen zouden verdwijnen, werd de lokale legende in herinnering gebracht, volgens welke Gibraltar onder Britse heerschappij zou blijven zolang de makaken op de Rots bleven. Volgens dit geloof zou het verdwijnen van de apen ook het einde van de Britse heerschappij over Gibraltar betekenen.<br><br>Het is niet volledig vastgesteld wanneer precies, of in welke aantallen, extra apen naar Gibraltar werden gebracht. De omstandigheden van de aanvulling van de populatie zijn niet volledig vastgesteld."
-      },
-      "fiction": {
-        "en": "In the G-ROCK universe, the decline in the monkey population was not accidental. The monkeys deliberately reduced their population in preparation for a secret operation.<br><br>Using the ancient legend of an underground tunnel leading beneath the sea from Gibraltar to Africa, the monkeys began a hidden evacuation. The tunnel, known from local stories, became part of a carefully prepared plan.<br><br>Behind the apparent threat of extinction lay an intrigue whose true purpose was to take control of Gibraltar and establish their own authority over the Rock.",
-        "pl": "We wszechświecie G-ROCK spadek liczebności małp nie był przypadkowy. Małpy celowo zmniejszyły swoją populację w ramach przygotowań do tajnej operacji.<br><br>Wykorzystując starożytną legendę o podziemnym tunelu prowadzącym pod morzem z Gibraltaru do Afryki, małpy rozpoczęły ukrytą ewakuację. Tunel, znany z lokalnych opowieści, stał się częścią starannie przygotowanego planu.<br><br>Za pozornym zagrożeniem wyginięciem kryła się intryga, której prawdziwym celem było przejęcie kontroli nad Gibraltarem i ustanowienie własnej władzy nad Skałą.",
-        "ru": "Во вселенной G-ROCK сокращение популяции обезьян не было случайным. Обезьяны намеренно уменьшили свою численность в рамках подготовки к тайной операции.<br><br>Используя древнюю легенду о подземном туннеле, ведущем под морем из Gibraltar в Африку, обезьяны начали скрытую эвакуацию. Туннель, известный по местным рассказам, стал частью тщательно подготовленного плана.<br><br>За кажущейся угрозой вымирания скрывалась интрига, истинной целью которой было захватить контроль над Gibraltar и установить собственную власть над Скалой.",
-        "es": "En el universo G-ROCK, el descenso de la población de monos no fue accidental. Los monos redujeron deliberadamente su población como preparación para una operación secreta.<br><br>Utilizando la antigua leyenda de un túnel subterráneo que conducía bajo el mar desde Gibraltar hasta África, los monos iniciaron una evacuación oculta. El túnel, conocido por las historias locales, pasó a formar parte de un plan cuidadosamente preparado.<br><br>Tras la aparente amenaza de extinción se escondía una intriga cuyo verdadero propósito era tomar el control de Gibraltar y establecer su propia autoridad sobre la Roca.",
-        "fr": "Dans l'univers G-ROCK, le déclin de la population de singes n'était pas accidentel. Les singes ont délibérément réduit leur population en préparation d'une opération secrète.<br><br>S'appuyant sur l'ancienne légende d'un tunnel souterrain passant sous la mer de Gibraltar à l'Afrique, les singes ont commencé une évacuation cachée. Le tunnel, connu par les récits locaux, est devenu un élément d'un plan soigneusement préparé.<br><br>Derrière la menace apparente d'extinction se cachait une intrigue dont le véritable but était de prendre le contrôle de Gibraltar et d'établir leur propre autorité sur le Rocher.",
-        "nl": "In het G-ROCK-universum was de daling van de apenpopulatie geen toeval. De apen verkleinden hun populatie bewust ter voorbereiding op een geheime operatie.<br><br>Gebruikmakend van de oude legende van een ondergrondse tunnel die onder de zee van Gibraltar naar Afrika leidde, begonnen de apen een verborgen evacuatie. De tunnel, bekend uit lokale verhalen, werd onderdeel van een zorgvuldig voorbereid plan.<br><br>Achter de schijnbare dreiging van uitsterven schuilde een intrige waarvan het werkelijke doel was de controle over Gibraltar over te nemen en hun eigen gezag over de Rots te vestigen."
+        "en": "During the Second World War, the population of Barbary macaques in Gibraltar fell to critically low numbers.<br><br>According to the Gibraltar Ministry for Heritage, Winston Churchill was informed in 1941 that only seven macaques remained. Five female macaques were subsequently brought from Morocco.<br><br>However, the population remained in a precarious condition. John Emmanuel Fa's scientific account records only four macaques in 1943.<br><br>The decline raised concerns about the survival of the macaques in Gibraltar. Their disappearance also carried particular significance because of a local legend according to which British rule over Gibraltar would end when the monkeys left the Rock.<br><br>The exact circumstances and chronology of the population's recovery are not fully established.",
+        "pl": "W czasie II wojny światowej populacja makaków berberyjskich na Gibraltarze spadła do krytycznie niskiego poziomu.<br><br>Według Gibraltar Ministry for Heritage Winston Churchill został poinformowany w 1941 roku, że pozostało tylko siedem makaków. Następnie sprowadzono z Maroka pięć samic makaków.<br><br>Mimo to populacja nadal znajdowała się w niepewnym stanie. Relacja naukowa Johna Emmanuela Fa odnotowuje w 1943 roku zaledwie cztery makaki.<br><br>Spadek liczebności budził obawy o przetrwanie makaków na Gibraltarze. Ich zniknięcie miało też szczególne znaczenie z powodu lokalnej legendy, według której brytyjskie rządy nad Gibraltarem zakończą się, gdy małpy opuszczą Skałę.<br><br>Dokładne okoliczności i chronologia odbudowy populacji nie zostały w pełni ustalone.",
+        "ru": "Во время Второй мировой войны численность берберийских макак на Gibraltar сократилась до критически низкого уровня.<br><br>По данным Gibraltar Ministry for Heritage, Уинстона Черчилля в 1941 году проинформировали, что осталось всего семь макак. Впоследствии из Марокко были привезены пять самок макак.<br><br>Тем не менее положение популяции оставалось шатким. В научном описании Джона Эмануэля Фа в 1943 году зафиксированы лишь четыре макаки.<br><br>Сокращение численности вызвало опасения за выживание макак на Gibraltar. Их исчезновение имело и особое значение из-за местной легенды, согласно которой британское правление над Gibraltar закончится, когда обезьяны покинут Скалу.<br><br>Точные обстоятельства и хронология восстановления популяции установлены не полностью.",
+        "es": "Durante la Segunda Guerra Mundial, la población de macacos de Berbería en Gibraltar descendió a cifras críticamente bajas.<br><br>Según el Gibraltar Ministry for Heritage, Winston Churchill fue informado en 1941 de que solo quedaban siete macacos. Posteriormente se trajeron cinco hembras de macaco desde Marruecos.<br><br>Sin embargo, la población seguía en una situación precaria. El relato científico de John Emmanuel Fa registra solo cuatro macacos en 1943.<br><br>El descenso suscitó preocupación por la supervivencia de los macacos en Gibraltar. Su desaparición tenía además un significado especial debido a una leyenda local según la cual el dominio británico sobre Gibraltar terminaría cuando los monos abandonaran la Roca.<br><br>Las circunstancias exactas y la cronología de la recuperación de la población no están plenamente establecidas.",
+        "fr": "Pendant la Seconde Guerre mondiale, la population de macaques de Barbarie de Gibraltar est tombée à des niveaux critiquement bas.<br><br>Selon le Gibraltar Ministry for Heritage, Winston Churchill fut informé en 1941 qu'il ne restait que sept macaques. Cinq femelles macaques furent ensuite amenées du Maroc.<br><br>La population est toutefois restée dans une situation précaire. Le récit scientifique de John Emmanuel Fa ne recense que quatre macaques en 1943.<br><br>Ce déclin a suscité des inquiétudes quant à la survie des macaques à Gibraltar. Leur disparition revêtait aussi une signification particulière en raison d'une légende locale selon laquelle la domination britannique sur Gibraltar prendrait fin lorsque les singes quitteraient le Rocher.<br><br>Les circonstances exactes et la chronologie du rétablissement de la population ne sont pas entièrement établies.",
+        "nl": "Tijdens de Tweede Wereldoorlog daalde de populatie Berberapen in Gibraltar tot kritiek lage aantallen.<br><br>Volgens het Gibraltar Ministry for Heritage werd Winston Churchill in 1941 geïnformeerd dat er nog maar zeven makaken over waren. Vervolgens werden vijf vrouwelijke makaken uit Marokko gehaald.<br><br>De populatie bleef echter in een precaire toestand. Het wetenschappelijke verslag van John Emmanuel Fa registreert in 1943 slechts vier makaken.<br><br>De afname wekte zorgen over het voortbestaan van de makaken in Gibraltar. Hun verdwijnen had ook een bijzondere betekenis vanwege een lokale legende volgens welke de Britse heerschappij over Gibraltar zou eindigen wanneer de apen de Rots verlieten.<br><br>De exacte omstandigheden en chronologie van het herstel van de populatie zijn niet volledig vastgesteld."
       }
     }
   },
@@ -726,6 +723,7 @@ const timelineData = [
     "categories": [
       "fact"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "A young bear is adopted in Iran by Polish soldiers in 1942. Wojtek grows up in the camp, eating with the soldiers and sleeping in their tents as the unit’s mascot.<br><br>His behaviour is sometimes unruly: he drinks beer, eats cigarettes, and plays and wrestles with the soldiers. The bear also loves travelling in trucks.<br><br>In the military unit, he officially becomes a soldier with the rank of private and receives his own military paybook.",
@@ -762,6 +760,7 @@ const timelineData = [
     "categories": [
       "fact"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "Wojtek takes part in the Italian campaign and in the historic Battle of Monte Cassino. During the fighting, the bear actively helps to transport heavy crates of artillery ammunition.<br><br>For his service and participation in front-line operations, he is promoted to the rank of corporal.",
@@ -798,6 +797,7 @@ const timelineData = [
     "categories": [
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fiction": {
         "en": "To celebrate the victorious battle and Wojtek’s promotion to corporal, a grand gala is held in the monumental setting of Rome’s Colosseum.<br><br>Wojtek arrives in great style, appearing at the wheel of a red Ferrari.",
@@ -834,6 +834,7 @@ const timelineData = [
     "categories": [
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fiction": {
         "en": "In the summer of 1944, the monkeys of Gibraltar read in the Gibraltar Times about Wojtek — a bear who became a soldier and a hero of the Italian campaign.<br><br>Intrigued by his story, they decide to send him an official invitation to Gibraltar.<br><br>Wojtek accepts the invitation and appears on the Rock.<br><br>This event begins a direct connection between Wojtek and the monkeys, giving rise to the Gibraltarian chapter of the G-ROCK universe.",
@@ -868,25 +869,17 @@ const timelineData = [
     "period": "1942-1947",
     "featured": false,
     "categories": [
-      "fact",
-      "fiction"
+      "anomaly"
     ],
+    "redCard": true,
     "layers": {
-      "fact": {
-        "en": "On 2 September 1944, Winston Churchill sent a directive to the Secretary of State for the Colonies concerning the population of Barbary macaques in Gibraltar.<br><br>In the document, he stated that the population should consist of 24 individuals. He ordered that every effort be made to reach this number as quickly as possible and to maintain it thereafter.<br><br>The text of the directive:<br><br>“The establishment of the apes on Gibraltar should be twenty-four, and every effort should be made to reach this number as soon as possible and maintain it thereafter.”<br><br>The document forms the historical basis of the storyline concerning British authorities’ actions regarding the monkey population.",
-        "pl": "2 września 1944 roku Winston Churchill wysłał do sekretarza stanu ds. kolonii dyrektywę dotyczącą populacji makaków berberyjskich na Gibraltarze.<br><br>W dokumencie stwierdził, że populacja powinna liczyć 24 osobniki. Nakazał, by dołożyć wszelkich starań, aby osiągnąć tę liczbę jak najszybciej i utrzymywać ją później.<br><br>Treść dyrektywy:<br><br>„Stan małp na Gibraltarze powinien wynosić dwadzieścia cztery i należy dołożyć wszelkich starań, aby osiągnąć tę liczbę jak najszybciej i utrzymać ją później.”<br><br>Dokument stanowi historyczną podstawę wątku dotyczącego działań władz brytyjskich wobec populacji małp.",
-        "ru": "2 сентября 1944 года Уинстон Черчилль направил государственному секретарю по делам колоний директиву, касающуюся популяции берберийских макак на Gibraltar.<br><br>В документе он указал, что популяция должна состоять из 24 особей. Он распорядился приложить все усилия, чтобы как можно скорее достичь этого числа и поддерживать его в дальнейшем.<br><br>Текст директивы:<br><br>«Численность обезьян на Gibraltar должна составлять двадцать четыре, и следует приложить все усилия, чтобы как можно скорее достичь этого числа и поддерживать его в дальнейшем».<br><br>Документ служит исторической основой сюжетной линии, связанной с действиями британских властей в отношении популяции обезьян.",
-        "es": "El 2 de septiembre de 1944, Winston Churchill envió una directiva al Secretario de Estado para las Colonias sobre la población de macacos de Berbería en Gibraltar.<br><br>En el documento afirmaba que la población debía estar formada por 24 individuos. Ordenó que se hiciera todo lo posible para alcanzar esa cifra lo antes posible y mantenerla en lo sucesivo.<br><br>El texto de la directiva:<br><br>«La dotación de monos en Gibraltar debería ser de veinticuatro, y debe hacerse todo lo posible para alcanzar esta cifra cuanto antes y mantenerla en lo sucesivo.»<br><br>El documento constituye la base histórica de la trama relativa a las actuaciones de las autoridades británicas con respecto a la población de monos.",
-        "fr": "Le 2 septembre 1944, Winston Churchill envoya une directive au secrétaire d'État aux Colonies concernant la population de macaques de Barbarie de Gibraltar.<br><br>Dans ce document, il indiquait que la population devait compter 24 individus. Il ordonna que tout soit fait pour atteindre ce nombre le plus rapidement possible et pour le maintenir ensuite.<br><br>Le texte de la directive :<br><br>« L'effectif des singes à Gibraltar devrait être de vingt-quatre, et tout doit être fait pour atteindre ce nombre dès que possible et le maintenir par la suite. »<br><br>Le document constitue la base historique de l'intrigue concernant les actions des autorités britanniques à l'égard de la population de singes.",
-        "nl": "Op 2 september 1944 stuurde Winston Churchill een richtlijn aan de minister van Koloniën over de populatie Berberapen in Gibraltar.<br><br>In het document stelde hij dat de populatie uit 24 individuen moest bestaan. Hij gaf opdracht alles in het werk te stellen om dit aantal zo snel mogelijk te bereiken en daarna te handhaven.<br><br>De tekst van de richtlijn:<br><br>“De sterkte van de apen op Gibraltar moet vierentwintig bedragen, en er moet alles aan worden gedaan om dit aantal zo spoedig mogelijk te bereiken en daarna te handhaven.”<br><br>Het document vormt de historische basis van de verhaallijn over het optreden van de Britse autoriteiten ten aanzien van de apenpopulatie."
-      },
-      "fiction": {
-        "en": "In the G-ROCK chronology, 2 September 1944 marks a turning point.<br><br>On that day, the monkeys officially take over Gibraltar. The event begins a new chapter in the history of G-ROCK, in which the monkeys take control of the Rock and develop their own system of organisation and governance.<br><br>The takeover of Gibraltar is a fictional event, but it is official and canonical within the G-ROCK universe.",
-        "pl": "W chronologii G-ROCK 2 września 1944 roku jest punktem zwrotnym.<br><br>Tego dnia małpy oficjalnie przejmują Gibraltar. Wydarzenie to otwiera nowy rozdział w historii G-ROCK, w którym małpy obejmują kontrolę nad Skałą i rozwijają własny system organizacji i rządzenia.<br><br>Przejęcie Gibraltaru jest wydarzeniem fikcyjnym, ale w uniwersum G-ROCK ma charakter oficjalny i kanoniczny.",
-        "ru": "В хронологии G-ROCK 2 сентября 1944 года — поворотный момент.<br><br>В этот день обезьяны официально берут Gibraltar под свой контроль. Это событие открывает новую главу в истории G-ROCK, в которой обезьяны берут Скалу под контроль и развивают собственную систему организации и управления.<br><br>Захват Gibraltar — вымышленное событие, но во вселенной G-ROCK оно носит официальный и канонический характер.",
-        "es": "En la cronología de G-ROCK, el 2 de septiembre de 1944 marca un punto de inflexión.<br><br>Ese día, los monos toman oficialmente el control de Gibraltar. El acontecimiento abre un nuevo capítulo en la historia de G-ROCK, en el que los monos asumen el control de la Roca y desarrollan su propio sistema de organización y gobierno.<br><br>La toma de Gibraltar es un acontecimiento ficticio, pero es oficial y canónico dentro del universo G-ROCK.",
-        "fr": "Dans la chronologie de G-ROCK, le 2 septembre 1944 marque un tournant.<br><br>Ce jour-là, les singes prennent officiellement le contrôle de Gibraltar. L'événement ouvre un nouveau chapitre de l'histoire de G-ROCK, dans lequel les singes prennent le contrôle du Rocher et développent leur propre système d'organisation et de gouvernance.<br><br>La prise de Gibraltar est un événement fictif, mais il est officiel et canonique dans l'univers G-ROCK.",
-        "nl": "In de G-ROCK-chronologie markeert 2 september 1944 een keerpunt.<br><br>Op die dag nemen de apen officieel Gibraltar over. De gebeurtenis opent een nieuw hoofdstuk in de geschiedenis van G-ROCK, waarin de apen de controle over de Rots overnemen en hun eigen systeem van organisatie en bestuur ontwikkelen.<br><br>De overname van Gibraltar is een fictieve gebeurtenis, maar is officieel en canoniek binnen het G-ROCK-universum."
+      "historyanomaly": {
+        "en": "On 2 September 1944, Winston Churchill sent a directive to the Secretary of State for the Colonies concerning the population of Barbary macaques in Gibraltar.<br><br>The document stated that the population should consist of twenty-four individuals. It called for every effort to be made to reach this number as quickly as possible and to maintain it thereafter.<br><br>The directive stated:<br><br>“The establishment of the apes on Gibraltar should be twenty-four, and every effort should be made to reach this number as soon as possible and maintain it thereafter.”<br><br>The historical anomaly lies in the coincidence between a local legend connecting the survival of the macaques with the continuation of British rule and a documented directive from the British Prime Minister setting a specific target for their population.<br><br>The document confirms Churchill's intervention, but does not establish that he personally believed the legend or that it was the reason behind his decision.<br><br>The connection between folklore, the wartime population crisis and official action remains an unusual historical intersection.",
+        "pl": "2 września 1944 roku Winston Churchill wysłał do sekretarza stanu ds. kolonii dyrektywę dotyczącą populacji makaków berberyjskich na Gibraltarze.<br><br>W dokumencie stwierdzono, że populacja powinna liczyć dwadzieścia cztery osobniki. Wezwano w nim do dołożenia wszelkich starań, aby osiągnąć tę liczbę jak najszybciej i utrzymywać ją później.<br><br>Dyrektywa stanowiła:<br><br>“The establishment of the apes on Gibraltar should be twenty-four, and every effort should be made to reach this number as soon as possible and maintain it thereafter.”<br>„Stan małp na Gibraltarze powinien wynosić dwadzieścia cztery i należy dołożyć wszelkich starań, aby osiągnąć tę liczbę jak najszybciej i utrzymać ją później.”<br><br>Anomalia historyczna polega na zbieżności między lokalną legendą wiążącą przetrwanie makaków z trwaniem brytyjskich rządów a udokumentowaną dyrektywą brytyjskiego premiera, wyznaczającą konkretny cel liczebności ich populacji.<br><br>Dokument potwierdza interwencję Churchilla, ale nie dowodzi, że osobiście wierzył on w legendę ani że była ona powodem jego decyzji.<br><br>Związek między folklorem, wojennym kryzysem populacji a oficjalnym działaniem pozostaje niezwykłym historycznym przecięciem.",
+        "ru": "2 сентября 1944 года Уинстон Черчилль направил государственному секретарю по делам колоний директиву, касающуюся популяции берберийских макак на Gibraltar.<br><br>В документе говорилось, что популяция должна состоять из двадцати четырёх особей. В нём содержался призыв приложить все усилия, чтобы как можно скорее достичь этого числа и поддерживать его в дальнейшем.<br><br>В директиве говорилось:<br><br>“The establishment of the apes on Gibraltar should be twenty-four, and every effort should be made to reach this number as soon as possible and maintain it thereafter.”<br>«Численность обезьян на Gibraltar должна составлять двадцать четыре, и следует приложить все усилия, чтобы как можно скорее достичь этого числа и поддерживать его в дальнейшем».<br><br>Историческая аномалия заключается в совпадении между местной легендой, связывающей выживание макак с продолжением британского правления, и задокументированной директивой британского премьер-министра, устанавливающей конкретную цель по численности их популяции.<br><br>Документ подтверждает вмешательство Черчилля, но не доказывает, что он лично верил в легенду или что именно она стала причиной его решения.<br><br>Связь между фольклором, военным кризисом популяции и официальными действиями остаётся необычным историческим пересечением.",
+        "es": "El 2 de septiembre de 1944, Winston Churchill envió una directiva al Secretario de Estado para las Colonias sobre la población de macacos de Berbería en Gibraltar.<br><br>El documento establecía que la población debía estar formada por veinticuatro individuos. Pedía que se hiciera todo lo posible para alcanzar esa cifra lo antes posible y mantenerla en lo sucesivo.<br><br>La directiva decía:<br><br>“The establishment of the apes on Gibraltar should be twenty-four, and every effort should be made to reach this number as soon as possible and maintain it thereafter.”<br>«La dotación de monos en Gibraltar debería ser de veinticuatro, y debe hacerse todo lo posible para alcanzar esta cifra cuanto antes y mantenerla en lo sucesivo.»<br><br>La anomalía histórica radica en la coincidencia entre una leyenda local que vincula la supervivencia de los macacos con la continuidad del dominio británico y una directiva documentada del primer ministro británico que fija un objetivo concreto para su población.<br><br>El documento confirma la intervención de Churchill, pero no establece que él mismo creyera en la leyenda ni que esta fuera el motivo de su decisión.<br><br>La conexión entre el folclore, la crisis de población en tiempos de guerra y la acción oficial sigue siendo una intersección histórica inusual.",
+        "fr": "Le 2 septembre 1944, Winston Churchill envoya une directive au secrétaire d'État aux Colonies concernant la population de macaques de Barbarie de Gibraltar.<br><br>Le document indiquait que la population devait compter vingt-quatre individus. Il demandait que tout soit fait pour atteindre ce nombre le plus rapidement possible et pour le maintenir ensuite.<br><br>La directive indiquait :<br><br>“The establishment of the apes on Gibraltar should be twenty-four, and every effort should be made to reach this number as soon as possible and maintain it thereafter.”<br>« L'effectif des singes à Gibraltar devrait être de vingt-quatre, et tout doit être fait pour atteindre ce nombre dès que possible et le maintenir par la suite. »<br><br>L'anomalie historique réside dans la coïncidence entre une légende locale reliant la survie des macaques à la poursuite de la domination britannique et une directive documentée du Premier ministre britannique fixant un objectif précis pour leur population.<br><br>Le document confirme l'intervention de Churchill, mais n'établit pas qu'il croyait personnellement à la légende ni qu'elle ait été la raison de sa décision.<br><br>Le lien entre le folklore, la crise démographique en temps de guerre et l'action officielle demeure une intersection historique inhabituelle.",
+        "nl": "Op 2 september 1944 stuurde Winston Churchill een richtlijn aan de minister van Koloniën over de populatie Berberapen in Gibraltar.<br><br>In het document stond dat de populatie uit vierentwintig individuen moest bestaan. Er werd opgeroepen alles in het werk te stellen om dit aantal zo snel mogelijk te bereiken en daarna te handhaven.<br><br>De richtlijn luidde:<br><br>“The establishment of the apes on Gibraltar should be twenty-four, and every effort should be made to reach this number as soon as possible and maintain it thereafter.”<br>“De sterkte van de apen op Gibraltar moet vierentwintig bedragen, en er moet alles aan worden gedaan om dit aantal zo spoedig mogelijk te bereiken en daarna te handhaven.”<br><br>De historische anomalie ligt in het samenvallen van een lokale legende die het voortbestaan van de makaken koppelt aan het voortbestaan van de Britse heerschappij en een gedocumenteerde richtlijn van de Britse premier die een specifiek doel voor hun populatie vaststelt.<br><br>Het document bevestigt Churchills ingrijpen, maar stelt niet vast dat hij persoonlijk in de legende geloofde of dat die de reden voor zijn besluit was.<br><br>Het verband tussen folklore, de oorlogscrisis in de populatie en officieel optreden blijft een ongewone historische kruising."
       }
     }
   },
@@ -915,6 +908,7 @@ const timelineData = [
     "categories": [
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fiction": {
         "en": "Following Churchill’s directive and the monkeys’ takeover of Gibraltar, they establish the Parliament of the Monkeys from Gibraltar and adopt the G-ROCK Constitution.<br><br>The Parliament becomes the central organisational structure responsible for governing the monkey community, protecting the Archive, ensuring institutional continuity and developing the G-ROCK system.<br><br>The G-ROCK Constitution defines the rules of governance, the functioning of the Parliament, the protection of the Archive and the monkeys’ responsibility for preserving Wojtek’s legacy and developing future institutions.<br><br>The establishment of the Parliament and the adoption of the Constitution create the constitutional foundations of the new G-ROCK system.",
@@ -951,6 +945,7 @@ const timelineData = [
     "categories": [
       "fact"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "Shortly after the end of heavy fighting at the front, Wojtek enjoys a well-deserved rest on the Adriatic coast, where he happily enjoys the sea and takes baths.<br><br>The bear then arrives in Great Britain and settles in Scotland, in the Hutton and Berwickshire area, together with soldiers of the 22nd Artillery Supply Company.<br><br>There, he quickly gains popularity and befriends local residents, becoming a colourful and widely known part of the local community.",
@@ -988,6 +983,7 @@ const timelineData = [
       "fact",
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "Christine Granville was a British agent during the Second World War, working for the Special Operations Executive (SOE). She carried out dangerous missions in occupied France.<br><br>She was also romantically linked with Ian Fleming, the British writer who created the character of James Bond, Agent 007.",
@@ -1033,6 +1029,7 @@ const timelineData = [
       "fact",
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "Wojtek is transferred to Edinburgh Zoo on 15 November 1947. Today, a memorial dedicated to Wojtek stands in Edinburgh Zoo.",
@@ -1078,6 +1075,7 @@ const timelineData = [
       "fact",
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "On 15 June 1952, Christine Granville was fatally stabbed at the Shelbourne Hotel in London by Dennis Muldowney, a former colleague from a passenger ship.<br><br>According to the official version, the murder was the result of the perpetrator’s obsessive feelings and the rejection of his advances. Muldowney confessed to the killing and was sentenced to death.<br><br>After Christine’s death, speculation emerged that she may have been murdered because she possessed knowledge of British intelligence secrets and events that should never have come to light.<br><br>The theory that the former agent was silenced has not been confirmed by evidence, but it became part of later stories and publications devoted to her life.",
@@ -1123,6 +1121,7 @@ const timelineData = [
       "fact",
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "Wojtek dies at Edinburgh Zoo on 2 December 1963.",
@@ -1168,6 +1167,7 @@ const timelineData = [
       "fiction",
       "fact"
     ],
+    "redCard": false,
     "layers": {
       "fiction": {
         "en": "In January 1964, the chimpanzee Sugriva establishes the College of the Monkeys from Gibraltar — an educational institution whose aim is to develop knowledge, independent thinking and independence within monkey society.<br><br>The chimpanzee Sugriva gives lectures there, presenting his own ideas on freedom, responsibility, social organisation and the right to self-determination.<br><br>Corporal Wojtek also becomes one of the lecturers, teaching classes on the history of warfare and sharing knowledge gained from his wartime experiences.<br><br>In the same year, the chimpanzee Sugriva establishes the Bank of the Monkeys from Gibraltar and introduces an independent currency into G-ROCK — the Monkey Pound.<br><br>The Bank becomes the foundation of an original economic system, while the independent currency is intended to give monkey society financial independence and the ability to conduct its own economic exchange.<br><br>The College of the Monkeys from Gibraltar operates under this name until 1 December 1978.",
@@ -1213,6 +1213,7 @@ const timelineData = [
       "fiction",
       "fact"
     ],
+    "redCard": false,
     "layers": {
       "fiction": {
         "en": "On 1 December 1978, the College of the Monkeys from Gibraltar is transformed into Monkeys University of Gibraltar (MUOG). This change marks a new stage in the development of the monkeys’ educational system.<br><br>New faculties are established, expanding the scope of teaching, research and academic activity.<br><br>The chimpanzee Sugriva, recognised for his knowledge, achievements and contribution to the development of monkey society, receives the title of professor conferred by the Parliament of the Monkeys from Gibraltar.<br><br>From that moment on, the title Professor Sugriva is used in the G-ROCK chronology.<br><br>MUOG becomes an important centre of knowledge, independent thinking and intellectual development, setting a new direction in the history of monkey society.",
@@ -1257,6 +1258,7 @@ const timelineData = [
     "categories": [
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fiction": {
         "en": "In 2000, the Research Era begins. Wojtek sets out to conduct scientific research in the Caribbean. Professor Sugriva moves to Miami, Florida.",
@@ -1294,6 +1296,7 @@ const timelineData = [
       "fact",
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "On 11 September 2001, terrorist attacks took place on the World Trade Center in New York. These events shocked the world and changed global security policy.<br><br>In 2017, the World Trade Center Gibraltar was opened.",
@@ -1339,6 +1342,7 @@ const timelineData = [
       "fact",
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "Travis, a fourteen-year-old chimpanzee weighing around 200 pounds, was involved in a tragic event that took place on 16 February 2009 at his owner’s home at 241 Rock Rimmon Road, North Stamford, Connecticut, USA.<br><br>That day, he was given the anti-anxiety drug Xanax, mixed with tea, to calm him down. The situation escalated: Travis attacked the owner’s friend in the driveway, causing her very serious injuries.<br><br>The police who arrived were also attacked. An officer shot Travis several times, and the chimpanzee died at the scene.<br><br>Later toxicological tests confirmed the presence of Xanax in his body, although no definitive causal link between the presence of the drug and the attack was established.",
@@ -1383,6 +1387,7 @@ const timelineData = [
     "categories": [
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fiction": {
         "en": "Wojtek and Professor Sugriva spend a shared holiday in the Dominican Republic.<br><br>The Santo Domingo Campus is opened as part of MUOG’s international network. The event represents another stage in the development of the university’s international structure within the G-ROCK universe.",
@@ -1420,6 +1425,7 @@ const timelineData = [
       "fiction",
       "anomaly"
     ],
+    "redCard": false,
     "layers": {
       "fiction": {
         "en": "In 2023, Wojtek discovers a secret Archive in Haiti.<br><br>During the operation to transfer the Archive to Gibraltar, he confronts armed members of a gang associated with Jimmy Chérizier, known as “Barbecue”. An exchange of fire takes place.<br><br>Wojtek secures the Archive and continues its transfer to Gibraltar. The event becomes a fictional transition between the Haitian research chapter and the return of the Archive to Gibraltar.",
@@ -1464,6 +1470,7 @@ const timelineData = [
     "categories": [
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fiction": {
         "en": "Professor Sugriva and Corporal Wojtek spend their holidays in Jamaica.<br><br>Wojtek encourages Sugriva to create the AI Absence Protocol for the best student of Monkeys University of Gibraltar, who does not like going to work.<br><br><b>FICTIONAL G-ROCK EVENT — KINGSTON CAMPUS</b><br>During the period in Jamaica, the G-ROCK universe establishes a new MUOG campus in Kingston.<br><br>The Kingston Campus becomes part of the developing international structure of Monkeys University of Gibraltar and provides a new location for academic, research and operational activities within the G-ROCK universe.",
@@ -1501,6 +1508,7 @@ const timelineData = [
       "fact",
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "While studying at a British university, the author prepared materials for a presentation on the risks associated with artificial intelligence (AI). The inspiration came from his own experiences after completing training at a new workplace.<br><br>The author sent text messages informing his employer of his absence from work, while in the materials he prepared he considered assigning an AI system responsibility for generating such messages and their justifications.<br><br>The presentation was ultimately not delivered at the university.",
@@ -1546,6 +1554,7 @@ const timelineData = [
       "anomaly",
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "factanomaly": {
         "en": "On 22 January 2025, Professor Sugriva is recognised by the British academic community as an outstanding humanist and historian on the basis of citations from his works, which the student submitted in correspondence.<br><br>As part of this recognition, the university also sees potential in Professor Sugriva as an expert in advanced technologies.<br><br><b>25 JANUARY 2025 — MATERIALS ON AI PROTOTYPES</b><br>The author sends an email concerning his experiences and observations from the first semester. He attaches materials prepared for a presentation, including two AI prototypes attributed to Professor Sugriva within the G-ROCK universe.<br><br>As part of the analysis of the protocol, the issue of AI hallucinations concerning an alleged romance between the student and his sister also appears.",
@@ -1590,6 +1599,7 @@ const timelineData = [
     "categories": [
       "anomaly"
     ],
+    "redCard": false,
     "layers": {
       "factanomaly": {
         "en": "The police visit the author at his home in connection with the AI Absence Protocol.",
@@ -1626,6 +1636,7 @@ const timelineData = [
     "categories": [
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fiction": {
         "en": "In April 2025, Professor Sugriva and Corporal Wojtek make their great return to Gibraltar.",
@@ -1663,6 +1674,7 @@ const timelineData = [
       "fiction",
       "fact"
     ],
+    "redCard": false,
     "layers": {
       "fiction": {
         "en": "In the G-ROCK canon, the author is a student of Monkeys University of Gibraltar. Living in the Moroccan city of Tangier, he personally travels to the university, located on the Rock of Gibraltar, to submit an assignment.",
@@ -1707,6 +1719,7 @@ const timelineData = [
     "categories": [
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fiction": {
         "en": "In January 2026, the first anniversary of Professor Sugriva’s academic recognition takes place. During the same period, Campus de Ceuta is opened — another campus within the international structure of Monkeys University of Gibraltar.<br><br><b>FOLK LEGEND — AUTHOR’S FICTION</b><br>The legend tells of a tunnel beneath the sea connecting Gibraltar with Campus de Ceuta. The tunnel legend is part of the author’s fictional universe and is not presented as a historical fact.<br><br><b>2026 — G-ROCK CONNECTS WITH CEUTA</b><br>Within the G-ROCK universe, plans are made for a direct connection between Gibraltar and the MUOG Campus in Ceuta.<br><br>The project involves the reconstruction and adaptation of the ancient underground tunnel beneath the Strait of Gibraltar, creating a unique railway connection between the two locations.<br><br>The tunnel becomes one of the most ambitious infrastructure projects in the G-ROCK universe, connecting the Rock of Gibraltar with the newly created Campus de Ceuta.<br><br>STATUS: AUTHOR’S FICTION / G-ROCK CANON",
@@ -1744,6 +1757,7 @@ const timelineData = [
       "fact",
       "fiction"
     ],
+    "redCard": false,
     "layers": {
       "fact": {
         "en": "In Kibale National Park in Uganda, an unprecedented conflict occurred within the wild chimpanzee community of Ngogo.<br><br>Between 2015 and 2018, a community of approximately 200 individuals divided into two enduring groups — the Central and Western groups.<br><br>From 2018 onwards, coordinated attacks and lethal violence occurred between the groups.<br><br>Killings of members of the other group were documented, including adult males and young individuals. The conflict is one of the most thoroughly documented cases of prolonged violence between chimpanzee groups.",
@@ -1788,7 +1802,6 @@ function renderTimeline(lang) {
   setText('mainTitle', ui('title', lang));
   setText('mainSub', ui('sub', lang));
   setText('introText1', ui('intro1', lang));
-  setText('introText2', ui('intro2', lang));
   setText('hubLink', ui('hub', lang));
   setText('archiveLink', ui('archive', lang));
   setText('endLine', ui('end', lang));
@@ -1837,7 +1850,7 @@ function renderTimeline(lang) {
 }
 
 function renderCard(event, lang) {
-  const featuredClass = event.featured ? ' timeline-card--featured' : '';
+  const featuredClass = (event.featured ? ' timeline-card--featured' : '') + (event.redCard ? ' timeline-card--redall' : '');
   const title = pick(event.title, lang);
   const year = pick(event.year, lang);
 
